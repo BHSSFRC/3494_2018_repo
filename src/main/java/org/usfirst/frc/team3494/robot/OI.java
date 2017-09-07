@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3494.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -12,6 +14,9 @@ public class OI {
     // number it is.
     // Joystick stick = new Joystick(port);
     // Button button = new JoystickButton(stick, buttonNumber);
+
+    Joystick joyLeft = new Joystick(RobotMap.JOYSTICK_LEFT);
+    Joystick joyRight = new Joystick(RobotMap.JOYSTICK_RIGHT);
 
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
@@ -33,5 +38,13 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
     public OI() {
+    }
+
+    public Joystick getJoyLeft() {
+        return joyLeft;
+    }
+
+    public Joystick getJoyRight() {
+        return joyRight;
     }
 }
