@@ -1,10 +1,12 @@
 package org.usfirst.frc.team3494.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 
 
 public class Robot extends IterativeRobot {
+    private String fieldData;
     /**
      * Instance of {@link OI}. No subsystem should require this. However, you
      * can read button values from it.
@@ -20,5 +22,10 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         oi = new OI();
         driveTrain = new Drivetrain();
+    }
+
+    @Override
+    public void autonomousInit() {
+        fieldData = DriverStation.getInstance().getGameSpecificMessage();
     }
 }
