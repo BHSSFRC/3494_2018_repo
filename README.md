@@ -18,4 +18,4 @@ Build: `gradlew build`
 
 Deploy: `gradlew deploy`
 
-You can also add `--offline` to either of those if you have no internet access (and have run any gradle commnd in the past with internet access.)
+You can also add `--offline` to either of those if you have no internet access (and have run any gradle command in the past with internet access.)
