@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
-import edu.wpi.first.wpilibj.TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.drive.Drive;
@@ -29,8 +30,8 @@ public class Drivetrain extends Subsystem {
      */
     public void TankDrive(double left, double right) {
         if (Math.abs(left) > RobotMap.DRIVE_TOLERANCE && Math.abs(right) > RobotMap.DRIVE_TOLERANCE) {
-            driveLeftMaster.set(left);
-            driveRightMaster.set(right);
+            driveLeftMaster.set(ControlMode.PercentOutput, left);
+            driveRightMaster.set(ControlMode.PercentOutput, right);
         }
     }
 
@@ -40,7 +41,7 @@ public class Drivetrain extends Subsystem {
      * @since 0.0.0
      */
     public void StopDrive() {
-        driveLeftMaster.stopMotor();
-        driveRightMaster.stopMotor();
+        driveLeftMaster.set(ControlMode.Current, 0);
+        driveRightMaster.set(ControlMode.Current, 0);
     }
 }
