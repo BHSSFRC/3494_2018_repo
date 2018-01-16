@@ -7,11 +7,24 @@ import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.drive.Drive;
 
 public class Drivetrain extends Subsystem {
-    public TalonSRX driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
-    public TalonSRX driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
+    private TalonSRX driveLeftMaster;
+    private TalonSRX driveLeftFollowOne;
+    private TalonSRX driveLeftFollowTwo;
+
+    private TalonSRX driveRightMaster;
+    private TalonSRX driveRightFollowOne;
+    private TalonSRX driveRightFollowTwo;
 
     public Drivetrain() {
         super("Drivetrain");
+
+        this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
+        this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
+        this.driveLeftFollowTwo = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_TWO);
+
+        this.driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
+        this.driveRightFollowOne = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
+        this.driveRightFollowTwo = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
     }
 
     @Override
