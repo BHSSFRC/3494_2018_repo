@@ -10,21 +10,35 @@ public class Drivetrain extends Subsystem {
     private TalonSRX driveLeftMaster;
     private TalonSRX driveLeftFollowOne;
     private TalonSRX driveLeftFollowTwo;
+    private TalonSRX[] leftSide;
 
     private TalonSRX driveRightMaster;
     private TalonSRX driveRightFollowOne;
     private TalonSRX driveRightFollowTwo;
+    private TalonSRX[] rightSide;
 
     public Drivetrain() {
         super("Drivetrain");
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
+        this.driveLeftFollowOne.set(ControlMode.Follower, this.driveLeftMaster.getBaseID());
         this.driveLeftFollowTwo = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_TWO);
+        this.driveLeftFollowTwo.set(ControlMode.Follower, this.driveLeftMaster.getBaseID());
+
+        leftSide = new TalonSRX[]{
+                this.driveLeftMaster, this.driveLeftFollowOne, this.driveLeftFollowTwo
+        };
 
         this.driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowOne = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
+        this.driveRightFollowOne.set(ControlMode.Follower, this.driveRightMaster.getBaseID());
         this.driveRightFollowTwo = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
+        this.driveRightFollowTwo.set(ControlMode.Follower, this.driveRightMaster.getBaseID());
+
+        rightSide = new TalonSRX[]{
+                this.driveRightMaster, this.driveRightFollowOne, this.driveRightFollowTwo
+        };
     }
 
     @Override
@@ -43,8 +57,8 @@ public class Drivetrain extends Subsystem {
      */
     public void TankDrive(double left, double right) {
         if (Math.abs(left) > RobotMap.DRIVE_TOLERANCE && Math.abs(right) > RobotMap.DRIVE_TOLERANCE) {
-            driveLeftMaster.set(ControlMode.PercentOutput, left);
-            driveRightMaster.set(ControlMode.PercentOutput, right);
+            this.driveLeftMaster.set(ControlMode.PercentOutput, left);
+            this.driveRightMaster.set(ControlMode.PercentOutput, right);
         }
     }
 
@@ -54,7 +68,7 @@ public class Drivetrain extends Subsystem {
      * @since 0.0.0
      */
     public void StopDrive() {
-        driveLeftMaster.set(ControlMode.Current, 0);
-        driveRightMaster.set(ControlMode.Current, 0);
+        this.driveLeftMaster.set(ControlMode.PercentOutput, 0);
+        this.driveRightMaster.set(ControlMode.PercentOutput, 0);
     }
 }
