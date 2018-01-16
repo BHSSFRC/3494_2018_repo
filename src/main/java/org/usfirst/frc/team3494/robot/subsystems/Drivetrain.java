@@ -2,16 +2,50 @@ package org.usfirst.frc.team3494.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.drive.Drive;
 
-public class Drivetrain extends Subsystem {
-    public TalonSRX driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
-    public TalonSRX driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
+public class Drivetrain extends PIDSubsystem {
+    private TalonSRX driveLeftMaster;
+    private TalonSRX driveLeftFollowOne;
+    private TalonSRX driveLeftFollowTwo;
+    private TalonSRX[] leftSide;
+
+    private TalonSRX driveRightMaster;
+    private TalonSRX driveRightFollowOne;
+    private TalonSRX driveRightFollowTwo;
+    private TalonSRX[] rightSide;
+    private boolean teleop;
+    private double pidTune;
 
     public Drivetrain() {
-        super("Drivetrain");
+        super("Drivetrain", 0.4, 0, 0.5);
+
+        this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
+        this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
+        this.driveLeftFollowOne.set(ControlMode.Follower, this.driveLeftMaster.getBaseID());
+        this.driveLeftFollowTwo = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_TWO);
+        this.driveLeftFollowTwo.set(ControlMode.Follower, this.driveLeftMaster.getBaseID());
+
+        leftSide = new TalonSRX[]{
+                this.driveLeftMaster, this.driveLeftFollowOne, this.driveLeftFollowTwo
+        };
+
+        this.driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
+        this.driveRightFollowOne = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
+        this.driveRightFollowOne.set(ControlMode.Follower, this.driveRightMaster.getBaseID());
+        this.driveRightFollowTwo = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
+        this.driveRightFollowTwo.set(ControlMode.Follower, this.driveRightMaster.getBaseID());
+
+        rightSide = new TalonSRX[]{
+                this.driveRightMaster, this.driveRightFollowOne, this.driveRightFollowTwo
+        };
+
+        teleop = false;
+        pidTune = 0;
     }
 
     @Override
@@ -30,8 +64,8 @@ public class Drivetrain extends Subsystem {
      */
     public void TankDrive(double left, double right) {
         if (Math.abs(left) > RobotMap.DRIVE_TOLERANCE && Math.abs(right) > RobotMap.DRIVE_TOLERANCE) {
-            driveLeftMaster.set(ControlMode.PercentOutput, left);
-            driveRightMaster.set(ControlMode.PercentOutput, right);
+            this.driveLeftMaster.set(ControlMode.PercentOutput, left);
+            this.driveRightMaster.set(ControlMode.PercentOutput, right);
         }
     }
 
@@ -41,7 +75,25 @@ public class Drivetrain extends Subsystem {
      * @since 0.0.0
      */
     public void StopDrive() {
-        driveLeftMaster.set(ControlMode.Current, 0);
-        driveRightMaster.set(ControlMode.Current, 0);
+        this.driveLeftMaster.set(ControlMode.PercentOutput, 0);
+        this.driveRightMaster.set(ControlMode.PercentOutput, 0);
+    }
+
+    @Override
+    protected double returnPIDInput() {
+        if (!teleop) {
+            return Robot.ahrs.getYaw();
+        } else {
+            return Robot.ahrs.getAngle();
+        }
+    }
+
+    @Override
+    protected void usePIDOutput(double output) {
+        this.pidTune = output;
+    }
+
+    public double getPidTune() {
+        return pidTune;
     }
 }

@@ -12,7 +12,12 @@ public class RobotMap {
     // public static int leftMotor = 1;
     // public static int rightMotor = 2;
     public static final int DRIVE_LEFT_MASTER = 17;
-    public static final int DRIVE_RIGHT_MASTER = 4;
+    public static final int DRIVE_LEFT_FOLLOW_ONE = 1;
+    public static final int DRIVE_LEFT_FOLLOW_TWO = 2;
+
+    public static final int DRIVE_RIGHT_MASTER = 13;
+    public static final int DRIVE_RIGHT_FOLLOW_ONE = 14;
+    public static final int DRIVE_RIGHT_FOLLOW_TWO = 15;
 
     public static final double DRIVE_TOLERANCE = 0.01;
 
