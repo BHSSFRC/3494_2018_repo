@@ -2,11 +2,13 @@ package org.usfirst.frc.team3494.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.drive.Drive;
 
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends PIDSubsystem {
     private TalonSRX driveLeftMaster;
     private TalonSRX driveLeftFollowOne;
     private TalonSRX driveLeftFollowTwo;
@@ -16,9 +18,11 @@ public class Drivetrain extends Subsystem {
     private TalonSRX driveRightFollowOne;
     private TalonSRX driveRightFollowTwo;
     private TalonSRX[] rightSide;
+    private boolean teleop;
+    private double pidTune;
 
     public Drivetrain() {
-        super("Drivetrain");
+        super("Drivetrain", 0.4, 0, 0.5);
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
@@ -39,6 +43,9 @@ public class Drivetrain extends Subsystem {
         rightSide = new TalonSRX[]{
                 this.driveRightMaster, this.driveRightFollowOne, this.driveRightFollowTwo
         };
+
+        teleop = false;
+        pidTune = 0;
     }
 
     @Override
@@ -70,5 +77,23 @@ public class Drivetrain extends Subsystem {
     public void StopDrive() {
         this.driveLeftMaster.set(ControlMode.PercentOutput, 0);
         this.driveRightMaster.set(ControlMode.PercentOutput, 0);
+    }
+
+    @Override
+    protected double returnPIDInput() {
+        if (!teleop) {
+            return Robot.ahrs.getYaw();
+        } else {
+            return Robot.ahrs.getAngle();
+        }
+    }
+
+    @Override
+    protected void usePIDOutput(double output) {
+        this.pidTune = output;
+    }
+
+    public double getPidTune() {
+        return pidTune;
     }
 }
