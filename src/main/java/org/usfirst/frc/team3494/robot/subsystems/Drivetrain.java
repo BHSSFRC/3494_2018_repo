@@ -2,7 +2,6 @@ package org.usfirst.frc.team3494.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
@@ -18,11 +17,12 @@ public class Drivetrain extends PIDSubsystem {
     private TalonSRX driveRightFollowOne;
     private TalonSRX driveRightFollowTwo;
     private TalonSRX[] rightSide;
+
     private boolean teleop;
-    private double pidTune;
+    public double pidTune;
 
     public Drivetrain() {
-        super("Drivetrain", 0.4, 0, 0.5);
+        super("Drivetrain", 0.2, 0, 0);
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
@@ -45,7 +45,13 @@ public class Drivetrain extends PIDSubsystem {
         };
 
         teleop = false;
+        // config pid loop
         pidTune = 0;
+        double outRange = 0.8;
+        setInputRange(-180, 180);
+        setOutputRange(-outRange, outRange);
+        getPIDController().setContinuous(true);
+        setPercentTolerance(1);
     }
 
     @Override
@@ -70,6 +76,58 @@ public class Drivetrain extends PIDSubsystem {
     }
 
     /**
+     * Arcade drive method for differential drive platform.
+     *
+     * @param xSpeed        The robot's speed along the X axis [-1.0..1.0]. Forward is positive.
+     * @param zRotation     The robot's rotation rate around the Z axis [-1.0..1.0]. Clockwise is
+     *                      positive.
+     * @param squaredInputs If set, decreases the input sensitivity at low speeds.
+     * @author Worcester Polytechnic Institute
+     */
+    public void ArcadeDrive(double xSpeed, double zRotation, boolean squaredInputs) {
+        xSpeed = limit(xSpeed);
+        xSpeed = applyDeadband(xSpeed, 0.02);
+
+        zRotation = limit(zRotation);
+        zRotation = applyDeadband(zRotation, 0.02);
+
+        // Square the inputs (while preserving the sign) to increase fine control
+        // while permitting full power.
+        if (squaredInputs) {
+            xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
+            zRotation = Math.copySign(zRotation * zRotation, zRotation);
+        }
+
+        double leftMotorOutput;
+        double rightMotorOutput;
+
+        double maxInput = Math.copySign(Math.max(Math.abs(xSpeed), Math.abs(zRotation)), xSpeed);
+
+        if (xSpeed >= 0.0) {
+            // First quadrant, else second quadrant
+            if (zRotation >= 0.0) {
+                leftMotorOutput = maxInput;
+                rightMotorOutput = xSpeed - zRotation;
+            } else {
+                leftMotorOutput = xSpeed + zRotation;
+                rightMotorOutput = maxInput;
+            }
+        } else {
+            // Third quadrant, else fourth quadrant
+            if (zRotation >= 0.0) {
+                leftMotorOutput = xSpeed + zRotation;
+                rightMotorOutput = maxInput;
+            } else {
+                leftMotorOutput = maxInput;
+                rightMotorOutput = xSpeed - zRotation;
+            }
+        }
+
+        driveLeftMaster.set(ControlMode.PercentOutput, limit(leftMotorOutput));
+        driveRightMaster.set(ControlMode.PercentOutput, -limit(rightMotorOutput));
+    }
+
+    /**
      * Stops all drive motors. Does not require re-enabling motors after use.
      *
      * @since 0.0.0
@@ -78,6 +136,37 @@ public class Drivetrain extends PIDSubsystem {
         this.driveLeftMaster.set(ControlMode.PercentOutput, 0);
         this.driveRightMaster.set(ControlMode.PercentOutput, 0);
     }
+
+    private static double limit(double num) {
+        if (num > 1.0) {
+            return 1.0;
+        }
+        if (num < -1.0) {
+            return -1.0;
+        }
+        return num;
+    }
+
+    /**
+     * Returns 0.0 if the given value is within the specified range around zero. The remaining range
+     * between the deadband and 1.0 is scaled from 0.0 to 1.0.
+     *
+     * @param value    value to clip
+     * @param deadband range around zero
+     * @author Worcester Polytechnic Institute
+     */
+    protected double applyDeadband(double value, double deadband) {
+        if (Math.abs(value) > deadband) {
+            if (value > 0.0) {
+                return (value - deadband) / (1.0 - deadband);
+            } else {
+                return (value + deadband) / (1.0 - deadband);
+            }
+        } else {
+            return 0.0;
+        }
+    }
+
 
     @Override
     protected double returnPIDInput() {
