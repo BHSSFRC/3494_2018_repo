@@ -7,6 +7,11 @@ import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.drive.Drive;
 
+/**
+ * The drivetrain subsystem. Contains methods for controlling the robot drivetrain.
+ * Also includes PID angle control via the
+ * {@link com.kauailabs.navx.frc.AHRS AHRS} mounted to the RoboRIO and {@link PIDSubsystem}.
+ */
 public class Drivetrain extends PIDSubsystem {
     private TalonSRX driveLeftMaster;
     private TalonSRX driveLeftFollowOne;
@@ -137,6 +142,9 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightMaster.set(ControlMode.PercentOutput, 0);
     }
 
+    /**
+     * Limit motor values to the -1.0 to +1.0 range.
+     */
     private static double limit(double num) {
         if (num > 1.0) {
             return 1.0;
