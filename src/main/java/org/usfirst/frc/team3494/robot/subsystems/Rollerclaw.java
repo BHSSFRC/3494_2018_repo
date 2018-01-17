@@ -7,7 +7,6 @@ import org.usfirst.frc.team3494.robot.RobotMap;
 
 public class Rollerclaw extends Subsystem {
 
-
     public TalonSRX rollerLeft = new TalonSRX(RobotMap.ROLLER_LEFT);
     public TalonSRX rollerRight = new TalonSRX(RobotMap.ROLLER_RIGHT);
 
