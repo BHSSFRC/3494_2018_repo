@@ -7,16 +7,37 @@ import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.drive.Drive;
 
+/**
+ * The drivetrain subsystem. Contains methods for controlling the robot drivetrain.
+ * Also includes PID angle control via the
+ * {@link com.kauailabs.navx.frc.AHRS AHRS} mounted to the RoboRIO and {@link PIDSubsystem}.
+ */
 public class Drivetrain extends PIDSubsystem {
+    /**
+     * Master Talon SRX, left side.
+     */
     private TalonSRX driveLeftMaster;
+    /**
+     * Follower Talon SRX, left side.
+     */
     private TalonSRX driveLeftFollowOne;
+    /**
+     * Additional follower Talon SRX, left side.
+     */
     private TalonSRX driveLeftFollowTwo;
-    private TalonSRX[] leftSide;
 
+    /**
+     * Master Talon SRX, right side.
+     */
     private TalonSRX driveRightMaster;
+    /**
+     * Follower Talon SRX, right side.
+     */
     private TalonSRX driveRightFollowOne;
+    /**
+     * Additional follower Talon SRX, right side.
+     */
     private TalonSRX driveRightFollowTwo;
-    private TalonSRX[] rightSide;
 
     private boolean teleop;
     public double pidTune;
@@ -30,19 +51,11 @@ public class Drivetrain extends PIDSubsystem {
         this.driveLeftFollowTwo = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_TWO);
         this.driveLeftFollowTwo.set(ControlMode.Follower, this.driveLeftMaster.getBaseID());
 
-        leftSide = new TalonSRX[]{
-                this.driveLeftMaster, this.driveLeftFollowOne, this.driveLeftFollowTwo
-        };
-
         this.driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowOne = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
         this.driveRightFollowOne.set(ControlMode.Follower, this.driveRightMaster.getBaseID());
         this.driveRightFollowTwo = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
         this.driveRightFollowTwo.set(ControlMode.Follower, this.driveRightMaster.getBaseID());
-
-        rightSide = new TalonSRX[]{
-                this.driveRightMaster, this.driveRightFollowOne, this.driveRightFollowTwo
-        };
 
         teleop = false;
         // config pid loop
@@ -137,6 +150,9 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightMaster.set(ControlMode.PercentOutput, 0);
     }
 
+    /**
+     * Limit motor values to the -1.0 to +1.0 range.
+     */
     private static double limit(double num) {
         if (num > 1.0) {
             return 1.0;
