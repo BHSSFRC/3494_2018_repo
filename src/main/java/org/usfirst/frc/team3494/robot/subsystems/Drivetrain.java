@@ -17,6 +17,7 @@ public class Drivetrain extends PIDSubsystem {
     private TalonSRX driveRightFollowOne;
     private TalonSRX driveRightFollowTwo;
     private TalonSRX[] rightSide;
+
     private boolean teleop;
     public double pidTune;
 
