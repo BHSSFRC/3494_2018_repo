@@ -7,6 +7,9 @@ import org.usfirst.frc.team3494.robot.util.Limelight;
 
 import static org.usfirst.frc.team3494.robot.Robot.limelight;
 
+/**
+ * Auton program to chase Power Cubes (or whatever is in pipeline two.)
+ */
 public class CubePursuit extends Command {
 
     public CubePursuit() {

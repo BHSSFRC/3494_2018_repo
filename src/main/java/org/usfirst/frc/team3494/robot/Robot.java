@@ -23,13 +23,27 @@ public class Robot extends IterativeRobot {
      * can read button values from it.
      */
     public static OI oi;
+    /**
+     * Auto chooser on the smart DS
+     */
     SendableChooser<Command> chooser;
+    /**
+     * Chosen command
+     */
     Command autoCmd;
-
+    /**
+     * The gyro board on the RoboRIO.
+     */
     public static AHRS ahrs;
+    /**
+     * The Limelight vision system camera.
+     */
     public static Limelight limelight;
     UsbCamera camera_0;
 
+    /**
+     * Instance of {@link Drivetrain}.
+     */
     public static Drivetrain driveTrain;
 
     /**
