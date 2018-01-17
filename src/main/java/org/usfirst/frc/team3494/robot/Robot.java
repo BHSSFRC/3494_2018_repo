@@ -46,7 +46,6 @@ public class Robot extends IterativeRobot {
 
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit());
-        chooser.addDefault("NPE", null);
         chooser.addObject("Cube chaser", new CubePursuit());
         System.out.println(chooser.getSelected());
         SmartDashboard.putData("auto", chooser);
