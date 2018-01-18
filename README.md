@@ -28,7 +28,7 @@ We are using [git-flow](http://nvie.com/posts/a-successful-git-branching-model/)
 
 ### Beginner
 
-To familiarize yourself with git reference the tutorial Caleb provided. Below is the most likely command workflow, but you should be familiar with git so can handle different situations. If you are using a GUI the names on the buttons should be similar to the commands below. 
+To familiarize yourself with `git`, reference the tutorial Caleb provided. Below is the most likely command workflow, but you should be familiar with git so you can handle different situations. If you are using a GUI the names on the buttons should be similar to the commands below. 
 
 #### Starting a New Task (Feature)
 
@@ -60,4 +60,4 @@ If it is a large feature you may want to create a PR through GitHub so that Cale
 
 ## Resources
 
-A fun git tutorial / game can be found [here](https://learngitbranching.js.org/).
+A fun git tutorial / game can be found [here.](https://learngitbranching.js.org/)
