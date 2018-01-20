@@ -16,12 +16,16 @@ public class Rollerclaw extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-
     }
 
     public void Rollerin() {
         rollerLeft.set(ControlMode.PercentOutput, .75);
         rollerRight.set(ControlMode.PercentOutput, .75);
+    }
+
+    public void Rollerstop() {
+        rollerLeft.set(ControlMode.PercentOutput, 0);
+        rollerRight.set(ControlMode.PercentOutput, 0);
     }
 
     public void Rollerout() {
