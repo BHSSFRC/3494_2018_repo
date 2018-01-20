@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.commands.auto.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.ReflectivePursuit;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team3494.robot.subsystems.Rollerclaw;
 import org.usfirst.frc.team3494.robot.util.Limelight;
 
 
@@ -45,6 +46,7 @@ public class Robot extends IterativeRobot {
      * Instance of {@link Drivetrain}.
      */
     public static Drivetrain driveTrain;
+    public static Rollerclaw rollerClaw;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -57,6 +59,7 @@ public class Robot extends IterativeRobot {
         limelight = new Limelight();
 
         driveTrain = new Drivetrain();
+        rollerClaw = new Rollerclaw();
 
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit());
