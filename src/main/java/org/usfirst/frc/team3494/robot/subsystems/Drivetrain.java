@@ -82,10 +82,8 @@ public class Drivetrain extends PIDSubsystem {
      *              between 0 and 1.
      */
     public void TankDrive(double left, double right) {
-        if (Math.abs(left) > RobotMap.DRIVE_TOLERANCE && Math.abs(right) > RobotMap.DRIVE_TOLERANCE) {
-            this.driveLeftMaster.set(ControlMode.PercentOutput, left);
-            this.driveRightMaster.set(ControlMode.PercentOutput, right);
-        }
+        this.driveLeftMaster.set(ControlMode.PercentOutput, applyDeadband(left, 0.02));
+        this.driveRightMaster.set(ControlMode.PercentOutput, applyDeadband(right, 0.02));
     }
 
     /**
