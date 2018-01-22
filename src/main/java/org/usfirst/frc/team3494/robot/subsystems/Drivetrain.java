@@ -43,7 +43,7 @@ public class Drivetrain extends PIDSubsystem {
     public double pidTune;
 
     public Drivetrain() {
-        super("Drivetrain", 0.2, 0, 0);
+        super("Drivetrain", 0.025, 0, 0);
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
@@ -60,7 +60,7 @@ public class Drivetrain extends PIDSubsystem {
         teleop = false;
         // config pid loop
         pidTune = 0;
-        double outRange = 0.8;
+        double outRange = 0.9;
         setInputRange(-180, 180);
         setOutputRange(-outRange, outRange);
         getPIDController().setContinuous(true);
