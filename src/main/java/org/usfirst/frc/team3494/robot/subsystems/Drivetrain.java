@@ -47,15 +47,15 @@ public class Drivetrain extends PIDSubsystem {
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
-        this.driveLeftFollowOne.set(ControlMode.Follower, this.driveLeftMaster.getBaseID());
+        this.driveLeftFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftFollowTwo = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_TWO);
-        this.driveLeftFollowTwo.set(ControlMode.Follower, this.driveLeftMaster.getBaseID());
+        this.driveLeftFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_MASTER);
 
         this.driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowOne = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
-        this.driveRightFollowOne.set(ControlMode.Follower, this.driveRightMaster.getBaseID());
+        this.driveRightFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowTwo = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
-        this.driveRightFollowTwo.set(ControlMode.Follower, this.driveRightMaster.getBaseID());
+        this.driveRightFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
 
         teleop = false;
         // config pid loop
@@ -82,10 +82,8 @@ public class Drivetrain extends PIDSubsystem {
      *              between 0 and 1.
      */
     public void TankDrive(double left, double right) {
-        if (Math.abs(left) > RobotMap.DRIVE_TOLERANCE && Math.abs(right) > RobotMap.DRIVE_TOLERANCE) {
-            this.driveLeftMaster.set(ControlMode.PercentOutput, left);
-            this.driveRightMaster.set(ControlMode.PercentOutput, right);
-        }
+        this.driveLeftMaster.set(ControlMode.PercentOutput, applyDeadband(left, 0.02));
+        this.driveRightMaster.set(ControlMode.PercentOutput, applyDeadband(right, 0.02));
     }
 
     /**
