@@ -47,15 +47,15 @@ public class Drivetrain extends PIDSubsystem {
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
-        this.driveLeftFollowOne.set(ControlMode.Follower, this.driveLeftMaster.getBaseID());
+        this.driveLeftFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftFollowTwo = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_TWO);
-        this.driveLeftFollowTwo.set(ControlMode.Follower, this.driveLeftMaster.getBaseID());
+        this.driveLeftFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_MASTER);
 
         this.driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowOne = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
-        this.driveRightFollowOne.set(ControlMode.Follower, this.driveRightMaster.getBaseID());
+        this.driveRightFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowTwo = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
-        this.driveRightFollowTwo.set(ControlMode.Follower, this.driveRightMaster.getBaseID());
+        this.driveRightFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
 
         teleop = false;
         // config pid loop
