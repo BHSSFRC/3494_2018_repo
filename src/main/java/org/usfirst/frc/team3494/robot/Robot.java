@@ -65,7 +65,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Reflective chaser", new ReflectivePursuit());
         chooser.addObject("Cube chaser", new CubePursuit());
         System.out.println(chooser.getSelected());
-        SmartDashboard.putData("auto", chooser);
+        SmartDashboard.putData("auto selection", chooser);
 
         camera_0 = CameraServer.getInstance().startAutomaticCapture("flaming bagpipes", 0);
     }
@@ -94,6 +94,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
         limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
+        limelight.setPipeline(1);
         if (autoCmd != null && autoCmd.isRunning()) {
             autoCmd.cancel();
         }
