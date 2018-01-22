@@ -10,8 +10,7 @@ FRC Team 3494's 2018 source code repository.
 2. Run the proper gradle task for your IDE.
  * `gradlew eclipse` for Eclipse
  * `gradlew idea` for IntelliJ
- * VS Code has no gradle task - use the idea one instead, I suppose.
-
+ 
 ## Building, running, and deploying new code
 
 Build: `gradlew build`
