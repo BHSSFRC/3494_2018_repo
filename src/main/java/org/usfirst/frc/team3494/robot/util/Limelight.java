@@ -94,6 +94,10 @@ public class Limelight {
         return this.table.getEntry("ty").getDouble(0);
     }
 
+    public boolean hasValidTarget() {
+        return this.table.getEntry("tv").getDouble(0) == 1;
+    }
+
     /**
      * Returns the {@link NetworkTable} for more direct access.
      *
