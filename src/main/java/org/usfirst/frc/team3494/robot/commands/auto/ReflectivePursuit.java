@@ -26,10 +26,15 @@ public class ReflectivePursuit extends Command {
 
     @Override
     protected void execute() {
-        Robot.driveTrain.ArcadeDrive(0.65, Robot.driveTrain.pidTune, true);
-        double tx = limelight.getXDistance();
-        Robot.driveTrain.setSetpoint(Robot.ahrs.getYaw() + tx);
-        SmartDashboard.putNumber("Drive PID setpoint", Robot.driveTrain.getSetpoint());
+        SmartDashboard.putNumber("tv", limelight.getTable().getEntry("tv").getDouble(0));
+        if (limelight.hasValidTarget()) {
+            Robot.driveTrain.ArcadeDrive(0.65, Robot.driveTrain.pidTune, true);
+            double tx = limelight.getXDistance();
+            Robot.driveTrain.setSetpoint(Robot.ahrs.getYaw() + tx);
+            SmartDashboard.putNumber("Drive PID setpoint", Robot.driveTrain.getSetpoint());
+        } else {
+            Robot.driveTrain.TankDrive(.25, .25);
+        }
     }
 
     @Override
