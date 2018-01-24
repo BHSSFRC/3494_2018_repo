@@ -11,7 +11,7 @@ import static org.usfirst.frc.team3494.robot.Robot.limelight;
  * Auton program to chase Power Cubes (or whatever is in pipeline one.)
  */
 public class ReflectivePursuit extends Command {
-    public double lastTX;
+    private double lastTX;
 
     public ReflectivePursuit() {
         requires(Robot.driveTrain);
