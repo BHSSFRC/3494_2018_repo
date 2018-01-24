@@ -11,6 +11,7 @@ import static org.usfirst.frc.team3494.robot.Robot.limelight;
  * Auton program to chase Power Cubes (or whatever is in pipeline one.)
  */
 public class ReflectivePursuit extends Command {
+    public double lastTX;
 
     public ReflectivePursuit() {
         requires(Robot.driveTrain);
@@ -32,8 +33,19 @@ public class ReflectivePursuit extends Command {
             double tx = limelight.getXDistance();
             Robot.driveTrain.setSetpoint(Robot.ahrs.getYaw() + tx);
             SmartDashboard.putNumber("Drive PID setpoint", Robot.driveTrain.getSetpoint());
+            lastTX = tx;
         } else {
-            Robot.driveTrain.TankDrive(.25, .25);
+            try {
+                if (lastTX > 0) {
+                    Robot.driveTrain.TankDrive(.25, .25);
+                } else if (lastTX < 0) {
+                    Robot.driveTrain.TankDrive(-.25, -.25);
+                }
+            } catch (NullPointerException e) {
+                Robot.driveTrain.TankDrive(0, 0);
+                System.out.println("oh no");
+                e.printStackTrace();
+            }
         }
     }
 
