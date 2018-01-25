@@ -1,6 +1,9 @@
 package org.usfirst.frc.team3494.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.Roll;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.StopRoll;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -38,6 +41,13 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
     public OI() {
+        JoystickButton leftTrigger = new JoystickButton(joyLeft, 1);
+        leftTrigger.whenPressed(new Roll(true));
+        leftTrigger.whenReleased(new StopRoll());
+
+        JoystickButton rightTrigger = new JoystickButton(joyRight, 1);
+        rightTrigger.whenPressed(new Roll(false));
+        rightTrigger.whenReleased(new StopRoll());
     }
 
     public Joystick getJoyLeft() {
