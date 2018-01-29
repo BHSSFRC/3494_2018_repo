@@ -54,12 +54,13 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void robotInit() {
-        oi = new OI();
         ahrs = new AHRS(SPI.Port.kMXP);
         limelight = new Limelight();
 
         driveTrain = new Drivetrain();
         rollerClaw = new Rollerclaw();
+
+        oi = new OI();
 
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit());
