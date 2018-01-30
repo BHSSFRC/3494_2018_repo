@@ -8,9 +8,8 @@ import org.usfirst.frc.team3494.robot.Robot;
 
 public class PathTestOne extends Command {
 
-    TankModifier modifier;
-    EncoderFollower left;
-    EncoderFollower right;
+    private EncoderFollower left;
+    private EncoderFollower right;
 
     public PathTestOne() {
         requires(Robot.driveTrain);
@@ -18,7 +17,7 @@ public class PathTestOne extends Command {
 
     @Override
     protected void initialize() {
-        modifier = Robot.pathBuilder.getCenterToLeftMod();
+        TankModifier modifier = Robot.pathBuilder.getCenterToLeftMod();
 
         left = new EncoderFollower(modifier.getLeftTrajectory());
         left.configureEncoder(Robot.driveTrain.getCountsLeft(), 256, 4.875);
