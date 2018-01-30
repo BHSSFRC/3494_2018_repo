@@ -43,6 +43,7 @@ public class Drivetrain extends PIDSubsystem {
 
     private Encoder encoderRight;
     private Encoder encoderLeft;
+    private static final double DISTANCE_PER_PULSE = 1 / 256;
 
     private boolean teleop;
     public double pidTune;
@@ -73,7 +74,9 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightFollowTwo.setNeutralMode(NeutralMode.Brake);
 
         this.encoderLeft = new Encoder(RobotMap.ENCODER_LEFT_A, RobotMap.ENCODER_LEFT_B);
+        this.encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.encoderRight = new Encoder(RobotMap.ENCODER_RIGHT_A, RobotMap.ENCODER_RIGHT_B);
+        this.encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);
 
         teleop = false;
         // config pid loop
@@ -154,6 +157,28 @@ public class Drivetrain extends PIDSubsystem {
 
         driveLeftMaster.set(ControlMode.PercentOutput, limit(leftMotorOutput));
         driveRightMaster.set(ControlMode.PercentOutput, -limit(rightMotorOutput));
+    }
+
+    public int getCountsLeft() {
+        return encoderLeft.get();
+    }
+
+    public int getCountsRight() {
+        return encoderRight.get();
+    }
+
+    /**
+     * Returns the number of revolutions performed on the left wheel.
+     */
+    public double getDistanceLeft() {
+        return encoderLeft.getDistance();
+    }
+
+    /**
+     * Returns the number of revolutions performed on the right wheel.
+     */
+    public double getDistanceRight() {
+        return encoderRight.getDistance();
     }
 
     /**
