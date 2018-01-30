@@ -181,6 +181,11 @@ public class Drivetrain extends PIDSubsystem {
         return encoderRight.getDistance();
     }
 
+    public void resetEncoders() {
+        encoderRight.reset();
+        encoderLeft.reset();
+    }
+
     /**
      * Stops all drive motors. Does not require re-enabling motors after use.
      *
