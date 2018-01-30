@@ -70,6 +70,9 @@ public class Robot extends IterativeRobot {
         oi = new OI();
         pathBuilder = new PathBuilder();
 
+        // pathBuilder.getCenterToRightTraj();
+        pathBuilder.getCenterToLeftTraj();
+
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit());
         chooser.addObject("Cube chaser", new CubePursuit());
@@ -99,6 +102,9 @@ public class Robot extends IterativeRobot {
         if (autoCmd != null) {
             Scheduler.getInstance().run();
         }
+
+        SmartDashboard.putNumber("Left enc", Robot.driveTrain.getCountsLeft());
+        SmartDashboard.putNumber("Right enc", Robot.driveTrain.getCountsRight());
     }
 
     @Override
