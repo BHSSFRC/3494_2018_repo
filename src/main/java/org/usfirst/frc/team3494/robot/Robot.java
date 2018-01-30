@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.commands.auto.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.PathBuilder;
 import org.usfirst.frc.team3494.robot.commands.auto.ReflectivePursuit;
+import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestOne;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Rollerclaw;
 import org.usfirst.frc.team3494.robot.util.Limelight;
@@ -67,10 +68,12 @@ public class Robot extends IterativeRobot {
         rollerClaw = new Rollerclaw();
 
         oi = new OI();
+        pathBuilder = new PathBuilder();
 
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit());
         chooser.addObject("Cube chaser", new CubePursuit());
+        chooser.addObject("Path tester", new PathTestOne());
         System.out.println(chooser.getSelected());
         SmartDashboard.putData("auto selection", chooser);
 
