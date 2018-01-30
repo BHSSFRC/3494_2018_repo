@@ -14,20 +14,21 @@ public class PathTestOne extends Command {
 
     public PathTestOne() {
         requires(Robot.driveTrain);
-        Robot.driveTrain.resetEncoders();
     }
 
     @Override
     protected void initialize() {
+        Robot.driveTrain.resetEncoders();
+
         TankModifier modifier = Robot.pathBuilder.getCenterToLeftMod();
 
         left = new EncoderFollower(modifier.getLeftTrajectory());
         left.configureEncoder(Robot.driveTrain.getCountsLeft(), 256, 4.875);
-        left.configurePIDVA(1, 0.0, 0.0, 1 / RobotMap.PATH_MAX_SPEED, 0);
+        left.configurePIDVA(0.2, 0.0, 0.0, 1 / RobotMap.PATH_MAX_SPEED, 0);
 
         right = new EncoderFollower(modifier.getRightTrajectory());
         right.configureEncoder(Robot.driveTrain.getCountsRight(), 256, 4.875);
-        right.configurePIDVA(1, 0.0, 0.0, 1 / RobotMap.PATH_MAX_SPEED, 0);
+        right.configurePIDVA(0.2, 0.0, 0.0, 1 / RobotMap.PATH_MAX_SPEED, 0);
     }
 
     @Override
