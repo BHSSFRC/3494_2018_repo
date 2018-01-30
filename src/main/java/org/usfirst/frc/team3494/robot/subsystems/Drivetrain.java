@@ -150,6 +150,9 @@ public class Drivetrain extends PIDSubsystem {
 
     /**
      * Limit motor values to the -1.0 to +1.0 range.
+     *
+     * @param num The number to limit to [-1, 1].
+     * @return The limited value.
      */
     private static double limit(double num) {
         if (num > 1.0) {
@@ -167,6 +170,7 @@ public class Drivetrain extends PIDSubsystem {
      *
      * @param value    value to clip
      * @param deadband range around zero
+     * @return Zero if the value is in the deadband, or the value unchanged.
      * @author Worcester Polytechnic Institute
      */
     protected double applyDeadband(double value, double deadband) {
