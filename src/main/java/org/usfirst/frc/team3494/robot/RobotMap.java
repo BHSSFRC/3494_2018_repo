@@ -28,6 +28,11 @@ public class RobotMap {
 
     public static final double DRIVE_TOLERANCE = 0.01;
 
+    public static final int ENCODER_LEFT_A = 9;
+    public static final int ENCODER_LEFT_B = 8;
+    public static final int ENCODER_RIGHT_A = 7;
+    public static final int ENCODER_RIGHT_B = 6;
+
     public static final int JOYSTICK_LEFT = 0;
     public static final int JOYSTICK_RIGHT = 1;
 }

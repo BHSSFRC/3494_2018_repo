@@ -3,6 +3,7 @@ package org.usfirst.frc.team3494.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
@@ -40,6 +41,9 @@ public class Drivetrain extends PIDSubsystem {
      */
     private TalonSRX driveRightFollowTwo;
 
+    private Encoder encoderRight;
+    private Encoder encoderLeft;
+
     private boolean teleop;
     public double pidTune;
 
@@ -67,6 +71,9 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightFollowTwo = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
         this.driveRightFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowTwo.setNeutralMode(NeutralMode.Brake);
+
+        this.encoderLeft = new Encoder(RobotMap.ENCODER_LEFT_A, RobotMap.ENCODER_LEFT_B);
+        this.encoderRight = new Encoder(RobotMap.ENCODER_RIGHT_A, RobotMap.ENCODER_RIGHT_B);
 
         teleop = false;
         // config pid loop
