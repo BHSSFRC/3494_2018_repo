@@ -15,7 +15,7 @@ public class PathBuilder {
     private Trajectory centerToRightTraj;
     private TankModifier centerToRightMod;
 
-    public void genCenterToLeft() {
+    private void genCenterToLeft() {
         Waypoint[] centerToLeft = new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(-1, 0.5, Pathfinder.d2r(45)),
@@ -30,7 +30,7 @@ public class PathBuilder {
         centerToLeftMod = new TankModifier(centerToLeftTraj).modify(WHEEL_WIDTH);
     }
 
-    public void genCenterToRight() {
+    private void genCenterToRight() {
         Waypoint[] centerToRight = new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(1, 0.5, Pathfinder.d2r(45)),
@@ -46,18 +46,30 @@ public class PathBuilder {
     }
 
     public Trajectory getCenterToLeftTraj() {
+        if (centerToLeftTraj == null) {
+            this.genCenterToLeft();
+        }
         return centerToLeftTraj;
     }
 
     public Trajectory getCenterToRightTraj() {
+        if (centerToRightTraj == null) {
+            this.genCenterToRight();
+        }
         return centerToRightTraj;
     }
 
     public TankModifier getCenterToLeftMod() {
+        if (centerToLeftMod == null) {
+            this.genCenterToLeft();
+        }
         return centerToLeftMod;
     }
 
     public TankModifier getCenterToRightMod() {
+        if (centerToRightMod == null) {
+            this.genCenterToRight();
+        }
         return centerToRightMod;
     }
 }
