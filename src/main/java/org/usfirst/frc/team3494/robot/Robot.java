@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.commands.auto.CubePursuit;
+import org.usfirst.frc.team3494.robot.commands.auto.PathBuilder;
 import org.usfirst.frc.team3494.robot.commands.auto.ReflectivePursuit;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Rollerclaw;
@@ -46,7 +47,12 @@ public class Robot extends IterativeRobot {
      * Instance of {@link Drivetrain}.
      */
     public static Drivetrain driveTrain;
+    /**
+     * Instance of {@link Rollerclaw}.
+     */
     public static Rollerclaw rollerClaw;
+
+    public static PathBuilder pathBuilder;
 
     /**
      * This function is run when the robot is first started up and should be
