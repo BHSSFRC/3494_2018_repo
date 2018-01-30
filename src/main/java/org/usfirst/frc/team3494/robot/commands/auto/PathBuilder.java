@@ -4,6 +4,7 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
+import org.usfirst.frc.team3494.robot.RobotMap;
 
 public class PathBuilder {
 
@@ -16,30 +17,33 @@ public class PathBuilder {
     private TankModifier centerToRightMod;
 
     private void genCenterToLeft() {
-        Waypoint[] centerToLeft = new Waypoint[]{
-                new Waypoint(0, 0, 0),
-                new Waypoint(-1, 0.5, Pathfinder.d2r(45)),
-                new Waypoint(-1, 1, 0)
+        System.out.println("Generating path, please wait...");
+        Waypoint[] centerToLeft = new Waypoint[] {
+                new Waypoint(-4, -1, Pathfinder.d2r(-45)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+                new Waypoint(-2, -2, 0),                        // Waypoint @ x=-2, y=-2, exit angle=0 radians
+                new Waypoint(0, 0, 0)                           // Waypoint @ x=0, y=0,   exit angle=0 radians
         };
+
         Trajectory.Config config = new Trajectory.Config(
                 Trajectory.FitMethod.HERMITE_CUBIC,
                 Trajectory.Config.SAMPLES_HIGH,
-                0.05, 1.7, 2.0, 60.0
+                0.05, RobotMap.PATH_MAX_SPEED, 2.0, 60.0
         );
         centerToLeftTraj = Pathfinder.generate(centerToLeft, config);
         centerToLeftMod = new TankModifier(centerToLeftTraj).modify(WHEEL_WIDTH);
+        System.out.println("Path generated!");
     }
 
     private void genCenterToRight() {
         Waypoint[] centerToRight = new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(1, 0.5, Pathfinder.d2r(45)),
-                new Waypoint(1, 1, 0)
+                new Waypoint(0, 0.5, 0),
+                new Waypoint(0, 1, 0)
         };
         Trajectory.Config config = new Trajectory.Config(
                 Trajectory.FitMethod.HERMITE_CUBIC,
                 Trajectory.Config.SAMPLES_HIGH,
-                0.05, 1.7, 2.0, 60.0
+                0.05, RobotMap.PATH_MAX_SPEED, 2.0, 60.0
         );
         centerToRightTraj = Pathfinder.generate(centerToRight, config);
         centerToRightMod = new TankModifier(centerToRightTraj).modify(WHEEL_WIDTH);

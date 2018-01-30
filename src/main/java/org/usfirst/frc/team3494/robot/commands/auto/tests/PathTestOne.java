@@ -5,6 +5,7 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3494.robot.Robot;
+import org.usfirst.frc.team3494.robot.RobotMap;
 
 public class PathTestOne extends Command {
 
@@ -13,6 +14,7 @@ public class PathTestOne extends Command {
 
     public PathTestOne() {
         requires(Robot.driveTrain);
+        Robot.driveTrain.resetEncoders();
     }
 
     @Override
@@ -21,11 +23,11 @@ public class PathTestOne extends Command {
 
         left = new EncoderFollower(modifier.getLeftTrajectory());
         left.configureEncoder(Robot.driveTrain.getCountsLeft(), 256, 4.875);
-        left.configurePIDVA(1.0, 0.0, 0.0, 1 / 1.7, 0);
+        left.configurePIDVA(1, 0.0, 0.0, 1 / RobotMap.PATH_MAX_SPEED, 0);
 
         right = new EncoderFollower(modifier.getRightTrajectory());
         right.configureEncoder(Robot.driveTrain.getCountsRight(), 256, 4.875);
-        right.configurePIDVA(1.0, 0.0, 0.0, 1 / 1.7, 0);
+        right.configurePIDVA(1, 0.0, 0.0, 1 / RobotMap.PATH_MAX_SPEED, 0);
     }
 
     @Override
@@ -39,11 +41,18 @@ public class PathTestOne extends Command {
         double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
         double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
 
+        System.out.println("Running along");
+
         Robot.driveTrain.TankDrive(leftVal + turn, rightVal - turn);
     }
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return left.isFinished();
+    }
+
+    @Override
+    protected void end() {
+        Robot.driveTrain.StopDrive();
     }
 }
