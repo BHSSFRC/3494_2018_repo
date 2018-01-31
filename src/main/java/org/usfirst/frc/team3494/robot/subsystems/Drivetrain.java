@@ -167,8 +167,16 @@ public class Drivetrain extends PIDSubsystem {
         return encoderLeft.get();
     }
 
+    public int getCountsLeft_Talon() {
+        return this.driveLeftMaster.getSensorCollection().getQuadraturePosition();
+    }
+
     public int getCountsRight() {
         return encoderRight.get();
+    }
+
+    public int getCountsRight_Talon() {
+        return this.driveRightMaster.getSensorCollection().getQuadraturePosition();
     }
 
     /**
@@ -178,6 +186,10 @@ public class Drivetrain extends PIDSubsystem {
         return encoderLeft.getDistance();
     }
 
+    public double getDistanceLeft_Talon() {
+        return this.driveLeftMaster.getSensorCollection().getQuadraturePosition() * (1 / 4) * (DISTANCE_PER_PULSE);
+    }
+
     /**
      * Returns the number of revolutions performed on the right wheel.
      */
@@ -185,9 +197,21 @@ public class Drivetrain extends PIDSubsystem {
         return encoderRight.getDistance();
     }
 
+    public double getDistanceRight_Talon() {
+        return this.driveRightMaster.getSensorCollection().getQuadraturePosition() * (1 / 4) * (DISTANCE_PER_PULSE);
+    }
+
     public void resetEncoders() {
         encoderRight.reset();
         encoderLeft.reset();
+    }
+
+    public SensorCollection getSensorCollection_Right() {
+        return this.driveRightMaster.getSensorCollection();
+    }
+
+    public SensorCollection getSensorCollection_Left() {
+        return this.driveLeftMaster.getSensorCollection();
     }
 
     /**
