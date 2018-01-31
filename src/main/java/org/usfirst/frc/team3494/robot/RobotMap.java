@@ -28,7 +28,7 @@ public class RobotMap {
 
     public static final double DRIVE_TOLERANCE = 0.01;
 
-    public static final double PATH_MAX_SPEED = 0.05;
+    public static final double PATH_MAX_SPEED = 15;
 
     public static final int ENCODER_LEFT_A = 9;
     public static final int ENCODER_LEFT_B = 8;
