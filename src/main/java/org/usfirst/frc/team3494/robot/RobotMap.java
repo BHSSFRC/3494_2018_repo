@@ -30,4 +30,6 @@ public class RobotMap {
 
     public static final int JOYSTICK_LEFT = 0;
     public static final int JOYSTICK_RIGHT = 1;
+
+    public static final int LIGHT_VOLTAGE = 0;
 }
