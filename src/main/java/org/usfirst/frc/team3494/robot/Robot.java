@@ -103,8 +103,8 @@ public class Robot extends IterativeRobot {
             Scheduler.getInstance().run();
         }
 
-        SmartDashboard.putNumber("Left enc", Robot.driveTrain.getCountsLeft());
-        SmartDashboard.putNumber("Right enc", Robot.driveTrain.getCountsRight());
+        SmartDashboard.putNumber("Left enc", Robot.driveTrain.getCountsLeft_Talon());
+        SmartDashboard.putNumber("Right enc", Robot.driveTrain.getCountsRight_Talon());
     }
 
     @Override
@@ -114,11 +114,22 @@ public class Robot extends IterativeRobot {
         if (autoCmd != null && autoCmd.isRunning()) {
             autoCmd.cancel();
         }
+        Robot.driveTrain.resetEncoders();
+        SmartDashboard.putNumber("Left speed wheel revs per sec", 0);
     }
 
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+
+        SmartDashboard.putNumber("Left enc", Robot.driveTrain.getCountsLeft_Talon());
+        SmartDashboard.putNumber("Right enc", Robot.driveTrain.getCountsRight_Talon());
+
+        SmartDashboard.putNumber("Left wheel revolutions", (Robot.driveTrain.getCountsLeft_Talon() / 4) * 3 / 11.9 / 256);
+
+        SmartDashboard.putNumber("Left speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()));
+        SmartDashboard.putNumber("Left speed wheel revs per sec", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()) * 3 / 11.9);
+        SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityRight()));
     }
 
     @Override

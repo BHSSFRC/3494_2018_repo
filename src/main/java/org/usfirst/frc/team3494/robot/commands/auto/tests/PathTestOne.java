@@ -23,18 +23,18 @@ public class PathTestOne extends Command {
         TankModifier modifier = Robot.pathBuilder.getCenterToLeftMod();
 
         left = new EncoderFollower(modifier.getLeftTrajectory());
-        left.configureEncoder(Robot.driveTrain.getCountsLeft(), 256, 4.875);
+        left.configureEncoder(Robot.driveTrain.getCountsLeft_Talon(), 256 * 4, 4.875);
         left.configurePIDVA(0.2, 0.0, 0.0, 1 / RobotMap.PATH_MAX_SPEED, 0);
 
         right = new EncoderFollower(modifier.getRightTrajectory());
-        right.configureEncoder(Robot.driveTrain.getCountsRight(), 256, 4.875);
+        right.configureEncoder(Robot.driveTrain.getCountsRight_Talon(), 256 * 4, 4.875);
         right.configurePIDVA(0.2, 0.0, 0.0, 1 / RobotMap.PATH_MAX_SPEED, 0);
     }
 
     @Override
     protected void execute() {
-        double leftVal = left.calculate(Robot.driveTrain.getCountsLeft());
-        double rightVal = right.calculate(Robot.driveTrain.getCountsRight());
+        double leftVal = left.calculate(Robot.driveTrain.getCountsLeft_Talon());
+        double rightVal = right.calculate(Robot.driveTrain.getCountsRight_Talon());
 
         double gyro_heading = Robot.ahrs.getAngle();    // Assuming the gyro is giving a value in degrees
         double desired_heading = Pathfinder.r2d(left.getHeading());  // Should also be in degrees
