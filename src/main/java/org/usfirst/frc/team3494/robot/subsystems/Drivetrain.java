@@ -115,7 +115,8 @@ public class Drivetrain extends PIDSubsystem {
     }
 
     public void VelocityTank(double left, double right) {
-        System.out.println(left + ", " + right);
+        System.out.println("Target: " + left + ", " + right);
+        System.out.println("Actual: " + this.driveLeftMaster.getSensorCollection().getQuadratureVelocity() + ", " + this.driveRightMaster.getSensorCollection().getQuadratureVelocity());
         this.driveLeftMaster.set(ControlMode.Velocity, -left);
         this.driveRightMaster.set(ControlMode.Velocity, right);
     }
