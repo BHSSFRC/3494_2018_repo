@@ -105,6 +105,10 @@ public class Robot extends IterativeRobot {
 
         SmartDashboard.putNumber("Left enc", Robot.driveTrain.getCountsLeft_Talon());
         SmartDashboard.putNumber("Right enc", Robot.driveTrain.getCountsRight_Talon());
+
+        SmartDashboard.putNumber("Left speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()));
+        SmartDashboard.putNumber("Left speed wheel revs per sec", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()) * 3 / 11.9);
+        SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityRight()));
     }
 
     @Override
