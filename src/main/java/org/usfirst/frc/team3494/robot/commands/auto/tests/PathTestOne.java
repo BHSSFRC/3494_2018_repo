@@ -1,7 +1,9 @@
 package org.usfirst.frc.team3494.robot.commands.auto.tests;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3494.robot.Robot;
@@ -11,6 +13,11 @@ public class PathTestOne extends Command {
 
     private EncoderFollower left;
     private EncoderFollower right;
+
+    private Trajectory leftTraj;
+    private Trajectory rightTraj;
+
+    private double startTime;
 
     public PathTestOne() {
         requires(Robot.driveTrain);
@@ -22,6 +29,9 @@ public class PathTestOne extends Command {
 
         TankModifier modifier = Robot.pathBuilder.getCenterToLeftMod();
 
+        leftTraj = modifier.getLeftTrajectory();
+        rightTraj = modifier.getRightTrajectory();
+
         left = new EncoderFollower(modifier.getLeftTrajectory());
         left.configureEncoder(Robot.driveTrain.getCountsLeft_Talon(), 256 * 4, 4.875);
         left.configurePIDVA(0.2, 0.0, 0.0, 1 / RobotMap.PATH_MAX_SPEED, 0);
@@ -29,10 +39,17 @@ public class PathTestOne extends Command {
         right = new EncoderFollower(modifier.getRightTrajectory());
         right.configureEncoder(Robot.driveTrain.getCountsRight_Talon(), 256 * 4, 4.875);
         right.configurePIDVA(0.2, 0.0, 0.0, 1 / RobotMap.PATH_MAX_SPEED, 0);
+
+        startTime = Timer.getFPGATimestamp() * 1000.0;
     }
 
     @Override
     protected void execute() {
+        int index = ((int) Math.floor(((Timer.getFPGATimestamp() * 1000.0) - startTime) / 50));
+
+        double leftVelo = leftTraj.segments[index].velocity;
+        double rightVelo = rightTraj.segments[index].velocity;
+
         double leftVal = left.calculate(Robot.driveTrain.getCountsLeft_Talon());
         double rightVal = right.calculate(Robot.driveTrain.getCountsRight_Talon());
 
@@ -44,7 +61,7 @@ public class PathTestOne extends Command {
 
         System.out.println("Running along");
 
-        Robot.driveTrain.TankDrive(leftVal + turn, rightVal - turn);
+        // Robot.driveTrain.TankDrive(leftVal + turn, rightVal - turn);
     }
 
     @Override

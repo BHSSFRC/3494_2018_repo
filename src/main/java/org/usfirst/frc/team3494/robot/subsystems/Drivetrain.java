@@ -110,6 +110,11 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightMaster.set(ControlMode.PercentOutput, applyDeadband(right, 0.05));
     }
 
+    public void VelocityTank(double left, double right) {
+        this.driveLeftMaster.set(ControlMode.Velocity, -left);
+        this.driveRightMaster.set(ControlMode.Velocity, right);
+    }
+
     /**
      * Arcade drive method for differential drive platform.
      *
