@@ -47,8 +47,8 @@ public class PathTestOne extends Command {
     protected void execute() {
         int index = ((int) Math.floor(((Timer.getFPGATimestamp() * 1000.0) - startTime) / 50));
 
-        double leftVelo = leftTraj.segments[index].velocity * (1 / 0.3048) * (1 / 4.875) * (3 / 11.9) * 256;
-        double rightVelo = rightTraj.segments[index].velocity * (1 / 0.3048) * (1 / 4.875) * (3 / 11.9) * 256;
+        double leftVelo = leftTraj.segments[index].velocity;
+        double rightVelo = rightTraj.segments[index].velocity;
 
         double leftVal = left.calculate(Robot.driveTrain.getCountsLeft_Talon());
         double rightVal = right.calculate(Robot.driveTrain.getCountsRight_Talon());
