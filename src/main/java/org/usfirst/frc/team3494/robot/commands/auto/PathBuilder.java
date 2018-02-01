@@ -8,7 +8,7 @@ import org.usfirst.frc.team3494.robot.RobotMap;
 
 public class PathBuilder {
 
-    private static final double WHEEL_WIDTH = 1.0D;
+    private static final double WHEELBASE_WIDTH = 0.83D;
 
     private Trajectory centerToLeftTraj;
     private TankModifier centerToLeftMod;
@@ -30,7 +30,7 @@ public class PathBuilder {
                 0.05, RobotMap.PATH_MAX_SPEED, 2.0, 60.0
         );
         centerToLeftTraj = Pathfinder.generate(centerToLeft, config);
-        centerToLeftMod = new TankModifier(centerToLeftTraj).modify(WHEEL_WIDTH);
+        centerToLeftMod = new TankModifier(centerToLeftTraj).modify(WHEELBASE_WIDTH);
         System.out.println("Path generated!");
     }
 
@@ -46,7 +46,7 @@ public class PathBuilder {
                 0.05, RobotMap.PATH_MAX_SPEED, 2.0, 60.0
         );
         centerToRightTraj = Pathfinder.generate(centerToRight, config);
-        centerToRightMod = new TankModifier(centerToRightTraj).modify(WHEEL_WIDTH);
+        centerToRightMod = new TankModifier(centerToRightTraj).modify(WHEELBASE_WIDTH);
     }
 
     public Trajectory getCenterToLeftTraj() {
