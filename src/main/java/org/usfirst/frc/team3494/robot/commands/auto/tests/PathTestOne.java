@@ -59,9 +59,8 @@ public class PathTestOne extends Command {
         double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
         double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
 
-        System.out.println("Running along");
-
         // Robot.driveTrain.TankDrive(leftVal + turn, rightVal - turn);
+        Robot.driveTrain.VelocityTank(leftVelo, rightVelo);
     }
 
     @Override
