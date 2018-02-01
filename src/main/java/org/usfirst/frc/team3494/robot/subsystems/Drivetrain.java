@@ -3,7 +3,6 @@ package org.usfirst.frc.team3494.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -201,17 +200,25 @@ public class Drivetrain extends PIDSubsystem {
         return this.driveRightMaster.getSensorCollection().getQuadraturePosition() * (1 / 4) * (DISTANCE_PER_PULSE);
     }
 
+    /**
+     * @return The left side velocity, in edges per 100ms (decisecond.)
+     */
+    public double getVelocityLeft() {
+        return this.driveLeftMaster.getSensorCollection().getQuadratureVelocity();
+    }
+
+    /**
+     * @return The right side velocity, in edges per 100ms (decisecond.)
+     */
+    public double getVelocityRight() {
+        return this.driveRightMaster.getSensorCollection().getQuadratureVelocity();
+    }
+
     public void resetEncoders() {
         encoderRight.reset();
         encoderLeft.reset();
-    }
-
-    public SensorCollection getSensorCollection_Right() {
-        return this.driveRightMaster.getSensorCollection();
-    }
-
-    public SensorCollection getSensorCollection_Left() {
-        return this.driveLeftMaster.getSensorCollection();
+        this.driveRightMaster.getSensorCollection().setQuadraturePosition(0, 0);
+        this.driveLeftMaster.getSensorCollection().setQuadraturePosition(0, 0);
     }
 
     /**
@@ -279,4 +286,13 @@ public class Drivetrain extends PIDSubsystem {
     public double getPidTune() {
         return pidTune;
     }
+
+    public static double nativeToRPS(double nat) {
+        return nat * 10 / (256 * 4);
+    }
+
+    public static double rpsToNative(double rps) {
+        return rps / 10 * (256 * 4);
+    }
+
 }
