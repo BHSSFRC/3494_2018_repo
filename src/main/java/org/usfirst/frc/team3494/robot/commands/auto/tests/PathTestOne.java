@@ -60,7 +60,7 @@ public class PathTestOne extends Command {
         double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
 
         // Robot.driveTrain.TankDrive(leftVal + turn, rightVal - turn);
-        Robot.driveTrain.VelocityTank(leftVelo, rightVelo);
+        Robot.driveTrain.VelocityTank(metersToCounts(leftVelo), metersToCounts(rightVelo));
     }
 
     @Override
@@ -71,5 +71,13 @@ public class PathTestOne extends Command {
     @Override
     protected void end() {
         Robot.driveTrain.StopDrive();
+    }
+
+    private static double countsToMeters(double counts) {
+        return counts / RobotMap.COUNTS_PER_METER;
+    }
+
+    private static double metersToCounts(double meters) {
+        return meters * RobotMap.COUNTS_PER_METER;
     }
 }

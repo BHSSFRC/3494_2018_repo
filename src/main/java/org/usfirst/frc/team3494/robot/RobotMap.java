@@ -39,4 +39,6 @@ public class RobotMap {
     public static final int JOYSTICK_RIGHT = 1;
 
     public static final int LIGHT_VOLTAGE = 0;
+
+    public static final double COUNTS_PER_METER = 256 * (11.9 / 3) * (1 / (4.875 * Math.PI)) * (1 / 2.54) * 100;
 }
