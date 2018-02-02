@@ -19,15 +19,15 @@ public class PathBuilder {
     private void genCenterToLeft() {
         System.out.println("Generating path, please wait...");
         Waypoint[] centerToLeft = new Waypoint[]{
-                new Waypoint(-2, -0.5, Pathfinder.d2r(-45)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-                new Waypoint(-1, -1, 0),                        // Waypoint @ x=-2, y=-2, exit angle=0 radians
-                new Waypoint(0, 0, 0)                           // Waypoint @ x=0, y=0,   exit angle=0 radians
+                new Waypoint(-4, -1, 0),
+                new Waypoint(-2, -2, 0),
+                new Waypoint(0, 0, 0)
         };
 
         Trajectory.Config config = new Trajectory.Config(
                 Trajectory.FitMethod.HERMITE_CUBIC,
-                Trajectory.Config.SAMPLES_HIGH,
-                0.05, RobotMap.PATH_MAX_SPEED, 2.0, 60.0
+                Trajectory.Config.SAMPLE5S_HIGH,
+                0.05, RobotMap.PATH_MAX_SPEED, 1.0, 60.0
         );
         centerToLeftTraj = Pathfinder.generate(centerToLeft, config);
         centerToLeftMod = new TankModifier(centerToLeftTraj).modify(WHEELBASE_WIDTH);
