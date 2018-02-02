@@ -55,8 +55,9 @@ public class Drivetrain extends PIDSubsystem {
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftMaster.setNeutralMode(NeutralMode.Brake);
         this.driveLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        // this.driveLeftMaster.setSensorPhase(true);
         this.driveLeftMaster.config_kP(0, 0.5, 10);
-        this.driveLeftMaster.config_kF(0, 1 / (RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER * 10), 10);
+        this.driveLeftMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10) * 4), 10);
 
         this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
         this.driveLeftFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_MASTER);
@@ -68,17 +69,21 @@ public class Drivetrain extends PIDSubsystem {
 
         this.driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightMaster.setNeutralMode(NeutralMode.Brake);
+        this.driveRightMaster.setInverted(true);
+        this.driveRightMaster.setSensorPhase(true);
         this.driveRightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         this.driveRightMaster.config_kP(0, 0.5, 10);
-        this.driveRightMaster.config_kF(0, 1 / (RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER * 10), 10);
+        this.driveRightMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10) * 4), 10);
 
         this.driveRightFollowOne = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
         this.driveRightFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowOne.setNeutralMode(NeutralMode.Brake);
+        this.driveRightFollowOne.setInverted(true);
 
         this.driveRightFollowTwo = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
         this.driveRightFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowTwo.setNeutralMode(NeutralMode.Brake);
+        this.driveRightFollowTwo.setInverted(true);
 
         this.encoderLeft = new Encoder(RobotMap.ENCODER_LEFT_A, RobotMap.ENCODER_LEFT_B);
         this.encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
@@ -117,7 +122,7 @@ public class Drivetrain extends PIDSubsystem {
     public void VelocityTank(double left, double right) {
         System.out.println("Target: " + left + ", " + right);
         System.out.println("Actual: " + this.driveLeftMaster.getSensorCollection().getQuadratureVelocity() + ", " + this.driveRightMaster.getSensorCollection().getQuadratureVelocity());
-        this.driveLeftMaster.set(ControlMode.Velocity, -left);
+        this.driveLeftMaster.set(ControlMode.Velocity, left);
         this.driveRightMaster.set(ControlMode.Velocity, right);
     }
 
