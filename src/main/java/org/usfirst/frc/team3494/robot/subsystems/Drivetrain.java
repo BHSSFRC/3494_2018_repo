@@ -196,6 +196,8 @@ public class Drivetrain extends PIDSubsystem {
 
     /**
      * Returns the number of revolutions performed on the left wheel.
+     *
+     * @return The number of revolutions performed on the left wheel, according to the PWM encoder.
      */
     public double getDistanceLeft() {
         return encoderLeft.getDistance();
@@ -207,6 +209,8 @@ public class Drivetrain extends PIDSubsystem {
 
     /**
      * Returns the number of revolutions performed on the right wheel.
+     *
+     * @return The number of revolutions performed on the right wheel, according to the PWM encoder.
      */
     public double getDistanceRight() {
         return encoderRight.getDistance();
@@ -310,5 +314,4 @@ public class Drivetrain extends PIDSubsystem {
     public static double rpsToNative(double rps) {
         return rps / 10 * (256 * 4);
     }
-
 }

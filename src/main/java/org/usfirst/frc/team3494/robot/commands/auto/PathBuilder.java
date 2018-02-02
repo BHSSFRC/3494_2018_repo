@@ -6,8 +6,15 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3494.robot.RobotMap;
 
+/**
+ * Class for generating {@link jaci.pathfinder.Pathfinder Pathfinder} trajectories.
+ * All distances are in meters. All angles are in radians
+ * (conversion methods available with {@link jaci.pathfinder.Pathfinder#d2r(double)}.)
+ */
 public class PathBuilder {
-
+    /**
+     * The distance between the sides of the {@link org.usfirst.frc.team3494.robot.subsystems.Drivetrain drivetrain}.
+     */
     private static final double WHEELBASE_WIDTH = 0.83D;
 
     private Trajectory centerToLeftTraj;
@@ -35,6 +42,7 @@ public class PathBuilder {
     }
 
     private void genCenterToRight() {
+        System.out.println("Generating path, please wait...");
         Waypoint[] centerToRight = new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(0, 0.5, 0),
@@ -47,6 +55,7 @@ public class PathBuilder {
         );
         centerToRightTraj = Pathfinder.generate(centerToRight, config);
         centerToRightMod = new TankModifier(centerToRightTraj).modify(WHEELBASE_WIDTH);
+        System.out.println("Path generated!");
     }
 
     public Trajectory getCenterToLeftTraj() {
