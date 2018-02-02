@@ -39,7 +39,7 @@ public class PathTestOne extends Command {
         double rightVelo = rightTraj.segments[index].velocity;
         Robot.driveTrain.VelocityTank(
                 (metersToCounts(leftVelo) * 4) / 10,
-                (metersToCounts(rightVelo) * 4) / 10 * 4);
+                (metersToCounts(rightVelo) * 4) / 10);
     }
 
     @Override
