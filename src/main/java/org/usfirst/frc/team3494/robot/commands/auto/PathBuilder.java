@@ -26,7 +26,7 @@ public class PathBuilder {
 
         Trajectory.Config config = new Trajectory.Config(
                 Trajectory.FitMethod.HERMITE_CUBIC,
-                Trajectory.Config.SAMPLE5S_HIGH,
+                Trajectory.Config.SAMPLES_HIGH,
                 0.05, RobotMap.PATH_MAX_SPEED, 1.0, 60.0
         );
         centerToLeftTraj = Pathfinder.generate(centerToLeft, config);
