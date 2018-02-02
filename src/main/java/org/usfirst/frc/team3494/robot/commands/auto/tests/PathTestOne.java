@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3494.robot.Robot;
-import org.usfirst.frc.team3494.robot.RobotMap;
 
 public class PathTestOne extends Command {
 
@@ -38,8 +37,8 @@ public class PathTestOne extends Command {
         double leftVelo = leftTraj.segments[index].velocity;
         double rightVelo = rightTraj.segments[index].velocity;
         Robot.driveTrain.VelocityTank(
-                (metersToCounts(leftVelo) * 4) / 10,
-                (metersToCounts(rightVelo) * 4) / 10);
+                (Robot.metersToEdges(leftVelo)) / 10,
+                (Robot.metersToEdges(rightVelo)) / 10);
     }
 
     @Override
@@ -50,13 +49,5 @@ public class PathTestOne extends Command {
     @Override
     protected void end() {
         Robot.driveTrain.StopDrive();
-    }
-
-    private static double countsToMeters(double counts) {
-        return counts / RobotMap.COUNTS_PER_METER;
-    }
-
-    private static double metersToCounts(double meters) {
-        return meters * RobotMap.COUNTS_PER_METER;
     }
 }

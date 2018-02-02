@@ -140,4 +140,34 @@ public class Robot extends IterativeRobot {
     public void disabledInit() {
         limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
     }
+
+    /**
+     * Convert a number of encoder counts to a distance in meters.
+     *
+     * @param counts The number of counts to be converted.
+     * @return The distance in meters traveled in the given number of counts.
+     */
+    public static double countsToMeters(double counts) {
+        return counts / RobotMap.COUNTS_PER_METER;
+    }
+
+    /**
+     * Convert a distance in meters to a number of encoder counts.
+     *
+     * @param meters The number of meters to convert to counts.
+     * @return The number of counts in the given distance.
+     */
+    public static double metersToCounts(double meters) {
+        return meters * RobotMap.COUNTS_PER_METER;
+    }
+
+    /**
+     * Convert a distance in meters to a number of encoder edges.
+     *
+     * @param meters The number of meters to convert to edges.
+     * @return The number of edges in the given distance.
+     */
+    public static double metersToEdges(double meters) {
+        return Robot.metersToCounts(meters) * 4;
+    }
 }
