@@ -310,5 +310,4 @@ public class Drivetrain extends PIDSubsystem {
     public static double rpsToNative(double rps) {
         return rps / 10 * (256 * 4);
     }
-
 }
