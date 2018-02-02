@@ -1,8 +1,10 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
@@ -40,6 +42,10 @@ public class Drivetrain extends PIDSubsystem {
      */
     private TalonSRX driveRightFollowTwo;
 
+    private Encoder encoderRight;
+    private Encoder encoderLeft;
+    private static final double DISTANCE_PER_PULSE = 1 / 256;
+
     private boolean teleop;
     public double pidTune;
 
@@ -48,6 +54,10 @@ public class Drivetrain extends PIDSubsystem {
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftMaster.setNeutralMode(NeutralMode.Brake);
+        this.driveLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        // this.driveLeftMaster.setSensorPhase(true);
+        this.driveLeftMaster.config_kP(0, 0.5, 10);
+        this.driveLeftMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10) * 4), 10);
 
         this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
         this.driveLeftFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_MASTER);
@@ -59,14 +69,26 @@ public class Drivetrain extends PIDSubsystem {
 
         this.driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightMaster.setNeutralMode(NeutralMode.Brake);
+        this.driveRightMaster.setInverted(true);
+        this.driveRightMaster.setSensorPhase(true);
+        this.driveRightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        this.driveRightMaster.config_kP(0, 0.5, 10);
+        this.driveRightMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10) * 4), 10);
 
         this.driveRightFollowOne = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
         this.driveRightFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowOne.setNeutralMode(NeutralMode.Brake);
+        this.driveRightFollowOne.setInverted(true);
 
         this.driveRightFollowTwo = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
         this.driveRightFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowTwo.setNeutralMode(NeutralMode.Brake);
+        this.driveRightFollowTwo.setInverted(true);
+
+        this.encoderLeft = new Encoder(RobotMap.ENCODER_LEFT_A, RobotMap.ENCODER_LEFT_B);
+        this.encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
+        this.encoderRight = new Encoder(RobotMap.ENCODER_RIGHT_A, RobotMap.ENCODER_RIGHT_B);
+        this.encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);
 
         teleop = false;
         // config pid loop
@@ -95,6 +117,13 @@ public class Drivetrain extends PIDSubsystem {
     public void TankDrive(double left, double right) {
         this.driveLeftMaster.set(ControlMode.PercentOutput, applyDeadband(left, 0.05));
         this.driveRightMaster.set(ControlMode.PercentOutput, applyDeadband(right, 0.05));
+    }
+
+    public void VelocityTank(double left, double right) {
+        System.out.println("Target: " + left + ", " + right);
+        System.out.println("Actual: " + this.driveLeftMaster.getSensorCollection().getQuadratureVelocity() + ", " + this.driveRightMaster.getSensorCollection().getQuadratureVelocity());
+        this.driveLeftMaster.set(ControlMode.Velocity, left);
+        this.driveRightMaster.set(ControlMode.Velocity, right);
     }
 
     /**
@@ -147,6 +176,65 @@ public class Drivetrain extends PIDSubsystem {
 
         driveLeftMaster.set(ControlMode.PercentOutput, limit(leftMotorOutput));
         driveRightMaster.set(ControlMode.PercentOutput, -limit(rightMotorOutput));
+    }
+
+    public int getCountsLeft() {
+        return encoderLeft.get();
+    }
+
+    public int getCountsLeft_Talon() {
+        return this.driveLeftMaster.getSensorCollection().getQuadraturePosition();
+    }
+
+    public int getCountsRight() {
+        return encoderRight.get();
+    }
+
+    public int getCountsRight_Talon() {
+        return this.driveRightMaster.getSensorCollection().getQuadraturePosition();
+    }
+
+    /**
+     * Returns the number of revolutions performed on the left wheel.
+     */
+    public double getDistanceLeft() {
+        return encoderLeft.getDistance();
+    }
+
+    public double getDistanceLeft_Talon() {
+        return this.driveLeftMaster.getSensorCollection().getQuadraturePosition() * (1 / 4) * (DISTANCE_PER_PULSE);
+    }
+
+    /**
+     * Returns the number of revolutions performed on the right wheel.
+     */
+    public double getDistanceRight() {
+        return encoderRight.getDistance();
+    }
+
+    public double getDistanceRight_Talon() {
+        return this.driveRightMaster.getSensorCollection().getQuadraturePosition() * (1 / 4) * (DISTANCE_PER_PULSE);
+    }
+
+    /**
+     * @return The left side velocity, in edges per 100ms (decisecond.)
+     */
+    public double getVelocityLeft() {
+        return this.driveLeftMaster.getSensorCollection().getQuadratureVelocity();
+    }
+
+    /**
+     * @return The right side velocity, in edges per 100ms (decisecond.)
+     */
+    public double getVelocityRight() {
+        return this.driveRightMaster.getSensorCollection().getQuadratureVelocity();
+    }
+
+    public void resetEncoders() {
+        encoderRight.reset();
+        encoderLeft.reset();
+        this.driveRightMaster.getSensorCollection().setQuadraturePosition(0, 0);
+        this.driveLeftMaster.getSensorCollection().setQuadraturePosition(0, 0);
     }
 
     /**
@@ -214,4 +302,13 @@ public class Drivetrain extends PIDSubsystem {
     public double getPidTune() {
         return pidTune;
     }
+
+    public static double nativeToRPS(double nat) {
+        return nat * 10 / (256 * 4);
+    }
+
+    public static double rpsToNative(double rps) {
+        return rps / 10 * (256 * 4);
+    }
+
 }
