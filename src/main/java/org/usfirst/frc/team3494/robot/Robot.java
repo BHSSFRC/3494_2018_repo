@@ -174,4 +174,12 @@ public class Robot extends IterativeRobot {
     public static double metersToEdges(double meters) {
         return Robot.metersToCounts(meters) * 4;
     }
+
+    public static double feetToCounts(double feet) {
+        return feet * RobotMap.COUNTS_PER_FOOT;
+    }
+
+    public static double feetToEdges(double feet) {
+        return Robot.feetToCounts(feet) * 4;
+    }
 }
