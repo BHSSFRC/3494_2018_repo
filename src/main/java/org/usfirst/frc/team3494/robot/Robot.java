@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.commands.auto.CubePursuit;
+import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.PathBuilder;
 import org.usfirst.frc.team3494.robot.commands.auto.ReflectivePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestOne;
@@ -81,7 +82,11 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Reflective chaser", new ReflectivePursuit());
         chooser.addObject("Cube chaser", new CubePursuit());
         chooser.addObject("Path tester", new PathTestOne());
-        System.out.println(chooser.getSelected());
+        Command[] centerToRight = new Command[]{
+                new PathTestOne(),
+                new ReflectivePursuit()
+        };
+        chooser.addObject("Center to right", new DynamicAutoCommand(centerToRight));
         SmartDashboard.putData("auto selection", chooser);
 
         camera_0 = CameraServer.getInstance().startAutomaticCapture("flaming bagpipes", 0);
