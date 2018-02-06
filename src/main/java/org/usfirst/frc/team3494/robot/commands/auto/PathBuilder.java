@@ -25,10 +25,6 @@ public class PathBuilder {
     private Trajectory centerToRightTraj;
     private TankModifier centerToRightMod;
 
-    public Trajectory[] getCenterToRight_FileTraj() {
-        return centerToRight_FileTraj;
-    }
-
     private Trajectory[] centerToRight_FileTraj;
 
     private void genCenterToLeft() {
@@ -101,5 +97,9 @@ public class PathBuilder {
             this.genCenterToRight();
         }
         return centerToRightMod;
+    }
+
+    public Trajectory[] getCenterToRight_FileTraj() {
+        return centerToRight_FileTraj;
     }
 }
