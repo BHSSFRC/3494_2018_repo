@@ -74,7 +74,7 @@ public class Robot extends IterativeRobot {
         oi = new OI();
         pathBuilder = new PathBuilder();
 
-        // pathBuilder.getCenterToRightTraj();
+        pathBuilder.getCenterToRightTraj();
         pathBuilder.getCenterToLeftTraj();
 
         chooser = new SendableChooser<>();

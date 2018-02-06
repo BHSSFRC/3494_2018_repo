@@ -44,9 +44,8 @@ public class PathBuilder {
     private void genCenterToRight() {
         System.out.println("Generating path, please wait...");
         Waypoint[] centerToRight = new Waypoint[]{
-                new Waypoint(0, 0, 0),
-                new Waypoint(0, 0.5, 0),
-                new Waypoint(0, 1, 0)
+                new Waypoint(0, 4.1148, 0),
+                new Waypoint(3.048, 2.7432, 0)
         };
         Trajectory.Config config = new Trajectory.Config(
                 Trajectory.FitMethod.HERMITE_CUBIC,
