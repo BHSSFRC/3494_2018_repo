@@ -15,6 +15,7 @@ import org.usfirst.frc.team3494.robot.commands.auto.PathBuilder;
 import org.usfirst.frc.team3494.robot.commands.auto.ReflectivePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestOne;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team3494.robot.subsystems.Lights;
 import org.usfirst.frc.team3494.robot.subsystems.Rollerclaw;
 import org.usfirst.frc.team3494.robot.util.Limelight;
 
@@ -55,6 +56,8 @@ public class Robot extends IterativeRobot {
 
     public static PathBuilder pathBuilder;
 
+    public static Lights lights;
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -66,6 +69,7 @@ public class Robot extends IterativeRobot {
 
         driveTrain = new Drivetrain();
         rollerClaw = new Rollerclaw();
+        lights = new Lights();
 
         oi = new OI();
         pathBuilder = new PathBuilder();
