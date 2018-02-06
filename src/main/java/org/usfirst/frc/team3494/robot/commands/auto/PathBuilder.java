@@ -6,6 +6,8 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3494.robot.RobotMap;
 
+import java.io.File;
+
 /**
  * Class for generating {@link jaci.pathfinder.Pathfinder Pathfinder} trajectories.
  * All distances are in meters. All angles are in radians
@@ -22,6 +24,12 @@ public class PathBuilder {
 
     private Trajectory centerToRightTraj;
     private TankModifier centerToRightMod;
+
+    public Trajectory[] getCenterToRight_FileTraj() {
+        return centerToRight_FileTraj;
+    }
+
+    private Trajectory[] centerToRight_FileTraj;
 
     private void genCenterToLeft() {
         System.out.println("Generating path, please wait...");
@@ -56,6 +64,15 @@ public class PathBuilder {
         centerToRightTraj = Pathfinder.generate(centerToRight, config);
         centerToRightMod = new TankModifier(centerToRightTraj).modify(WHEELBASE_WIDTH);
         System.out.println("Path generated!");
+    }
+
+    private void loadCenterToRight_CSV() {
+        System.out.println("Loading CSV file...");
+        File centerToR_File = new File("center_to_right_right.csv");
+        File centerToL_File = new File("center_to_right_left.csv");
+        Trajectory centerToRight_Right = Pathfinder.readFromCSV(centerToR_File);
+        Trajectory centerToRight_Left = Pathfinder.readFromCSV(centerToL_File);
+        centerToRight_FileTraj = new Trajectory[]{centerToRight_Left, centerToRight_Right};
     }
 
     public Trajectory getCenterToLeftTraj() {
