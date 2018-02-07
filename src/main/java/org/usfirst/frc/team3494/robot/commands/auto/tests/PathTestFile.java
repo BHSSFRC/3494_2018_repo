@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3494.robot.Robot;
 
 import java.io.File;
@@ -18,18 +17,13 @@ public class PathTestFile extends Command {
 
     public PathTestFile() {
         requires(Robot.driveTrain);
-        //leftTraj = Pathfinder.readFromCSV(new File("/home/lvuser/paths/center_to_right_left.csv"));
-        //rightTraj = Pathfinder.readFromCSV(new File("/home/lvuser/paths/center_to_right_right.csv"));
-        Trajectory center = Pathfinder.readFromCSV(new File("/home/lvuser/paths/centertoleft.csv"));
-        TankModifier mod = new TankModifier(center).modify(0.83D);
-        leftTraj = mod.getLeftTrajectory();
-        rightTraj = mod.getRightTrajectory();
+        leftTraj = Pathfinder.readFromCSV(new File("/home/lvuser/paths/center2right_left.csv"));
+        rightTraj = Pathfinder.readFromCSV(new File("/home/lvuser/paths/center2right_right.csv"));
     }
 
     @Override
     protected void initialize() {
         Robot.driveTrain.resetEncoders();
-
         startTime = Timer.getFPGATimestamp() * 1000.0;
     }
 
