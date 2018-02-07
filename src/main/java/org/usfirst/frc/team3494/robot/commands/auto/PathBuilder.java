@@ -64,16 +64,6 @@ public class PathBuilder {
         System.out.println("Path generated!");
     }
 
-    private void loadCenterToRight_CSV() {
-        System.out.println("Loading CSV file...");
-        File centerToR_File = new File("/home/lvuser/paths/center_to_right_right.csv");
-        System.out.println(centerToR_File.getAbsolutePath());
-        File centerToL_File = new File("/home/lvuser/paths/center_to_right_left.csv");
-        Trajectory centerToRight_Right = Pathfinder.readFromCSV(centerToR_File);
-        Trajectory centerToRight_Left = Pathfinder.readFromCSV(centerToL_File);
-        centerToRight_FileTraj = new Trajectory[]{centerToRight_Left, centerToRight_Right};
-    }
-
     public Trajectory getCenterToLeftTraj() {
         if (centerToLeftTraj == null) {
             this.genCenterToLeft();
@@ -100,12 +90,5 @@ public class PathBuilder {
             this.genCenterToRight();
         }
         return centerToRightMod;
-    }
-
-    public Trajectory[] getCenterToRight_FileTraj() {
-        if (centerToRight_FileTraj == null) {
-            loadCenterToRight_CSV();
-        }
-        return centerToRight_FileTraj;
     }
 }
