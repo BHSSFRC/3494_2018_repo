@@ -7,6 +7,8 @@ import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
 
+import java.io.File;
+
 /**
  * Class for generating {@link jaci.pathfinder.Pathfinder Pathfinder} trajectories.
  * All distances are in meters. All angles are in radians
@@ -23,6 +25,8 @@ public class PathBuilder {
 
     private Trajectory centerToRightTraj;
     private TankModifier centerToRightMod;
+
+    private Trajectory[] centerToRight_FileTraj;
 
     private void genCenterToLeft() {
         System.out.println("Generating path, please wait...");

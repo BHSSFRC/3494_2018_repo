@@ -14,6 +14,7 @@ import org.usfirst.frc.team3494.robot.commands.auto.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.PathBuilder;
 import org.usfirst.frc.team3494.robot.commands.auto.ReflectivePursuit;
+import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestFile;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestOne;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lights;
@@ -82,6 +83,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
         chooser.addObject("Cube chaser", new CubePursuit());
         chooser.addObject("Path tester", new PathTestOne());
+        chooser.addObject("File path tester", new PathTestFile());
         Command[] centerToRight = new Command[]{
                 new PathTestOne(),
                 new ReflectivePursuit(1)
@@ -182,5 +184,13 @@ public class Robot extends IterativeRobot {
 
     public static double feetToMeters(double feet) {
         return feet * 0.3048;
+    }
+
+    public static double feetToCounts(double feet) {
+        return feet * RobotMap.COUNTS_PER_FOOT;
+    }
+
+    public static double feetToEdges(double feet) {
+        return Robot.feetToCounts(feet) * 4;
     }
 }
