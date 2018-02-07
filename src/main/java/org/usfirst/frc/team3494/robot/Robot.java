@@ -147,7 +147,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-        limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
+        // limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
     }
 
     /**

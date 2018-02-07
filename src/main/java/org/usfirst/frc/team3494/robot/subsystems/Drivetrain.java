@@ -175,7 +175,7 @@ public class Drivetrain extends PIDSubsystem {
         }
 
         driveLeftMaster.set(ControlMode.PercentOutput, limit(leftMotorOutput));
-        driveRightMaster.set(ControlMode.PercentOutput, -limit(rightMotorOutput));
+        driveRightMaster.set(ControlMode.PercentOutput, limit(rightMotorOutput));
     }
 
     public int getCountsLeft() {
