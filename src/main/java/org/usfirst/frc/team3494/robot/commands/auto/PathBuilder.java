@@ -66,9 +66,9 @@ public class PathBuilder {
 
     private void loadCenterToRight_CSV() {
         System.out.println("Loading CSV file...");
-        File centerToR_File = new File("/home/lvuser", "center_to_right_right.csv");
+        File centerToR_File = new File("/home/lvuser/paths/center_to_right_right.csv");
         System.out.println(centerToR_File.getAbsolutePath());
-        File centerToL_File = new File("/home/lvuser", "center_to_right_left.csv");
+        File centerToL_File = new File("/home/lvuser/paths/center_to_right_left.csv");
         Trajectory centerToRight_Right = Pathfinder.readFromCSV(centerToR_File);
         Trajectory centerToRight_Left = Pathfinder.readFromCSV(centerToL_File);
         centerToRight_FileTraj = new Trajectory[]{centerToRight_Left, centerToRight_Right};
