@@ -13,8 +13,9 @@ import static org.usfirst.frc.team3494.robot.Robot.limelight;
 public class ReflectivePursuit extends Command {
     private double lastTX;
 
-    public ReflectivePursuit() {
+    public ReflectivePursuit(double Tx) {
         requires(Robot.driveTrain);
+        this.lastTX = Tx;
     }
 
     // Called just before this Command runs the first time
@@ -37,9 +38,9 @@ public class ReflectivePursuit extends Command {
         } else {
             try {
                 if (lastTX > 0) {
-                    Robot.driveTrain.TankDrive(.25, .25);
+                    Robot.driveTrain.TankDrive(.25, -.25);
                 } else if (lastTX < 0) {
-                    Robot.driveTrain.TankDrive(-.25, -.25);
+                    Robot.driveTrain.TankDrive(-.25, .25);
                 }
             } catch (NullPointerException e) {
                 Robot.driveTrain.TankDrive(0, 0);
