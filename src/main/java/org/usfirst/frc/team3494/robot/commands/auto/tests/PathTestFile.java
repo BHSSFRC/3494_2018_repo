@@ -8,7 +8,6 @@ import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3494.robot.Robot;
 
 import java.io.File;
-import java.nio.file.Path;
 
 public class PathTestFile extends Command {
     private Trajectory leftTraj;
