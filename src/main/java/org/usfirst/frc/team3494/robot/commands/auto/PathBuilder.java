@@ -4,6 +4,7 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
+import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
 
 /**
@@ -44,8 +45,10 @@ public class PathBuilder {
     private void genCenterToRight() {
         System.out.println("Generating path, please wait...");
         Waypoint[] centerToRight = new Waypoint[]{
-                new Waypoint(0, 4.1148, 0),
-                new Waypoint(3.048, 2.7432, 0)
+                new Waypoint(0, Robot.feetToMeters(13.5), 0),
+                new Waypoint(Robot.feetToMeters(2.5), Robot.feetToMeters(10), Pathfinder.d2r(90)),
+                new Waypoint(Robot.feetToMeters(5), Robot.feetToMeters(8.5), 0),
+                new Waypoint(Robot.feetToMeters(8), Robot.feetToMeters(8.5), 0)
         };
         Trajectory.Config config = new Trajectory.Config(
                 Trajectory.FitMethod.HERMITE_CUBIC,
