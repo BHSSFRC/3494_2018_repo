@@ -79,12 +79,12 @@ public class Robot extends IterativeRobot {
         pathBuilder.getCenterToLeftTraj();
 
         chooser = new SendableChooser<>();
-        chooser.addObject("Reflective chaser", new ReflectivePursuit());
+        chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
         chooser.addObject("Cube chaser", new CubePursuit());
         chooser.addObject("Path tester", new PathTestOne());
         Command[] centerToRight = new Command[]{
                 new PathTestOne(),
-                new ReflectivePursuit()
+                new ReflectivePursuit(1)
         };
         chooser.addObject("Center to right", new DynamicAutoCommand(centerToRight));
         SmartDashboard.putData("auto selection", chooser);
@@ -100,7 +100,7 @@ public class Robot extends IterativeRobot {
             autoCmd.start();
         } else {
             System.out.println("Defaulting to reflective pursuit");
-            autoCmd = new ReflectivePursuit();
+            autoCmd = new ReflectivePursuit(0);
             autoCmd.start();
         }
         camera_0.setExposureManual(20);
