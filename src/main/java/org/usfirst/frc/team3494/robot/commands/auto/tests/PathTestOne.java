@@ -22,7 +22,7 @@ public class PathTestOne extends Command {
     protected void initialize() {
         Robot.driveTrain.resetEncoders();
 
-        TankModifier modifier = Robot.pathBuilder.getCenterToLeftMod();
+        TankModifier modifier = Robot.pathBuilder.getCenterToRightMod();
 
         leftTraj = modifier.getLeftTrajectory();
         rightTraj = modifier.getRightTrajectory();

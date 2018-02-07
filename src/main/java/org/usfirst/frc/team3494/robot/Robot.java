@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.commands.auto.CubePursuit;
+import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.PathBuilder;
 import org.usfirst.frc.team3494.robot.commands.auto.ReflectivePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestFile;
@@ -75,15 +76,18 @@ public class Robot extends IterativeRobot {
         oi = new OI();
         pathBuilder = new PathBuilder();
 
-        // pathBuilder.getCenterToRightTraj();
+        pathBuilder.getCenterToRightTraj();
         pathBuilder.getCenterToLeftTraj();
 
         chooser = new SendableChooser<>();
-        chooser.addObject("Reflective chaser", new ReflectivePursuit());
+        chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
         chooser.addObject("Cube chaser", new CubePursuit());
         chooser.addObject("Path tester", new PathTestOne());
-        chooser.addObject("Path file tester", new PathTestFile());
-        System.out.println(chooser.getSelected());
+        Command[] centerToRight = new Command[]{
+                new PathTestOne(),
+                new ReflectivePursuit(1)
+        };
+        chooser.addObject("Center to right", new DynamicAutoCommand(centerToRight));
         SmartDashboard.putData("auto selection", chooser);
 
         camera_0 = CameraServer.getInstance().startAutomaticCapture("flaming bagpipes", 0);
@@ -97,7 +101,7 @@ public class Robot extends IterativeRobot {
             autoCmd.start();
         } else {
             System.out.println("Defaulting to reflective pursuit");
-            autoCmd = new ReflectivePursuit();
+            autoCmd = new ReflectivePursuit(0);
             autoCmd.start();
         }
         camera_0.setExposureManual(20);
@@ -144,7 +148,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-        limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
+        // limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
     }
 
     /**
@@ -177,11 +181,7 @@ public class Robot extends IterativeRobot {
         return Robot.metersToCounts(meters) * 4;
     }
 
-    public static double feetToCounts(double feet) {
-        return feet * RobotMap.COUNTS_PER_FOOT;
-    }
-
-    public static double feetToEdges(double feet) {
-        return Robot.feetToCounts(feet) * 4;
+    public static double feetToMeters(double feet) {
+        return feet * 0.3048;
     }
 }
