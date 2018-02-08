@@ -23,6 +23,13 @@ import java.util.HashMap;
 
 public class Robot extends IterativeRobot {
     private String fieldData;
+    /**
+     * A {@link HashMap} of CSV files for {@link ProfileFollower}.
+     * Keys are in the form of START+END where START and END are either {@code L} or {@code R},
+     * for left and right respectively. (i.e. if START and END are both L the key should be {@code LL}.)
+     * <p>
+     * Values are string lists representing the location of the appropriate CSV files in the RoboRIO's filesystem.
+     */
     private static HashMap<String, String[]> autoFiles;
     /**
      * Instance of {@link OI}. No subsystem should require this. However, you
@@ -219,8 +226,12 @@ public class Robot extends IterativeRobot {
         return Robot.feetToCounts(feet) * 4;
     }
 
+    /**
+     * Sets up {@link Robot#autoFiles} with the paths to the various CSV files.
+     */
     private static void initAutoFiles() {
         autoFiles = new HashMap<>();
+
         autoFiles.put("CL", new String[]{
                 "/home/lvuser/paths/center/center2left_left.csv",
                 "/home/lvuser/paths/center/center2left_right.csv"
@@ -228,6 +239,15 @@ public class Robot extends IterativeRobot {
         autoFiles.put("CR", new String[]{
                 "/home/lvuser/paths/center/center2right_left.csv",
                 "/home/lvuser/paths/center/center2right_right.csv"
+        });
+
+        autoFiles.put("LL", new String[]{
+                "/home/lvuser/paths/left/left2left_left.csv",
+                "/home/lvuser/paths/left/left2left_right.csv"
+        });
+        autoFiles.put("LR", new String[]{
+                "/home/lvuser/paths/left/left2right_left.csv",
+                "/home/lvuser/paths/left/left2right_right.csv"
         });
     }
 }
