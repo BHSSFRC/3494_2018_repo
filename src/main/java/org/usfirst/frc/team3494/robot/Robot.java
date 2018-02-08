@@ -10,10 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team3494.robot.commands.auto.CubePursuit;
-import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
-import org.usfirst.frc.team3494.robot.commands.auto.PathBuilder;
-import org.usfirst.frc.team3494.robot.commands.auto.ReflectivePursuit;
+import org.usfirst.frc.team3494.robot.commands.auto.*;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestFile;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestOne;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
@@ -21,9 +18,12 @@ import org.usfirst.frc.team3494.robot.subsystems.Lights;
 import org.usfirst.frc.team3494.robot.subsystems.Rollerclaw;
 import org.usfirst.frc.team3494.robot.util.Limelight;
 
+import java.util.HashMap;
+
 
 public class Robot extends IterativeRobot {
     private String fieldData;
+    private static HashMap<String, String[]> autoFiles;
     /**
      * Instance of {@link OI}. No subsystem should require this. However, you
      * can read button values from it.
@@ -67,6 +67,10 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void robotInit() {
+        Robot.initAutoFiles();
+
+        fieldData = DriverStation.getInstance().getGameSpecificMessage();
+
         ahrs = new AHRS(SPI.Port.kMXP);
         limelight = new Limelight();
 
@@ -90,8 +94,10 @@ public class Robot extends IterativeRobot {
                 new ReflectivePursuit(1)
         };
         chooser.addObject("Center to right", new DynamicAutoCommand(centerToRight));
+        chooser.addObject("Fully automated auto", null);
         SmartDashboard.putData("auto selection", chooser);
 
+        positionChooser = new SendableChooser<>();
         positionChooser.addObject("left", "L");
         positionChooser.addDefault("center", "C");
         positionChooser.addObject("right", "R");
@@ -107,8 +113,12 @@ public class Robot extends IterativeRobot {
         if (autoCmd != null) {
             autoCmd.start();
         } else {
-            System.out.println("Defaulting to reflective pursuit");
-            autoCmd = new ReflectivePursuit(0);
+            System.out.println("Defaulting to fully automatic auto");
+            // generate appropriate command
+            char switchSide = fieldData.charAt(0);
+            String selectedAuto = positionChooser.getSelected() + switchSide;
+            String[] autoFiles = Robot.autoFiles.get(selectedAuto);
+            autoCmd = new ProfileFollower(autoFiles[0], autoFiles[1]);
             autoCmd.start();
         }
         camera_0.setExposureManual(20);
@@ -158,6 +168,11 @@ public class Robot extends IterativeRobot {
         // limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
     }
 
+    @Override
+    public void disabledPeriodic() {
+        fieldData = DriverStation.getInstance().getGameSpecificMessage();
+    }
+
     /**
      * Convert a number of encoder counts to a distance in meters.
      *
@@ -198,5 +213,17 @@ public class Robot extends IterativeRobot {
 
     public static double feetToEdges(double feet) {
         return Robot.feetToCounts(feet) * 4;
+    }
+
+    private static void initAutoFiles() {
+        autoFiles = new HashMap<>();
+        autoFiles.put("CL", new String[]{
+                "/home/lvuser/paths/center2left_left.csv",
+                "/home/lvuser/paths/center2left_right.csv"
+        });
+        autoFiles.put("CR", new String[]{
+                "/home/lvuser/paths/center2right_left.csv",
+                "/home/lvuser/paths/center2right_right.csv"
+        });
     }
 }
