@@ -222,12 +222,12 @@ public class Robot extends IterativeRobot {
     private static void initAutoFiles() {
         autoFiles = new HashMap<>();
         autoFiles.put("CL", new String[]{
-                "/home/lvuser/paths/center2left_left.csv",
-                "/home/lvuser/paths/center2left_right.csv"
+                "/home/lvuser/paths/center/center2left_left.csv",
+                "/home/lvuser/paths/center/center2left_right.csv"
         });
         autoFiles.put("CR", new String[]{
-                "/home/lvuser/paths/center2right_left.csv",
-                "/home/lvuser/paths/center2right_right.csv"
+                "/home/lvuser/paths/center/center2right_left.csv",
+                "/home/lvuser/paths/center/center2right_right.csv"
         });
     }
 }
