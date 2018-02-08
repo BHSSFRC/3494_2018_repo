@@ -197,7 +197,7 @@ public class Drivetrain extends PIDSubsystem {
     /**
      * Returns the number of revolutions performed on the left wheel.
      *
-     * @return The number of revolutions performed on the left wheel, according to the PWM encoder.
+     * @return The number of revolutions performed on the left wheel, according to the DIO encoder.
      */
     public double getDistanceLeft() {
         return encoderLeft.getDistance();
@@ -210,7 +210,7 @@ public class Drivetrain extends PIDSubsystem {
     /**
      * Returns the number of revolutions performed on the right wheel.
      *
-     * @return The number of revolutions performed on the right wheel, according to the PWM encoder.
+     * @return The number of revolutions performed on the right wheel, according to the DIO encoder.
      */
     public double getDistanceRight() {
         return encoderRight.getDistance();
@@ -276,7 +276,7 @@ public class Drivetrain extends PIDSubsystem {
      * @return Zero if the value is in the deadband, or the value unchanged.
      * @author Worcester Polytechnic Institute
      */
-    protected double applyDeadband(double value, double deadband) {
+    private double applyDeadband(double value, double deadband) {
         if (Math.abs(value) > deadband) {
             if (value > 0.0) {
                 return (value - deadband) / (1.0 - deadband);
