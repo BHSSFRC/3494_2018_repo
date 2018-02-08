@@ -33,6 +33,7 @@ public class Robot extends IterativeRobot {
      * Auto chooser on the smart DS
      */
     SendableChooser<Command> chooser;
+    SendableChooser<String> positionChooser;
     /**
      * Chosen command
      */
@@ -90,6 +91,11 @@ public class Robot extends IterativeRobot {
         };
         chooser.addObject("Center to right", new DynamicAutoCommand(centerToRight));
         SmartDashboard.putData("auto selection", chooser);
+
+        positionChooser.addObject("left", "L");
+        positionChooser.addDefault("center", "C");
+        positionChooser.addObject("right", "R");
+        SmartDashboard.putData("Position chooser", positionChooser);
 
         camera_0 = CameraServer.getInstance().startAutomaticCapture("flaming bagpipes", 0);
     }
