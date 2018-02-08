@@ -118,7 +118,11 @@ public class Robot extends IterativeRobot {
             char switchSide = fieldData.charAt(0);
             String selectedAuto = positionChooser.getSelected() + switchSide;
             String[] autoFiles = Robot.autoFiles.get(selectedAuto);
-            autoCmd = new ProfileFollower(autoFiles[0], autoFiles[1]);
+            Command[] cmdList = new Command[]{
+                    new ProfileFollower(autoFiles[0], autoFiles[1]),
+                    new ReflectivePursuit(0)
+            };
+            autoCmd = new DynamicAutoCommand(cmdList);
             autoCmd.start();
         }
         camera_0.setExposureManual(20);
