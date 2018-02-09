@@ -17,8 +17,8 @@ public class PathTestFile extends Command {
 
     public PathTestFile() {
         requires(Robot.driveTrain);
-        leftTraj = Pathfinder.readFromCSV(new File("/home/lvuser/paths/center2right_left.csv"));
-        rightTraj = Pathfinder.readFromCSV(new File("/home/lvuser/paths/center2right_right.csv"));
+        leftTraj = Pathfinder.readFromCSV(new File("/home/lvuser/paths/center/center2right_left.csv"));
+        rightTraj = Pathfinder.readFromCSV(new File("/home/lvuser/paths/center/center2right_right.csv"));
     }
 
     @Override
