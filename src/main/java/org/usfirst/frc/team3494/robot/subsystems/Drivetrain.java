@@ -51,12 +51,13 @@ public class Drivetrain extends PIDSubsystem {
 
     public Drivetrain() {
         super("Drivetrain", 0.025, 0, 0);
+        double talon_P = 1.6;
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftMaster.setNeutralMode(NeutralMode.Brake);
         this.driveLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         // this.driveLeftMaster.setSensorPhase(true);
-        this.driveLeftMaster.config_kP(0, 0.5, 10);
+        this.driveLeftMaster.config_kP(0, talon_P, 10);
         this.driveLeftMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10) * 4), 10);
 
         this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
@@ -72,7 +73,7 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightMaster.setInverted(true);
         this.driveRightMaster.setSensorPhase(true);
         this.driveRightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        this.driveRightMaster.config_kP(0, 0.5, 10);
+        this.driveRightMaster.config_kP(0, talon_P, 10);
         this.driveRightMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10) * 4), 10);
 
         this.driveRightFollowOne = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
