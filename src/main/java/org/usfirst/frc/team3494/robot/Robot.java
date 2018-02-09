@@ -53,7 +53,6 @@ public class Robot extends IterativeRobot {
      * The Limelight vision system camera.
      */
     public static Limelight limelight;
-    UsbCamera camera_0;
 
     /**
      * Instance of {@link Drivetrain}.
@@ -109,8 +108,6 @@ public class Robot extends IterativeRobot {
         positionChooser.addDefault("center", "C");
         positionChooser.addObject("right", "R");
         SmartDashboard.putData("Position chooser", positionChooser);
-
-        camera_0 = CameraServer.getInstance().startAutomaticCapture("flaming bagpipes", 0);
     }
 
     @Override
@@ -132,7 +129,6 @@ public class Robot extends IterativeRobot {
             autoCmd = new DynamicAutoCommand(cmdList);
             autoCmd.start();
         }
-        camera_0.setExposureManual(20);
     }
 
     @Override
