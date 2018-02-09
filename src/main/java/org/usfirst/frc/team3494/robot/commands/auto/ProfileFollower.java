@@ -32,11 +32,11 @@ public class ProfileFollower extends Command {
     protected void execute() {
         index = ((int) Math.floor(((Timer.getFPGATimestamp() * 1000.0) - startTime) / 50));
 
-        double leftVelo = left.segments[index].velocity;
-        double rightVelo = right.segments[index].velocity;
+        double leftVelo = Robot.feetToMeters(left.segments[index].velocity);
+        double rightVelo = Robot.feetToMeters(right.segments[index].velocity);
         Robot.driveTrain.VelocityTank(
-                (Robot.feetToEdges(leftVelo)) / 10,
-                (Robot.feetToEdges(rightVelo)) / 10);
+                (Robot.metersToEdges(leftVelo)) / 10,
+                (Robot.metersToEdges(rightVelo)) / 10);
     }
 
     @Override
