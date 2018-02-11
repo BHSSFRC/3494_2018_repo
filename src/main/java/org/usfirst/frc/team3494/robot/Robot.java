@@ -1,8 +1,6 @@
 package org.usfirst.frc.team3494.robot;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
@@ -148,7 +146,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityRight()));
 
         SmartDashboard.putNumber("Angle (radians)", Pathfinder.d2r(Robot.ahrs.getAngle()));
-        SmartDashboard.putNumber("two x over a", 200/(Pathfinder.d2r(Robot.ahrs.getAngle())));
+        SmartDashboard.putNumber("two x over a", 200 / (Pathfinder.d2r(Robot.ahrs.getAngle())));
     }
 
     @Override
