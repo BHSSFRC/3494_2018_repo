@@ -16,7 +16,7 @@ public class PathBuilder {
     /**
      * The distance between the sides of the {@link org.usfirst.frc.team3494.robot.subsystems.Drivetrain drivetrain}.
      */
-    private static final double WHEELBASE_WIDTH = 0.83D;
+    private static final double WHEELBASE_WIDTH = 0.6096D;
 
     private Trajectory centerToLeftTraj;
     private TankModifier centerToLeftMod;
