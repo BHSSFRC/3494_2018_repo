@@ -249,5 +249,14 @@ public class Robot extends IterativeRobot {
                 "/home/lvuser/paths/left/left2right_left.csv",
                 "/home/lvuser/paths/left/left2right_right.csv"
         });
+
+        autoFiles.put("RL", new String[]{
+                "/home/lvuser/paths/right/right2left_left.csv",
+                "/home/lvuser/paths/right/right2left_right.csv"
+        });
+        autoFiles.put("RR", new String[]{
+                "/home/lvuser/paths/right/right2right_left.csv",
+                "/home/lvuser/paths/right/right2right_right.csv"
+        });
     }
 }
