@@ -1,8 +1,6 @@
 package org.usfirst.frc.team3494.robot;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
@@ -10,9 +8,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Pathfinder;
 import org.usfirst.frc.team3494.robot.commands.auto.*;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestFile;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestOne;
+import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lights;
 import org.usfirst.frc.team3494.robot.subsystems.Rollerclaw;
@@ -101,6 +101,7 @@ public class Robot extends IterativeRobot {
         };
         chooser.addObject("Center to right", new DynamicAutoCommand(centerToRight));
         chooser.addObject("Fully automated auto", null);
+        chooser.addObject("2x over a", new QuickDirtyDrive());
         SmartDashboard.putData("auto selection", chooser);
 
         positionChooser = new SendableChooser<>();
@@ -143,6 +144,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()));
         SmartDashboard.putNumber("Left speed wheel revs per sec", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()) * 3 / 11.9);
         SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityRight()));
+
+        SmartDashboard.putNumber("Angle (radians)", Pathfinder.d2r(Robot.ahrs.getAngle()));
+        SmartDashboard.putNumber("two x over a", 200 / (Pathfinder.d2r(Robot.ahrs.getAngle())));
     }
 
     @Override

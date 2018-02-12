@@ -315,4 +315,9 @@ public class Drivetrain extends PIDSubsystem {
     public static double rpsToNative(double rps) {
         return rps / 10 * (256 * 4);
     }
+
+    public void PosDrive(double left, double right) {
+        this.driveRightMaster.set(ControlMode.Position, right);
+        this.driveLeftMaster.set(ControlMode.Position, left);
+    }
 }
