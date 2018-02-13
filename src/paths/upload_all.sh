@@ -1,4 +1,4 @@
-echo "Pinging target..."
+echo "Pinging target ($1)..."
 ping -c 4 $1 -q
 echo "Uploading center csv files to $1"
 scp -r ./center lvuser@$1:/home/lvuser/paths

@@ -43,3 +43,7 @@ jar {
 task wrapper(type: Wrapper) {
     gradleVersion = '4.5'
 }
+
+task postDeployHook(type: Exec) {
+    commandLine 'sh', './src/paths/upload_all.sh', '10.34.94.2'
+}
