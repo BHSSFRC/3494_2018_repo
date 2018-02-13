@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3494.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
@@ -74,6 +75,8 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
         Robot.initAutoFiles();
+
+        new Compressor().start();
 
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
 
