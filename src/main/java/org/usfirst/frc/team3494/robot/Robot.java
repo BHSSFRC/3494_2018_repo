@@ -14,10 +14,7 @@ import org.usfirst.frc.team3494.robot.commands.auto.*;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestFile;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestOne;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
-import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team3494.robot.subsystems.Lights;
-import org.usfirst.frc.team3494.robot.subsystems.Ramps;
-import org.usfirst.frc.team3494.robot.subsystems.Rollerclaw;
+import org.usfirst.frc.team3494.robot.subsystems.*;
 import org.usfirst.frc.team3494.robot.util.Limelight;
 
 import java.util.HashMap;
@@ -71,6 +68,8 @@ public class Robot extends IterativeRobot {
 
     public static Ramps ramps;
 
+    public static Lift lift;
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -90,6 +89,7 @@ public class Robot extends IterativeRobot {
         rollerClaw = new Rollerclaw();
         lights = new Lights();
         ramps = new Ramps();
+        lift = new Lift();
 
         oi = new OI();
         pathBuilder = new PathBuilder();
