@@ -2,6 +2,7 @@ package org.usfirst.frc.team3494.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.usfirst.frc.team3494.robot.commands.ExtendRamps;
 import org.usfirst.frc.team3494.robot.commands.IncrementLights;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.Roll;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.StopRoll;
@@ -52,6 +53,9 @@ public class OI {
 
         JoystickButton leftThumb = new JoystickButton(joyLeft, 2);
         leftThumb.whenPressed(new IncrementLights());
+
+        JoystickButton rightTop = new JoystickButton(joyRight, 2);
+        rightTop.whenPressed(new ExtendRamps());
     }
 
     public Joystick getJoyLeft() {
