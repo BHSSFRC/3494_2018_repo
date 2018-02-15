@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3494.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team3494.robot.commands.ExtendRamps;
 import org.usfirst.frc.team3494.robot.commands.IncrementLights;
@@ -23,6 +24,8 @@ public class OI {
     Joystick joyLeft = new Joystick(RobotMap.JOYSTICK_LEFT);
     Joystick joyRight = new Joystick(RobotMap.JOYSTICK_RIGHT);
 
+    XboxController xbox = new XboxController(RobotMap.XBOX_CONTROLLER);
+
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
     // commands the same as any other Button.
@@ -43,19 +46,19 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
     public OI() {
-        JoystickButton leftTrigger = new JoystickButton(joyLeft, 1);
-        leftTrigger.whenPressed(new Roll(true));
-        leftTrigger.whenReleased(new StopRoll());
-
-        JoystickButton rightTrigger = new JoystickButton(joyRight, 1);
-        rightTrigger.whenPressed(new Roll(false));
-        rightTrigger.whenReleased(new StopRoll());
-
         JoystickButton leftThumb = new JoystickButton(joyLeft, 2);
         leftThumb.whenPressed(new IncrementLights());
 
         JoystickButton rightTop = new JoystickButton(joyRight, 2);
         rightTop.whenPressed(new ExtendRamps());
+
+        JoystickButton xbox_x = new JoystickButton(xbox, 3);
+        xbox_x.whenPressed(new Roll(true));
+        xbox_x.whenReleased(new StopRoll());
+
+        JoystickButton xbox_b = new JoystickButton(xbox, 2);
+        xbox_b.whenPressed(new Roll(false));
+        xbox_b.whenReleased(new StopRoll());
     }
 
     public Joystick getJoyLeft() {
