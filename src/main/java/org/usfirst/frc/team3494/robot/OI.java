@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team3494.robot.commands.ExtendRamps;
 import org.usfirst.frc.team3494.robot.commands.IncrementLights;
+import org.usfirst.frc.team3494.robot.commands.lift.RunLift;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.Roll;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.StopRoll;
 
@@ -59,6 +60,13 @@ public class OI {
         JoystickButton xbox_b = new JoystickButton(xbox, 2);
         xbox_b.whenPressed(new Roll(false));
         xbox_b.whenReleased(new StopRoll());
+
+        JoystickButton xbox_lb = new JoystickButton(xbox, 5);
+        JoystickButton xbox_rb = new JoystickButton(xbox, 6);
+        xbox_lb.whenPressed(new RunLift(-.2));
+        xbox_lb.whenReleased(new RunLift(0));
+        xbox_rb.whenPressed(new RunLift(.2));
+        xbox_rb.whenReleased(new RunLift(0));
     }
 
     public Joystick getJoyLeft() {
