@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.Robot;
 
 public class RunLift extends Command {
-    double speed;
+    private double speed;
 
     public RunLift(double speed) {
         this.speed = speed;
