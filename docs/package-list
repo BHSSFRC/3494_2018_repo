@@ -1,0 +1,10 @@
+org.usfirst.frc.team3494.robot
+org.usfirst.frc.team3494.robot.commands
+org.usfirst.frc.team3494.robot.commands.auto
+org.usfirst.frc.team3494.robot.commands.auto.tests
+org.usfirst.frc.team3494.robot.commands.drive
+org.usfirst.frc.team3494.robot.commands.lift
+org.usfirst.frc.team3494.robot.commands.rollerclaw
+org.usfirst.frc.team3494.robot.sensors
+org.usfirst.frc.team3494.robot.subsystems
+org.usfirst.frc.team3494.robot.util
