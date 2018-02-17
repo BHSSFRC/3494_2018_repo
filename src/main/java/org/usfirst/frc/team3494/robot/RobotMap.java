@@ -24,8 +24,6 @@ public class RobotMap {
     public static final int DRIVE_LEFT_FOLLOW_ONE = 14;
     public static final int DRIVE_LEFT_FOLLOW_TWO = 15;
 
-    public static final double DRIVE_TOLERANCE = 0.01;
-
     public static final double PATH_MAX_SPEED = 4.572;
 
     public static final int ENCODER_LEFT_A = 9;
