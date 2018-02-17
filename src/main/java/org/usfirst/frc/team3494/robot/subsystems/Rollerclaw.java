@@ -2,7 +2,7 @@ package org.usfirst.frc.team3494.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3494.robot.RobotMap;
 
@@ -13,13 +13,13 @@ public class Rollerclaw extends Subsystem {
 
     private VictorSPX rollerLeft;
     private VictorSPX rollerRight;
-    private DoubleSolenoid rollerPist;
+    private Solenoid rollerPist;
 
     public Rollerclaw() {
         super("Rollerclaw");
         rollerLeft = new VictorSPX(RobotMap.ROLLER_LEFT);
         rollerRight = new VictorSPX(RobotMap.ROLLER_RIGHT);
-        this.rollerPist = new DoubleSolenoid(RobotMap.ROLLER_PISTON_FORWARD, RobotMap.ROLLER_PISTON_REVERSE);
+        this.rollerPist = new Solenoid(RobotMap.ROLLER_PISTON_FORWARD);
     }
 
     @Override
@@ -51,12 +51,11 @@ public class Rollerclaw extends Subsystem {
     }
 
     /**
-     * Sets the piston on the claw (opening for for {@link edu.wpi.first.wpilibj.DoubleSolenoid.Value#kReverse kReverse}
-     * and closing for {@link edu.wpi.first.wpilibj.DoubleSolenoid.Value#kForward kForward}.
+     * Sets the piston on the claw (opening for for {@code false} and closing for {@code true}.)
      *
      * @param v The state to set the claw to.
      */
-    public void setRollerPist(DoubleSolenoid.Value v) {
+    public void setRollerPist(boolean v) {
         this.rollerPist.set(v);
     }
 }

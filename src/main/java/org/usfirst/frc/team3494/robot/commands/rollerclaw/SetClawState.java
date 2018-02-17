@@ -1,13 +1,12 @@
 package org.usfirst.frc.team3494.robot.commands.rollerclaw;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.Robot;
 
 public class SetClawState extends Command {
-    DoubleSolenoid.Value value;
+    private boolean value;
 
-    public SetClawState(DoubleSolenoid.Value v) {
+    public SetClawState(boolean v) {
         this.value = v;
         requires(Robot.rollerClaw);
     }
