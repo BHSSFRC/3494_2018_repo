@@ -11,7 +11,7 @@ import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.drive.Drive;
 
 /**
- * The drivetrain subsystem. Contains methods for controlling the robot drivetrain.
+ * The drive train subsystem. Contains methods for controlling the robot's drive train.
  * Also includes PID angle control via the
  * {@link com.kauailabs.navx.frc.AHRS AHRS} mounted to the RoboRIO and {@link PIDSubsystem}.
  */
@@ -107,19 +107,26 @@ public class Drivetrain extends PIDSubsystem {
     }
 
     /**
-     * Drives the driveTrain tank drive style. The driveTrain will continue to
+     * Drives the drive train tank drive style. The driveTrain will continue to
      * run until stopped with a method like {@link Drivetrain#StopDrive()}.
      *
      * @param left  The power to drive the left side. Should be a {@code double}
-     *              between 0 and 1.
+     *              between -1 and 1.
      * @param right The power to drive the right side. Should be a {@code double}
-     *              between 0 and 1.
+     *              between -1 and 1.
      */
     public void TankDrive(double left, double right) {
         this.driveLeftMaster.set(ControlMode.PercentOutput, applyDeadband(left, 0.05));
         this.driveRightMaster.set(ControlMode.PercentOutput, applyDeadband(right, 0.05));
     }
 
+    /**
+     * Drives the drive train tank drive style, in velocity mode (encoder edges / decisecond.) The drive train will
+     * continue to run until stopped with a method like {@link Drivetrain#StopDrive()}.
+     *
+     * @param left  The speed to drive the left side to.
+     * @param right The speed to drive the right side to.
+     */
     public void VelocityTank(double left, double right) {
         System.out.println("Target: " + left + ", " + right);
         System.out.println("Actual: " + this.driveLeftMaster.getSensorCollection().getQuadratureVelocity() + ", " + this.driveRightMaster.getSensorCollection().getQuadratureVelocity());

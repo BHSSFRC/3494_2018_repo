@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3494.robot.RobotMap;
 
+/**
+ * The roller claw subsystem. Contains methods for controlling the robot's roller claw.
+ */
 public class Rollerclaw extends Subsystem {
 
     private TalonSRX rollerLeft;
@@ -23,21 +26,36 @@ public class Rollerclaw extends Subsystem {
     protected void initDefaultCommand() {
     }
 
-    public void Rollerin() {
+    /**
+     * Runs the rollers inwards.
+     */
+    public void rollIn() {
         rollerLeft.set(ControlMode.PercentOutput, .75);
         rollerRight.set(ControlMode.PercentOutput, .75);
     }
 
-    public void Rollerstop() {
+    /**
+     * Stops the rollers.
+     */
+    public void rollStop() {
         rollerLeft.set(ControlMode.PercentOutput, 0);
         rollerRight.set(ControlMode.PercentOutput, 0);
     }
 
-    public void Rollerout() {
+    /**
+     * Runs the rollers outwards.
+     */
+    public void rollOut() {
         rollerLeft.set(ControlMode.PercentOutput, -.75);
         rollerRight.set(ControlMode.PercentOutput, -.75);
     }
 
+    /**
+     * Sets the piston on the claw (opening for for {@link edu.wpi.first.wpilibj.DoubleSolenoid.Value#kReverse kReverse}
+     * and closing for {@link edu.wpi.first.wpilibj.DoubleSolenoid.Value#kForward kForward}.
+     *
+     * @param v The state to set the claw to.
+     */
     public void setRollerPist(DoubleSolenoid.Value v) {
         this.rollerPist.set(v);
     }

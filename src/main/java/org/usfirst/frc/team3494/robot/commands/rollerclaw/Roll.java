@@ -15,9 +15,9 @@ public class Roll extends Command {
     @Override
     protected void execute() {
         if (in) {
-            Robot.rollerClaw.Rollerin();
+            Robot.rollerClaw.rollIn();
         } else {
-            Robot.rollerClaw.Rollerout();
+            Robot.rollerClaw.rollOut();
         }
     }
 
