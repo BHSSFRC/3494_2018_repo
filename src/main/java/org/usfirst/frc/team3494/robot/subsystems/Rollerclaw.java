@@ -19,6 +19,7 @@ public class Rollerclaw extends Subsystem {
         super("Rollerclaw");
         rollerLeft = new VictorSPX(RobotMap.ROLLER_LEFT);
         rollerRight = new VictorSPX(RobotMap.ROLLER_RIGHT);
+        rollerRight.setInverted(true);
         this.rollerPist = new Solenoid(RobotMap.ROLLER_PISTON_FORWARD);
     }
 
