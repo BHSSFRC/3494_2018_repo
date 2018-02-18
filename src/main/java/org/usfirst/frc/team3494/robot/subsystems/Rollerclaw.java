@@ -47,8 +47,8 @@ public class Rollerclaw extends Subsystem {
      * Runs the rollers outwards.
      */
     public void rollOut() {
-        rollerLeft.set(ControlMode.PercentOutput, -.75);
-        rollerRight.set(ControlMode.PercentOutput, -.75);
+        rollerLeft.set(ControlMode.PercentOutput, -.5);
+        rollerRight.set(ControlMode.PercentOutput, -.5);
     }
 
     /**
