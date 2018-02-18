@@ -66,7 +66,7 @@ public class OI {
         xbox_y.whenPressed(new InvertClawState());
 
         JoystickButton xbox_lb = new JoystickButton(xbox, 5);
-        xbox_lb.whenPressed(new RunLift(-0.50));
+        xbox_lb.whenPressed(new RunLift(-0.25));
         xbox_lb.whenReleased(new RunLift(0));
 
         JoystickButton xbox_rb = new JoystickButton(xbox, 6);
