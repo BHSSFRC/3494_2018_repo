@@ -30,7 +30,7 @@ public class Rollerclaw extends Subsystem {
      * Runs the rollers inwards.
      */
     public void rollIn() {
-        rollerLeft.set(ControlMode.PercentOutput, .75);
+        //rollerLeft.set(ControlMode.PercentOutput, .75); // this is dumb
         rollerRight.set(ControlMode.PercentOutput, .75);
     }
 
@@ -51,11 +51,30 @@ public class Rollerclaw extends Subsystem {
     }
 
     /**
-     * Sets the piston on the claw (opening for for {@code false} and closing for {@code true}.)
+     * Run the roller claw at {@code power}.
+     *
+     * @param power The power to run the roller claw at.
+     */
+    public void customRoll(double power) {
+        rollerLeft.set(ControlMode.PercentOutput, power);
+        rollerRight.set(ControlMode.PercentOutput, power);
+    }
+
+    /**
+     * Sets the piston on the claw (opening for {@code false} and closing for {@code true}.)
      *
      * @param v The state to set the claw to.
      */
     public void setRollerPist(boolean v) {
         this.rollerPist.set(v);
+    }
+
+    /**
+     * Get the state of the piston on the claw.
+     *
+     * @return {@code false} for open and {@code true} for closed.
+     */
+    public boolean getRollerPist() {
+        return this.rollerPist.get();
     }
 }
