@@ -3,9 +3,10 @@ package org.usfirst.frc.team3494.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import org.usfirst.frc.team3494.robot.commands.ExtendRamps;
 import org.usfirst.frc.team3494.robot.commands.IncrementLights;
 import org.usfirst.frc.team3494.robot.commands.lift.RunLift;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.HoldRollers;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.InvertClawState;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.Roll;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.StopRoll;
 
@@ -50,22 +51,26 @@ public class OI {
         JoystickButton leftThumb = new JoystickButton(joyLeft, 2);
         leftThumb.whenPressed(new IncrementLights());
 
-        JoystickButton rightTop = new JoystickButton(joyRight, 2);
-        rightTop.whenPressed(new ExtendRamps());
-
-        JoystickButton xbox_x = new JoystickButton(xbox, 3);
-        xbox_x.whenPressed(new Roll(true));
-        xbox_x.whenReleased(new StopRoll());
+        JoystickButton xbox_a = new JoystickButton(xbox, 1);
+        xbox_a.whenPressed(new HoldRollers());
 
         JoystickButton xbox_b = new JoystickButton(xbox, 2);
         xbox_b.whenPressed(new Roll(false));
         xbox_b.whenReleased(new StopRoll());
 
+        JoystickButton xbox_x = new JoystickButton(xbox, 3);
+        xbox_x.whenPressed(new Roll(true));
+        xbox_x.whenReleased(new StopRoll());
+
+        JoystickButton xbox_y = new JoystickButton(xbox, 4);
+        xbox_y.whenPressed(new InvertClawState());
+
         JoystickButton xbox_lb = new JoystickButton(xbox, 5);
-        JoystickButton xbox_rb = new JoystickButton(xbox, 6);
-        xbox_lb.whenPressed(new RunLift(-.75));
+        xbox_lb.whenPressed(new RunLift(-0.50));
         xbox_lb.whenReleased(new RunLift(0));
-        xbox_rb.whenPressed(new RunLift(.75));
+
+        JoystickButton xbox_rb = new JoystickButton(xbox, 6);
+        xbox_rb.whenPressed(new RunLift(0.75));
         xbox_rb.whenReleased(new RunLift(0));
     }
 
