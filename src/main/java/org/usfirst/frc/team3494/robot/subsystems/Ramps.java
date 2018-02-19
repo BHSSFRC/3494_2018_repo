@@ -20,7 +20,9 @@ public class Ramps extends Subsystem {
     public Ramps() {
         super("Ramps");
         this.leftRamp = new DoubleSolenoid(RobotMap.LEFT_RAMP_FORWARD, RobotMap.LEFT_RAMP_REVERSE);
+        this.leftRamp.set(DoubleSolenoid.Value.kReverse);
         this.rightRamp = new DoubleSolenoid(RobotMap.RIGHT_RAMP_FORWARD, RobotMap.RIGHT_RAMP_REVERSE);
+        this.rightRamp.set(DoubleSolenoid.Value.kReverse);
     }
 
     @Override
