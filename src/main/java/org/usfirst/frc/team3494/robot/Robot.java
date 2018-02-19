@@ -7,13 +7,13 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
-import org.usfirst.frc.team3494.robot.commands.auto.vision.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.ProfileFollower;
-import org.usfirst.frc.team3494.robot.commands.auto.vision.ReflectivePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
+import org.usfirst.frc.team3494.robot.commands.auto.vision.CubePursuit;
+import org.usfirst.frc.team3494.robot.commands.auto.vision.ReflectivePursuit;
+import org.usfirst.frc.team3494.robot.sensors.Limelight;
 import org.usfirst.frc.team3494.robot.subsystems.*;
-import org.usfirst.frc.team3494.robot.util.Limelight;
 
 import java.util.HashMap;
 

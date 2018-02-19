@@ -3,7 +3,7 @@ package org.usfirst.frc.team3494.robot.commands.auto.vision;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.Robot;
-import org.usfirst.frc.team3494.robot.util.Limelight;
+import org.usfirst.frc.team3494.robot.sensors.Limelight;
 
 import static org.usfirst.frc.team3494.robot.Robot.limelight;
 

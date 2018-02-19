@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3494.robot.util;
+package org.usfirst.frc.team3494.robot.sensors;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
