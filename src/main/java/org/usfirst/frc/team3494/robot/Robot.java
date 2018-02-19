@@ -36,14 +36,17 @@ public class Robot extends IterativeRobot {
      */
     public static OI oi;
     /**
-     * Auto chooser on the smart DS
+     * Auto chooser on the {@link SmartDashboard}.
      */
-    SendableChooser<Command> chooser;
-    SendableChooser<String> positionChooser;
+    private SendableChooser<Command> chooser;
     /**
-     * Chosen command
+     * Chooser for robot position (left, right, center.)
      */
-    Command autoCmd;
+    private SendableChooser<String> positionChooser;
+    /**
+     * Chosen command for auto.
+     */
+    private Command autoCmd;
     /**
      * The gyro board on the RoboRIO.
      */
@@ -52,7 +55,7 @@ public class Robot extends IterativeRobot {
      * The Limelight vision system camera.
      */
     public static Limelight limelight;
-
+    public static PathBuilder pathBuilder;
     /**
      * Instance of {@link Drivetrain}.
      */
@@ -61,13 +64,17 @@ public class Robot extends IterativeRobot {
      * Instance of {@link Rollerclaw}.
      */
     public static Rollerclaw rollerClaw;
-
-    public static PathBuilder pathBuilder;
-
+    /**
+     * Instance of {@link Lights}.
+     */
     public static Lights lights;
-
+    /**
+     * Instance of {@link Ramps}.
+     */
     public static Ramps ramps;
-
+    /**
+     * Instance of {@link Lift}.
+     */
     public static Lift lift;
 
     /**
