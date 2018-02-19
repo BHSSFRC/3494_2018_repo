@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
@@ -182,6 +181,10 @@ public class Drivetrain extends PIDSubsystem {
 
         driveLeftMaster.set(ControlMode.PercentOutput, limit(leftMotorOutput));
         driveRightMaster.set(ControlMode.PercentOutput, limit(rightMotorOutput));
+    }
+
+    public double getSonicDistance() {
+        return this.uSonic.getDistance();
     }
 
     public int getCountsLeft_Talon() {
