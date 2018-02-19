@@ -3,6 +3,7 @@ package org.usfirst.frc.team3494.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3494.robot.RobotMap;
 
@@ -14,9 +15,12 @@ public class Lift extends Subsystem {
      * The single motor that runs the lift up and down.
      */
     private TalonSRX liftMotor;
+    private Encoder liftEncoder;
 
     public Lift() {
         liftMotor = new TalonSRX(RobotMap.LIFT_MOTOR);
+        liftEncoder = new Encoder(8, 9);
+        liftEncoder.setDistancePerPulse(1 / 256);
         liftMotor.setNeutralMode(NeutralMode.Brake);
     }
 
@@ -32,6 +36,9 @@ public class Lift extends Subsystem {
      */
     public void lift(double power) {
         liftMotor.set(ControlMode.PercentOutput, power);
+    }
+    public double getHeight() {
+        return liftEncoder.getDistance();
     }
 }
 
