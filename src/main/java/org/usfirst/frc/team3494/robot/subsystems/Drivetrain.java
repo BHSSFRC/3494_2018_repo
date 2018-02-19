@@ -45,8 +45,6 @@ public class Drivetrain extends PIDSubsystem {
 
     private HRLVUltrasonicSensor uSonic;
 
-    private Encoder encoderRight;
-    private Encoder encoderLeft;
     private static final double DISTANCE_PER_PULSE = 1 / 256;
 
     private boolean teleop;
@@ -90,11 +88,6 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightFollowTwo.setInverted(true);
 
         this.uSonic = new HRLVUltrasonicSensor(RobotMap.USONIC_PIN);
-
-        this.encoderLeft = new Encoder(RobotMap.ENCODER_LEFT_A, RobotMap.ENCODER_LEFT_B);
-        this.encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
-        this.encoderRight = new Encoder(RobotMap.ENCODER_RIGHT_A, RobotMap.ENCODER_RIGHT_B);
-        this.encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);
 
         teleop = false;
         // config pid loop
@@ -222,8 +215,6 @@ public class Drivetrain extends PIDSubsystem {
     }
 
     public void resetEncoders() {
-        encoderRight.reset();
-        encoderLeft.reset();
         this.driveRightMaster.getSensorCollection().setQuadraturePosition(0, 0);
         this.driveLeftMaster.getSensorCollection().setQuadraturePosition(0, 0);
     }
