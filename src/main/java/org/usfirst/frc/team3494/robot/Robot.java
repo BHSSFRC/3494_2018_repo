@@ -1,18 +1,16 @@
 package org.usfirst.frc.team3494.robot;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
-import org.usfirst.frc.team3494.robot.commands.auto.*;
-import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestFile;
-import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestOne;
+import org.usfirst.frc.team3494.robot.commands.auto.CubePursuit;
+import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
+import org.usfirst.frc.team3494.robot.commands.auto.ProfileFollower;
+import org.usfirst.frc.team3494.robot.commands.auto.ReflectivePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
 import org.usfirst.frc.team3494.robot.subsystems.*;
 import org.usfirst.frc.team3494.robot.util.Limelight;
@@ -55,7 +53,6 @@ public class Robot extends IterativeRobot {
      * The Limelight vision system camera.
      */
     public static Limelight limelight;
-    public static PathBuilder pathBuilder;
     /**
      * Instance of {@link Drivetrain}.
      */
@@ -76,6 +73,8 @@ public class Robot extends IterativeRobot {
      * Instance of {@link Lift}.
      */
     public static Lift lift;
+
+    private static Timer timer;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -99,21 +98,13 @@ public class Robot extends IterativeRobot {
         lift = new Lift();
 
         oi = new OI();
-        pathBuilder = new PathBuilder();
-
-        pathBuilder.getCenterToRightTraj();
-        pathBuilder.getCenterToLeftTraj();
+        timer = new Timer();
+        timer.reset();
+        timer.start();
 
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
         chooser.addObject("Cube chaser", new CubePursuit());
-        chooser.addObject("Path tester", new PathTestOne());
-        chooser.addObject("File path tester", new PathTestFile());
-        Command[] centerToRight = new Command[]{
-                new PathTestOne(),
-                new ReflectivePursuit(1)
-        };
-        chooser.addObject("Center to right", new DynamicAutoCommand(centerToRight));
         chooser.addObject("Fully automated auto", null);
         chooser.addObject("2x over a", new QuickDirtyDrive());
         SmartDashboard.putData("auto selection", chooser);
@@ -195,6 +186,10 @@ public class Robot extends IterativeRobot {
     @Override
     public void disabledPeriodic() {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
+    }
+
+    public static Timer getTimer() {
+        return timer;
     }
 
     /**
