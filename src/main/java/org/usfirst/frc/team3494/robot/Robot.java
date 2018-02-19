@@ -1,10 +1,7 @@
 package org.usfirst.frc.team3494.robot;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -77,6 +74,8 @@ public class Robot extends IterativeRobot {
      */
     public static Lift lift;
 
+    private static Timer timer;
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -99,6 +98,9 @@ public class Robot extends IterativeRobot {
         lift = new Lift();
 
         oi = new OI();
+        timer = new Timer();
+        timer.reset();
+        timer.start();
 
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
@@ -184,6 +186,10 @@ public class Robot extends IterativeRobot {
     @Override
     public void disabledPeriodic() {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
+    }
+
+    public static Timer getTimer() {
+        return timer;
     }
 
     /**
