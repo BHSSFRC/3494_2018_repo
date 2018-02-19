@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3494.robot.commands.auto.tests;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
@@ -24,12 +23,13 @@ public class PathTestFile extends Command {
     @Override
     protected void initialize() {
         Robot.driveTrain.resetEncoders();
-        startTime = Timer.getFPGATimestamp() * 1000.0;
+        Robot.getTimer().reset();
+        startTime = Robot.getTimer().get() * 1000.0;
     }
 
     @Override
     protected void execute() {
-        index = ((int) Math.floor(((Timer.getFPGATimestamp() * 1000.0) - startTime) / 50));
+        index = ((int) Math.floor(((Robot.getTimer().get() * 1000.0) - startTime) / 50));
 
         double leftVelo = leftTraj.segments[index].velocity;
         double rightVelo = rightTraj.segments[index].velocity;
