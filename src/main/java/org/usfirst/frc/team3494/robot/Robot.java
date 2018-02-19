@@ -10,9 +10,11 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
-import org.usfirst.frc.team3494.robot.commands.auto.*;
+import org.usfirst.frc.team3494.robot.commands.auto.CubePursuit;
+import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
+import org.usfirst.frc.team3494.robot.commands.auto.ProfileFollower;
+import org.usfirst.frc.team3494.robot.commands.auto.ReflectivePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestFile;
-import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestOne;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
 import org.usfirst.frc.team3494.robot.subsystems.*;
 import org.usfirst.frc.team3494.robot.util.Limelight;
@@ -55,7 +57,6 @@ public class Robot extends IterativeRobot {
      * The Limelight vision system camera.
      */
     public static Limelight limelight;
-    public static PathBuilder pathBuilder;
     /**
      * Instance of {@link Drivetrain}.
      */
@@ -99,18 +100,16 @@ public class Robot extends IterativeRobot {
         lift = new Lift();
 
         oi = new OI();
-        pathBuilder = new PathBuilder();
-
-        pathBuilder.getCenterToRightTraj();
-        pathBuilder.getCenterToLeftTraj();
 
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
         chooser.addObject("Cube chaser", new CubePursuit());
-        chooser.addObject("Path tester", new PathTestOne());
         chooser.addObject("File path tester", new PathTestFile());
         Command[] centerToRight = new Command[]{
-                new PathTestOne(),
+                new ProfileFollower(
+                        "/home/lvuser/paths/center/center2right_left.csv",
+                        "/home/lvuser/paths/center/center2right_right.csv"
+                ),
                 new ReflectivePursuit(1)
         };
         chooser.addObject("Center to right", new DynamicAutoCommand(centerToRight));
