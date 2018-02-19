@@ -104,7 +104,6 @@ public class Robot extends IterativeRobot {
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
         chooser.addObject("Cube chaser", new CubePursuit());
-        chooser.addObject("File path tester", new PathTestFile());
         Command[] centerToRight = new Command[]{
                 new ProfileFollower(
                         "/home/lvuser/paths/center/center2right_left.csv",
