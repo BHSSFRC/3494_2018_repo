@@ -37,6 +37,7 @@ public class Lift extends Subsystem {
     public void lift(double power) {
         liftMotor.set(ControlMode.PercentOutput, power);
     }
+
     public double getHeight() {
         return liftEncoder.getDistance();
     }
