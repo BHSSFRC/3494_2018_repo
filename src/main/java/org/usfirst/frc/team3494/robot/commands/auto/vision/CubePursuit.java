@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.sensors.Limelight;
 
-import static org.usfirst.frc.team3494.robot.Robot.limelight;
-
 /**
  * Auton program to chase Power Cubes (or whatever is in pipeline two.)
  */
@@ -21,15 +19,15 @@ public class CubePursuit extends Command {
     @Override
     protected void initialize() {
         Robot.driveTrain.enable();
-        limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
-        limelight.setPipeline(1);
+        Robot.limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
+        Robot.limelight.setPipeline(1);
     }
 
     @Override
     protected void execute() {
-        if (limelight.hasValidTarget()) {
+        if (Robot.limelight.hasValidTarget()) {
             Robot.driveTrain.ArcadeDrive(0.65, Robot.driveTrain.pidTune, true);
-            double tx = limelight.getXDistance();
+            double tx = Robot.limelight.getXDistance();
             Robot.driveTrain.setSetpoint(Robot.ahrs.getYaw() + tx);
             SmartDashboard.putNumber("Drive PID setpoint", Robot.driveTrain.getSetpoint());
             lastTX = tx;
