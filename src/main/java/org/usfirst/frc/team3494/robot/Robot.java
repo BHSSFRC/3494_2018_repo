@@ -14,7 +14,6 @@ import org.usfirst.frc.team3494.robot.commands.auto.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.ProfileFollower;
 import org.usfirst.frc.team3494.robot.commands.auto.ReflectivePursuit;
-import org.usfirst.frc.team3494.robot.commands.auto.tests.PathTestFile;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
 import org.usfirst.frc.team3494.robot.subsystems.*;
 import org.usfirst.frc.team3494.robot.util.Limelight;
@@ -104,14 +103,6 @@ public class Robot extends IterativeRobot {
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
         chooser.addObject("Cube chaser", new CubePursuit());
-        Command[] centerToRight = new Command[]{
-                new ProfileFollower(
-                        "/home/lvuser/paths/center/center2right_left.csv",
-                        "/home/lvuser/paths/center/center2right_right.csv"
-                ),
-                new ReflectivePursuit(1)
-        };
-        chooser.addObject("Center to right", new DynamicAutoCommand(centerToRight));
         chooser.addObject("Fully automated auto", null);
         chooser.addObject("2x over a", new QuickDirtyDrive());
         SmartDashboard.putData("auto selection", chooser);
