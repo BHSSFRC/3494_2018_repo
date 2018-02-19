@@ -28,15 +28,9 @@ public class RobotMap {
 
     public static final int USONIC_PIN = 0;
 
-    public static final int ENCODER_LEFT_A = 9;
-    public static final int ENCODER_LEFT_B = 8;
-    public static final int ENCODER_RIGHT_A = 7;
-    public static final int ENCODER_RIGHT_B = 6;
-
     public static final int ROLLER_LEFT = 4;
     public static final int ROLLER_RIGHT = 5;
     public static final int ROLLER_PISTON_FORWARD = 4;
-    public static final int ROLLER_PISTON_REVERSE = 5;
 
     public static final int JOYSTICK_LEFT = 0;
     public static final int JOYSTICK_RIGHT = 1;
