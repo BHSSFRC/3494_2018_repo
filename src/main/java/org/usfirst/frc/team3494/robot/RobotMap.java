@@ -26,6 +26,8 @@ public class RobotMap {
 
     public static final double PATH_MAX_SPEED = 4.572;
 
+    public static final int USONIC_PIN = 0;
+
     public static final int ENCODER_LEFT_A = 9;
     public static final int ENCODER_LEFT_B = 8;
     public static final int ENCODER_RIGHT_A = 7;

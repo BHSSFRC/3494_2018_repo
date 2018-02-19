@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.drive.Drive;
+import org.usfirst.frc.team3494.robot.sensors.HRLVUltrasonicSensor;
 
 /**
  * The drive train subsystem. Contains methods for controlling the robot's drive train.
@@ -41,6 +42,8 @@ public class Drivetrain extends PIDSubsystem {
      * Additional follower Talon SRX, right side.
      */
     private TalonSRX driveRightFollowTwo;
+
+    private HRLVUltrasonicSensor uSonic;
 
     private Encoder encoderRight;
     private Encoder encoderLeft;
@@ -85,6 +88,8 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowTwo.setNeutralMode(NeutralMode.Brake);
         this.driveRightFollowTwo.setInverted(true);
+
+        this.uSonic = new HRLVUltrasonicSensor(RobotMap.USONIC_PIN);
 
         this.encoderLeft = new Encoder(RobotMap.ENCODER_LEFT_A, RobotMap.ENCODER_LEFT_B);
         this.encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
