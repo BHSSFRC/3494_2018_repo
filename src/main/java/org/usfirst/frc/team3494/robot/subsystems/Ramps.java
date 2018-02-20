@@ -17,12 +17,16 @@ public class Ramps extends Subsystem {
      */
     private DoubleSolenoid rightRamp;
 
+    private DoubleSolenoid rampClaw;
+
     public Ramps() {
         super("Ramps");
         this.leftRamp = new DoubleSolenoid(RobotMap.LEFT_RAMP_FORWARD, RobotMap.LEFT_RAMP_REVERSE);
         this.leftRamp.set(DoubleSolenoid.Value.kReverse);
         this.rightRamp = new DoubleSolenoid(RobotMap.RIGHT_RAMP_FORWARD, RobotMap.RIGHT_RAMP_REVERSE);
         this.rightRamp.set(DoubleSolenoid.Value.kReverse);
+        this.rampClaw = new DoubleSolenoid(RobotMap.RAMP_CLAW_FORWARD, RobotMap.RAMP_CLAW_REVERSE);
+        this.rampClaw.set(DoubleSolenoid.Value.kReverse);
     }
 
     @Override
@@ -43,5 +47,9 @@ public class Ramps extends Subsystem {
     public void retract() {
         this.leftRamp.set(DoubleSolenoid.Value.kReverse);
         this.rightRamp.set(DoubleSolenoid.Value.kReverse);
+    }
+
+    public void openClaw() {
+        this.rampClaw.set(DoubleSolenoid.Value.kForward);
     }
 }
