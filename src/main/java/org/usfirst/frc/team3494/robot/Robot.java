@@ -10,8 +10,8 @@ import jaci.pathfinder.Pathfinder;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.ProfileFollower;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
-import org.usfirst.frc.team3494.robot.commands.auto.vision.CubePursuit;
-import org.usfirst.frc.team3494.robot.commands.auto.vision.ReflectivePursuit;
+import org.usfirst.frc.team3494.robot.commands.auto.tests.CubePursuit;
+import org.usfirst.frc.team3494.robot.commands.auto.tests.ReflectivePursuit;
 import org.usfirst.frc.team3494.robot.sensors.Limelight;
 import org.usfirst.frc.team3494.robot.subsystems.*;
 

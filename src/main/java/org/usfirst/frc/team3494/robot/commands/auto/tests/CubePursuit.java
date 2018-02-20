@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3494.robot.commands.auto.vision;
+package org.usfirst.frc.team3494.robot.commands.auto.tests;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -6,22 +6,21 @@ import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.sensors.Limelight;
 
 /**
- * Auton program to chase Power Cubes (or whatever is in pipeline one.)
+ * Auton program to chase Power Cubes (or whatever is in pipeline two.)
  */
-public class ReflectivePursuit extends Command {
+public class CubePursuit extends Command {
     private double lastTX;
 
-    public ReflectivePursuit(double Tx) {
+    public CubePursuit() {
         requires(Robot.driveTrain);
-        this.lastTX = Tx;
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
         Robot.driveTrain.enable();
-        Robot.limelight.setLEDs(Limelight.LIMELIGHT_LED_ON);
-        Robot.limelight.setPipeline(0);
+        Robot.limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
+        Robot.limelight.setPipeline(1);
     }
 
     @Override
@@ -35,9 +34,9 @@ public class ReflectivePursuit extends Command {
         } else {
             try {
                 if (lastTX > 0) {
-                    Robot.driveTrain.TankDrive(.25, -.25);
+                    Robot.driveTrain.TankDrive(.25, .25);
                 } else if (lastTX < 0) {
-                    Robot.driveTrain.TankDrive(-.25, .25);
+                    Robot.driveTrain.TankDrive(-.25, -.25);
                 }
             } catch (NullPointerException e) {
                 Robot.driveTrain.TankDrive(0, 0);
@@ -49,6 +48,6 @@ public class ReflectivePursuit extends Command {
 
     @Override
     protected boolean isFinished() {
-        return (Robot.driveTrain.getSonicDistance() <= 100);
+        return false;
     }
 }

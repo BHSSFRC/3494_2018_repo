@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3494.robot.commands.auto.vision;
+package org.usfirst.frc.team3494.robot.commands.auto.tests;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -49,6 +49,6 @@ public class ReflectivePursuit extends Command {
 
     @Override
     protected boolean isFinished() {
-        return (Robot.driveTrain.getSonicDistance() <= 100);
+        return false;
     }
 }
