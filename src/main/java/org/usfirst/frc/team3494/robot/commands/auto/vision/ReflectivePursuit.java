@@ -49,6 +49,6 @@ public class ReflectivePursuit extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return (Robot.driveTrain.getSonicDistance() <= 100);
     }
 }
