@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3494.robot;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -42,6 +44,9 @@ public class RobotMap {
     public static final int RIGHT_RAMP_REVERSE = 1;
     public static final int LEFT_RAMP_FORWARD = 2;
     public static final int LEFT_RAMP_REVERSE = 3;
+
+    public static final int RAMP_CLAW_FORWARD = 5;
+    public static final int RAMP_CLAW_REVERSE = 6;
 
     public static final int LIFT_MOTOR = 6;
 
