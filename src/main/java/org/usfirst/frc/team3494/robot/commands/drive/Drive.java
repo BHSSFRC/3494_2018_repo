@@ -23,7 +23,7 @@ public class Drive extends Command {
     protected void execute() {
         Robot.driveTrain.TankDrive(
                 -Robot.oi.getJoyLeft().getY(),
-                Robot.oi.getJoyRight().getY()
+                -Robot.oi.getJoyRight().getY()
         );
     }
 

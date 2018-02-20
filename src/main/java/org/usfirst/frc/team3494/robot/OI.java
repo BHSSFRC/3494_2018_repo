@@ -1,7 +1,12 @@
 package org.usfirst.frc.team3494.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.usfirst.frc.team3494.robot.commands.IncrementLights;
+import org.usfirst.frc.team3494.robot.commands.lift.RunLift;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.HoldRollers;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.InvertClawState;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.Roll;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.StopRoll;
 
@@ -20,6 +25,8 @@ public class OI {
 
     Joystick joyLeft = new Joystick(RobotMap.JOYSTICK_LEFT);
     Joystick joyRight = new Joystick(RobotMap.JOYSTICK_RIGHT);
+
+    XboxController xbox = new XboxController(RobotMap.XBOX_CONTROLLER);
 
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
@@ -40,14 +47,31 @@ public class OI {
     // Start the command when the button is released and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
-    public OI() {
-        JoystickButton leftTrigger = new JoystickButton(joyLeft, 1);
-        leftTrigger.whenPressed(new Roll(true));
-        leftTrigger.whenReleased(new StopRoll());
+    OI() {
+        JoystickButton leftThumb = new JoystickButton(joyLeft, 2);
+        leftThumb.whenPressed(new IncrementLights());
 
-        JoystickButton rightTrigger = new JoystickButton(joyRight, 1);
-        rightTrigger.whenPressed(new Roll(false));
-        rightTrigger.whenReleased(new StopRoll());
+        JoystickButton xbox_a = new JoystickButton(xbox, 1);
+        xbox_a.whenPressed(new HoldRollers());
+
+        JoystickButton xbox_b = new JoystickButton(xbox, 2);
+        xbox_b.whenPressed(new Roll(false));
+        xbox_b.whenReleased(new StopRoll());
+
+        JoystickButton xbox_x = new JoystickButton(xbox, 3);
+        xbox_x.whenPressed(new Roll(true));
+        xbox_x.whenReleased(new StopRoll());
+
+        JoystickButton xbox_y = new JoystickButton(xbox, 4);
+        xbox_y.whenPressed(new InvertClawState());
+
+        JoystickButton xbox_lb = new JoystickButton(xbox, 5);
+        xbox_lb.whenPressed(new RunLift(-0.25));
+        xbox_lb.whenReleased(new RunLift(0));
+
+        JoystickButton xbox_rb = new JoystickButton(xbox, 6);
+        xbox_rb.whenPressed(new RunLift(0.75));
+        xbox_rb.whenReleased(new RunLift(0));
     }
 
     public Joystick getJoyLeft() {

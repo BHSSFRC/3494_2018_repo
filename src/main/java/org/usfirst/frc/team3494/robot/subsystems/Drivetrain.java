@@ -1,14 +1,17 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.drive.Drive;
+import org.usfirst.frc.team3494.robot.sensors.HRLVUltrasonicSensor;
 
 /**
- * The drivetrain subsystem. Contains methods for controlling the robot drivetrain.
+ * The drive train subsystem. Contains methods for controlling the robot's drive train.
  * Also includes PID angle control via the
  * {@link com.kauailabs.navx.frc.AHRS AHRS} mounted to the RoboRIO and {@link PIDSubsystem}.
  */
@@ -39,23 +42,51 @@ public class Drivetrain extends PIDSubsystem {
      */
     private TalonSRX driveRightFollowTwo;
 
+    private HRLVUltrasonicSensor uSonic;
+
+    private static final double DISTANCE_PER_PULSE = 1 / 256;
+
     private boolean teleop;
     public double pidTune;
 
     public Drivetrain() {
         super("Drivetrain", 0.025, 0, 0);
+        double talon_P = 1.6;
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
+        this.driveLeftMaster.setNeutralMode(NeutralMode.Brake);
+        this.driveLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        // this.driveLeftMaster.setSensorPhase(true);
+        this.driveLeftMaster.config_kP(0, talon_P, 10);
+        this.driveLeftMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10) * 4), 10);
+
         this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
         this.driveLeftFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_MASTER);
+        this.driveLeftFollowOne.setNeutralMode(NeutralMode.Brake);
+
         this.driveLeftFollowTwo = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_TWO);
         this.driveLeftFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_MASTER);
+        this.driveLeftFollowTwo.setNeutralMode(NeutralMode.Brake);
 
         this.driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
+        this.driveRightMaster.setNeutralMode(NeutralMode.Brake);
+        this.driveRightMaster.setInverted(true);
+        this.driveRightMaster.setSensorPhase(true);
+        this.driveRightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        this.driveRightMaster.config_kP(0, talon_P, 10);
+        this.driveRightMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10) * 4), 10);
+
         this.driveRightFollowOne = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
         this.driveRightFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
+        this.driveRightFollowOne.setNeutralMode(NeutralMode.Brake);
+        this.driveRightFollowOne.setInverted(true);
+
         this.driveRightFollowTwo = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
         this.driveRightFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
+        this.driveRightFollowTwo.setNeutralMode(NeutralMode.Brake);
+        this.driveRightFollowTwo.setInverted(true);
+
+        this.uSonic = new HRLVUltrasonicSensor(RobotMap.USONIC_PIN);
 
         teleop = false;
         // config pid loop
@@ -73,17 +104,31 @@ public class Drivetrain extends PIDSubsystem {
     }
 
     /**
-     * Drives the driveTrain tank drive style. The driveTrain will continue to
+     * Drives the drive train tank drive style. The driveTrain will continue to
      * run until stopped with a method like {@link Drivetrain#StopDrive()}.
      *
      * @param left  The power to drive the left side. Should be a {@code double}
-     *              between 0 and 1.
+     *              between -1 and 1.
      * @param right The power to drive the right side. Should be a {@code double}
-     *              between 0 and 1.
+     *              between -1 and 1.
      */
     public void TankDrive(double left, double right) {
         this.driveLeftMaster.set(ControlMode.PercentOutput, applyDeadband(left, 0.05));
         this.driveRightMaster.set(ControlMode.PercentOutput, applyDeadband(right, 0.05));
+    }
+
+    /**
+     * Drives the drive train tank drive style, in velocity mode (encoder edges / decisecond.) The drive train will
+     * continue to run until stopped with a method like {@link Drivetrain#StopDrive()}.
+     *
+     * @param left  The speed to drive the left side to.
+     * @param right The speed to drive the right side to.
+     */
+    public void VelocityTank(double left, double right) {
+        System.out.println("Target: " + left + ", " + right);
+        System.out.println("Actual: " + this.driveLeftMaster.getSensorCollection().getQuadratureVelocity() + ", " + this.driveRightMaster.getSensorCollection().getQuadratureVelocity());
+        this.driveLeftMaster.set(ControlMode.Velocity, left);
+        this.driveRightMaster.set(ControlMode.Velocity, right);
     }
 
     /**
@@ -135,7 +180,54 @@ public class Drivetrain extends PIDSubsystem {
         }
 
         driveLeftMaster.set(ControlMode.PercentOutput, limit(leftMotorOutput));
-        driveRightMaster.set(ControlMode.PercentOutput, -limit(rightMotorOutput));
+        driveRightMaster.set(ControlMode.PercentOutput, limit(rightMotorOutput));
+    }
+
+    public double getSonicDistance() {
+        return this.uSonic.getDistance();
+    }
+
+    public int getCountsLeft_Talon() {
+        return this.driveLeftMaster.getSensorCollection().getQuadraturePosition();
+    }
+
+    public int getCountsRight_Talon() {
+        return this.driveRightMaster.getSensorCollection().getQuadraturePosition();
+    }
+
+    public double getAverageCounts_Talon() {
+        return (this.getCountsLeft_Talon() + this.getCountsRight_Talon()) / 2;
+    }
+
+    public double getDistanceLeft_Talon() {
+        return this.driveLeftMaster.getSensorCollection().getQuadraturePosition() * (1 / 4) * (DISTANCE_PER_PULSE);
+    }
+
+    public double getDistanceRight_Talon() {
+        return this.driveRightMaster.getSensorCollection().getQuadraturePosition() * (1 / 4) * (DISTANCE_PER_PULSE);
+    }
+
+    public double getAverageDistance_Talon() {
+        return (this.getDistanceLeft_Talon() + this.getDistanceRight_Talon()) / 2;
+    }
+
+    /**
+     * @return The left side velocity, in edges per 100ms (decisecond.)
+     */
+    public double getVelocityLeft() {
+        return this.driveLeftMaster.getSensorCollection().getQuadratureVelocity();
+    }
+
+    /**
+     * @return The right side velocity, in edges per 100ms (decisecond.)
+     */
+    public double getVelocityRight() {
+        return this.driveRightMaster.getSensorCollection().getQuadratureVelocity();
+    }
+
+    public void resetEncoders() {
+        this.driveRightMaster.getSensorCollection().setQuadraturePosition(0, 0);
+        this.driveLeftMaster.getSensorCollection().setQuadraturePosition(0, 0);
     }
 
     /**
@@ -173,7 +265,7 @@ public class Drivetrain extends PIDSubsystem {
      * @return Zero if the value is in the deadband, or the value unchanged.
      * @author Worcester Polytechnic Institute
      */
-    protected double applyDeadband(double value, double deadband) {
+    private double applyDeadband(double value, double deadband) {
         if (Math.abs(value) > deadband) {
             if (value > 0.0) {
                 return (value - deadband) / (1.0 - deadband);
@@ -202,5 +294,18 @@ public class Drivetrain extends PIDSubsystem {
 
     public double getPidTune() {
         return pidTune;
+    }
+
+    public static double nativeToRPS(double nat) {
+        return nat * 10 / (256 * 4);
+    }
+
+    public static double rpsToNative(double rps) {
+        return rps / 10 * (256 * 4);
+    }
+
+    public void PosDrive(double left, double right) {
+        this.driveRightMaster.set(ControlMode.Position, right);
+        this.driveLeftMaster.set(ControlMode.Position, left);
     }
 }

@@ -1,19 +1,17 @@
-package org.usfirst.frc.team3494.robot.commands.auto;
+package org.usfirst.frc.team3494.robot.commands.auto.tests;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.Robot;
-import org.usfirst.frc.team3494.robot.util.Limelight;
-
-import static org.usfirst.frc.team3494.robot.Robot.limelight;
+import org.usfirst.frc.team3494.robot.sensors.Limelight;
 
 /**
- * Auton program to chase Power Cubes (or whatever is in pipeline one.)
+ * Auton program to chase Power Cubes (or whatever is in pipeline two.)
  */
-public class ReflectivePursuit extends Command {
+public class CubePursuit extends Command {
     private double lastTX;
 
-    public ReflectivePursuit() {
+    public CubePursuit() {
         requires(Robot.driveTrain);
     }
 
@@ -21,16 +19,15 @@ public class ReflectivePursuit extends Command {
     @Override
     protected void initialize() {
         Robot.driveTrain.enable();
-        limelight.setLEDs(Limelight.LIMELIGHT_LED_ON);
-        limelight.setPipeline(0);
+        Robot.limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
+        Robot.limelight.setPipeline(1);
     }
 
     @Override
     protected void execute() {
-        SmartDashboard.putNumber("tv", limelight.getTable().getEntry("tv").getDouble(0));
-        if (limelight.hasValidTarget()) {
+        if (Robot.limelight.hasValidTarget()) {
             Robot.driveTrain.ArcadeDrive(0.65, Robot.driveTrain.pidTune, true);
-            double tx = limelight.getXDistance();
+            double tx = Robot.limelight.getXDistance();
             Robot.driveTrain.setSetpoint(Robot.ahrs.getYaw() + tx);
             SmartDashboard.putNumber("Drive PID setpoint", Robot.driveTrain.getSetpoint());
             lastTX = tx;

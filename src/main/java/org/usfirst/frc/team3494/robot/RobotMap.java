@@ -7,8 +7,6 @@ package org.usfirst.frc.team3494.robot;
  * floating around.
  */
 public class RobotMap {
-    public static final int ROLLER_LEFT = 7;
-    public static final int ROLLER_RIGHT = 8;
     // For example to map the left and right motors, you could define the
     // following variables to use with your driveTrain subsystem.
     // public static int leftMotor = 1;
@@ -18,16 +16,38 @@ public class RobotMap {
     // number and the module. For example you with a rangefinder:
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
-    public static final int DRIVE_LEFT_MASTER = 13;
-    public static final int DRIVE_LEFT_FOLLOW_ONE = 14;
-    public static final int DRIVE_LEFT_FOLLOW_TWO = 15;
-
     public static final int DRIVE_RIGHT_MASTER = 17;
     public static final int DRIVE_RIGHT_FOLLOW_ONE = 1;
     public static final int DRIVE_RIGHT_FOLLOW_TWO = 2;
 
-    public static final double DRIVE_TOLERANCE = 0.01;
+    public static final int DRIVE_LEFT_MASTER = 13;
+    public static final int DRIVE_LEFT_FOLLOW_ONE = 14;
+    public static final int DRIVE_LEFT_FOLLOW_TWO = 15;
+
+    public static final double PATH_MAX_SPEED = 4.572;
+
+    public static final int USONIC_PIN = 0;
+
+    public static final int ROLLER_LEFT = 4;
+    public static final int ROLLER_RIGHT = 5;
+    public static final int ROLLER_PISTON = 4;
 
     public static final int JOYSTICK_LEFT = 0;
     public static final int JOYSTICK_RIGHT = 1;
+    public static final int XBOX_CONTROLLER = 2;
+
+    public static final int LIGHT_VOLTAGE = 0;
+
+    public static final int RIGHT_RAMP_FORWARD = 0;
+    public static final int RIGHT_RAMP_REVERSE = 1;
+    public static final int LEFT_RAMP_FORWARD = 2;
+    public static final int LEFT_RAMP_REVERSE = 3;
+
+    public static final int RAMP_CLAW_FORWARD = 5;
+    public static final int RAMP_CLAW_REVERSE = 6;
+
+    public static final int LIFT_MOTOR = 6;
+
+    public static final double COUNTS_PER_METER = 256 * (11.9 / 3) * (1 / (6 * Math.PI)) * (1 / 2.54) * 100;
+    public static final double COUNTS_PER_FOOT = 256 * (11.9 / 3) * (1 / (6 * Math.PI)) * 12;
 }

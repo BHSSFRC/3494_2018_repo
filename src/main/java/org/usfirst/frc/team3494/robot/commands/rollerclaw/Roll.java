@@ -7,6 +7,11 @@ public class Roll extends Command {
 
     private boolean in;
 
+    /**
+     * Constructor.
+     *
+     * @param dir The direction to roll. Use {@code false} for out and {@code true} for in.
+     */
     public Roll(boolean dir) {
         requires(Robot.rollerClaw);
         in = dir;
@@ -15,9 +20,9 @@ public class Roll extends Command {
     @Override
     protected void execute() {
         if (in) {
-            Robot.rollerClaw.Rollerin();
+            Robot.rollerClaw.rollIn();
         } else {
-            Robot.rollerClaw.Rollerout();
+            Robot.rollerClaw.rollOut();
         }
     }
 

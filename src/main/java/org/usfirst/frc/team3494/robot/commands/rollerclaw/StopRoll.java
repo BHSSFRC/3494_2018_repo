@@ -10,7 +10,7 @@ public class StopRoll extends Command {
 
     @Override
     protected void execute() {
-        Robot.rollerClaw.Rollerstop();
+        Robot.rollerClaw.rollStop();
     }
 
     @Override
