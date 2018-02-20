@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.ProfileFollower;
+import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
+import org.usfirst.frc.team3494.robot.commands.auto.lift.LiftToHeight;
+import org.usfirst.frc.team3494.robot.commands.auto.rollerclaw.RemoveCube;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.ReflectivePursuit;
@@ -105,6 +108,7 @@ public class Robot extends IterativeRobot {
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
         chooser.addObject("Cube chaser", new CubePursuit());
+        chooser.addObject("Cross baseline", new DistanceDrive(10));
         chooser.addObject("Fully automated auto", null);
         chooser.addObject("2x over a", new QuickDirtyDrive());
         SmartDashboard.putData("auto selection", chooser);
@@ -130,7 +134,9 @@ public class Robot extends IterativeRobot {
             String[] autoFiles = Robot.autoFiles.get(selectedAuto);
             Command[] cmdList = new Command[]{
                     new ProfileFollower(autoFiles[0], autoFiles[1]),
-                    new ReflectivePursuit(0)
+                    new ReflectivePursuit(0),
+                    new LiftToHeight(100),
+                    new RemoveCube()
             };
             autoCmd = new DynamicAutoCommand(cmdList);
             autoCmd.start();
