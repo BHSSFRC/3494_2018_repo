@@ -10,6 +10,8 @@ import jaci.pathfinder.Pathfinder;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.ProfileFollower;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
+import org.usfirst.frc.team3494.robot.commands.auto.lift.LiftToHeight;
+import org.usfirst.frc.team3494.robot.commands.auto.rollerclaw.RemoveCube;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.ReflectivePursuit;
@@ -132,7 +134,9 @@ public class Robot extends IterativeRobot {
             String[] autoFiles = Robot.autoFiles.get(selectedAuto);
             Command[] cmdList = new Command[]{
                     new ProfileFollower(autoFiles[0], autoFiles[1]),
-                    new ReflectivePursuit(0)
+                    new ReflectivePursuit(0),
+                    new LiftToHeight(100),
+                    new RemoveCube()
             };
             autoCmd = new DynamicAutoCommand(cmdList);
             autoCmd.start();
