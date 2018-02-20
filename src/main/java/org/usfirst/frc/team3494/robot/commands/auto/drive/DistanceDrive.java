@@ -3,10 +3,18 @@ package org.usfirst.frc.team3494.robot.commands.auto.drive;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.Robot;
 
+/**
+ * Drive the robot a given distance by encoder measurements.
+ */
 public class DistanceDrive extends Command {
 
     private double distance;
 
+    /**
+     * Constructor.
+     *
+     * @param distance The distance to drive, in feet.
+     */
     public DistanceDrive(double distance) {
         requires(Robot.driveTrain);
         this.distance = Robot.feetToEdges(distance);
