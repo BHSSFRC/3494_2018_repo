@@ -195,12 +195,20 @@ public class Drivetrain extends PIDSubsystem {
         return this.driveRightMaster.getSensorCollection().getQuadraturePosition();
     }
 
+    public double getAverageCounts_Talon() {
+        return (this.getCountsLeft_Talon() + this.getCountsRight_Talon()) / 2;
+    }
+
     public double getDistanceLeft_Talon() {
         return this.driveLeftMaster.getSensorCollection().getQuadraturePosition() * (1 / 4) * (DISTANCE_PER_PULSE);
     }
 
     public double getDistanceRight_Talon() {
         return this.driveRightMaster.getSensorCollection().getQuadraturePosition() * (1 / 4) * (DISTANCE_PER_PULSE);
+    }
+
+    public double getAverageDistance_Talon() {
+        return (this.getDistanceLeft_Talon() + this.getDistanceRight_Talon()) / 2;
     }
 
     /**
