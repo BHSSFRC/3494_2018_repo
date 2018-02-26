@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3494.robot.commands;
+package org.usfirst.frc.team3494.robot.commands.ramps;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.Robot;
