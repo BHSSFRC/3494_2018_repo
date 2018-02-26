@@ -40,6 +40,11 @@ jar {
     manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
 }
 
+wpi {
+    wpilibVersion = '2018.3.3'
+    ctreVersion = '5.2.2.0'
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '4.5'
 }
