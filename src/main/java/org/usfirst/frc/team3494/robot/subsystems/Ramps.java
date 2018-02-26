@@ -37,19 +37,27 @@ public class Ramps extends Subsystem {
      * Raise the ramps off the ground.
      */
     public void extend() {
-        this.leftRamp.set(DoubleSolenoid.Value.kForward);
-        this.rightRamp.set(DoubleSolenoid.Value.kForward);
+        this.setLeftRamp(DoubleSolenoid.Value.kForward);
+        this.setRightRamp(DoubleSolenoid.Value.kForward);
     }
 
     /**
      * Put the ramps back on the ground.
      */
     public void retract() {
-        this.leftRamp.set(DoubleSolenoid.Value.kReverse);
-        this.rightRamp.set(DoubleSolenoid.Value.kReverse);
+        this.setLeftRamp(DoubleSolenoid.Value.kReverse);
+        this.setRightRamp(DoubleSolenoid.Value.kReverse);
     }
 
     public void openClaw() {
         this.rampClaw.set(DoubleSolenoid.Value.kForward);
+    }
+
+    public void setLeftRamp(DoubleSolenoid.Value v) {
+        this.leftRamp.set(v);
+    }
+
+    public void setRightRamp(DoubleSolenoid.Value v) {
+        this.rightRamp.set(v);
     }
 }
