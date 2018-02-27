@@ -98,6 +98,7 @@ public class Robot extends IterativeRobot {
         rollerClaw = new Rollerclaw();
         lights = new Lights();
         ramps = new Ramps();
+        ramps.retract();
         lift = new Lift();
 
         oi = new OI();
@@ -149,13 +150,7 @@ public class Robot extends IterativeRobot {
             Scheduler.getInstance().run();
         }
 
-        SmartDashboard.putNumber("Left enc", Robot.driveTrain.getCountsLeft_Talon());
-        SmartDashboard.putNumber("Right enc", Robot.driveTrain.getCountsRight_Talon());
-
-        SmartDashboard.putNumber("Left speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()));
-        SmartDashboard.putNumber("Left speed wheel revs per sec", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()) * 3 / 11.9);
-        SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityRight()));
-
+        Robot.putDebugInfo();
         SmartDashboard.putNumber("Angle (radians)", Pathfinder.d2r(Robot.ahrs.getAngle()));
         SmartDashboard.putNumber("two x over a", 200 / (Pathfinder.d2r(Robot.ahrs.getAngle())));
     }
@@ -174,15 +169,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-
-        SmartDashboard.putNumber("Left enc", Robot.driveTrain.getCountsLeft_Talon());
-        SmartDashboard.putNumber("Right enc", Robot.driveTrain.getCountsRight_Talon());
-
-        SmartDashboard.putNumber("Left wheel revolutions", (Robot.driveTrain.getCountsLeft_Talon() / 4) * 3 / 11.9 / 256);
-
-        SmartDashboard.putNumber("Left speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()));
-        SmartDashboard.putNumber("Left speed wheel revs per sec", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()) * 3 / 11.9);
-        SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityRight()));
+        Robot.putDebugInfo();
     }
 
     @Override
@@ -192,6 +179,17 @@ public class Robot extends IterativeRobot {
     @Override
     public void disabledPeriodic() {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
+    }
+
+    private static void putDebugInfo() {
+        SmartDashboard.putNumber("Left enc", Robot.driveTrain.getCountsLeft_Talon());
+        SmartDashboard.putNumber("Right enc", Robot.driveTrain.getCountsRight_Talon());
+
+        SmartDashboard.putNumber("Left wheel revolutions", (Robot.driveTrain.getCountsLeft_Talon() / 4) * 3 / 11.9 / 256);
+
+        SmartDashboard.putNumber("Left speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()));
+        SmartDashboard.putNumber("Left speed wheel revs per sec", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()) * 3 / 11.9);
+        SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityRight()));
     }
 
     public static Timer getTimer() {
