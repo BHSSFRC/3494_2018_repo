@@ -179,6 +179,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void disabledPeriodic() {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
+        Robot.putDebugInfo();
     }
 
     private static void putDebugInfo() {
