@@ -4,8 +4,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team3494.robot.commands.IncrementLights;
-import org.usfirst.frc.team3494.robot.commands.rollerclaw.*;
-import org.usfirst.frc.team3494.robot.subsystems.Rollerclaw;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.HoldRollers;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.InvertClawState;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.Roll;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.StopRoll;
 
 /**
  * This class is the glue that binds the controls on the physical operator
