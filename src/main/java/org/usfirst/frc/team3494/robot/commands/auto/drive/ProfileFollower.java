@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3494.robot.commands.auto;
+package org.usfirst.frc.team3494.robot.commands.auto.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;

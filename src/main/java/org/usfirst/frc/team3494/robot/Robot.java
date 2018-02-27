@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
-import org.usfirst.frc.team3494.robot.commands.auto.ProfileFollower;
+import org.usfirst.frc.team3494.robot.commands.auto.drive.ProfileFollower;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.lift.LiftToHeight;
 import org.usfirst.frc.team3494.robot.commands.auto.rollerclaw.RemoveCube;
