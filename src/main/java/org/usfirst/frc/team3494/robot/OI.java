@@ -4,11 +4,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team3494.robot.commands.IncrementLights;
-import org.usfirst.frc.team3494.robot.commands.lift.RunLift;
-import org.usfirst.frc.team3494.robot.commands.rollerclaw.HoldRollers;
-import org.usfirst.frc.team3494.robot.commands.rollerclaw.InvertClawState;
-import org.usfirst.frc.team3494.robot.commands.rollerclaw.Roll;
-import org.usfirst.frc.team3494.robot.commands.rollerclaw.StopRoll;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.*;
+import org.usfirst.frc.team3494.robot.subsystems.Rollerclaw;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -55,23 +52,21 @@ public class OI {
         xbox_a.whenPressed(new HoldRollers());
 
         JoystickButton xbox_b = new JoystickButton(xbox, 2);
-        xbox_b.whenPressed(new Roll(false));
+        xbox_b.whenPressed(new Roll(-0.5));
         xbox_b.whenReleased(new StopRoll());
 
         JoystickButton xbox_x = new JoystickButton(xbox, 3);
-        xbox_x.whenPressed(new Roll(true));
+        xbox_x.whenPressed(new Roll(-0.75));
         xbox_x.whenReleased(new StopRoll());
 
         JoystickButton xbox_y = new JoystickButton(xbox, 4);
         xbox_y.whenPressed(new InvertClawState());
 
         JoystickButton xbox_lb = new JoystickButton(xbox, 5);
-        xbox_lb.whenPressed(new RunLift(-0.25));
-        xbox_lb.whenReleased(new RunLift(0));
+        xbox_lb.whenReleased(new StopRoll());
 
         JoystickButton xbox_rb = new JoystickButton(xbox, 6);
-        xbox_rb.whenPressed(new RunLift(0.75));
-        xbox_rb.whenReleased(new RunLift(0));
+        xbox_rb.whenReleased(new StopRoll());
     }
 
     public Joystick getJoyLeft() {
@@ -80,5 +75,9 @@ public class OI {
 
     public Joystick getJoyRight() {
         return joyRight;
+    }
+
+    public XboxController getXbox() {
+        return xbox;
     }
 }
