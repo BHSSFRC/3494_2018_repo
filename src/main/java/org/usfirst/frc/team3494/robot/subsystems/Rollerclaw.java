@@ -31,24 +31,21 @@ public class Rollerclaw extends Subsystem {
      * Runs the rollers inwards.
      */
     public void rollIn() {
-        //rollerLeft.set(ControlMode.PercentOutput, .75); // this is dumb
-        rollerRight.set(ControlMode.PercentOutput, .75);
+        this.customRoll(0, 0.75);
     }
 
     /**
      * Stops the rollers.
      */
     public void rollStop() {
-        rollerLeft.set(ControlMode.PercentOutput, 0);
-        rollerRight.set(ControlMode.PercentOutput, 0);
+        this.customRoll(0);
     }
 
     /**
      * Runs the rollers outwards.
      */
     public void rollOut() {
-        rollerLeft.set(ControlMode.PercentOutput, -.5);
-        rollerRight.set(ControlMode.PercentOutput, -.5);
+        this.customRoll(-0.5);
     }
 
     /**
@@ -57,8 +54,26 @@ public class Rollerclaw extends Subsystem {
      * @param power The power to run the roller claw at.
      */
     public void customRoll(double power) {
-        rollerLeft.set(ControlMode.PercentOutput, power);
-        rollerRight.set(ControlMode.PercentOutput, power);
+        this.customRoll(power, power);
+    }
+
+    public void customRoll(double p_left, double p_right) {
+        rollerLeft.set(ControlMode.PercentOutput, p_left);
+        rollerRight.set(ControlMode.PercentOutput, p_right);
+    }
+
+    public void singleRoll(Rollers roller, double power) {
+        switch (roller) {
+            case LEFT:
+                this.rollerLeft.set(ControlMode.PercentOutput, power);
+                break;
+            case RIGHT:
+                this.rollerRight.set(ControlMode.PercentOutput, power);
+                break;
+            case All:
+                this.customRoll(power);
+                break;
+        }
     }
 
     /**
@@ -77,5 +92,9 @@ public class Rollerclaw extends Subsystem {
      */
     public boolean getRollerPist() {
         return this.rollerPist.get();
+    }
+
+    public enum Rollers {
+        LEFT, RIGHT, All
     }
 }
