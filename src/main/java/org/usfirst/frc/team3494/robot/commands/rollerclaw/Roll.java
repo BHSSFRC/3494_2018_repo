@@ -5,25 +5,19 @@ import org.usfirst.frc.team3494.robot.Robot;
 
 public class Roll extends Command {
 
-    private boolean in;
+    private double power;
 
     /**
      * Constructor.
-     *
-     * @param dir The direction to roll. Use {@code false} for out and {@code true} for in.
      */
-    public Roll(boolean dir) {
+    public Roll(double power) {
         requires(Robot.rollerClaw);
-        in = dir;
+        this.power = power;
     }
 
     @Override
     protected void execute() {
-        if (in) {
-            Robot.rollerClaw.rollIn();
-        } else {
-            Robot.rollerClaw.rollOut();
-        }
+        Robot.rollerClaw.customRoll(power);
     }
 
     @Override

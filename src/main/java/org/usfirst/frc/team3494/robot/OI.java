@@ -53,9 +53,11 @@ public class OI {
 
         JoystickButton xbox_b = new JoystickButton(xbox, 2);
         xbox_b.whenPressed(new Roll(-0.5));
+        xbox_b.whenReleased(new StopRoll());
 
         JoystickButton xbox_x = new JoystickButton(xbox, 3);
         xbox_x.whenPressed(new Roll(-0.75));
+        xbox_x.whenReleased(new StopRoll());
 
         JoystickButton xbox_y = new JoystickButton(xbox, 4);
         xbox_y.whenPressed(new InvertClawState());
