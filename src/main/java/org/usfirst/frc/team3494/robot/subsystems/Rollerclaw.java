@@ -57,11 +57,24 @@ public class Rollerclaw extends Subsystem {
         this.customRoll(power, power);
     }
 
+    /**
+     * Run both sides of the roller claw at given speeds.
+     *
+     * @param p_left  The power to run the left side at.
+     * @param p_right The power to run the right side at.
+     */
     public void customRoll(double p_left, double p_right) {
         rollerLeft.set(ControlMode.PercentOutput, p_left);
         rollerRight.set(ControlMode.PercentOutput, p_right);
     }
 
+    /**
+     * Run single or both sides of the roller claw. Unlike {@link Rollerclaw#customRoll(double, double)} and {@link Rollerclaw#customRoll(double)},
+     * this method can be used to run a single side without changing the other.
+     *
+     * @param roller The {@link Rollers roller} to control.
+     * @param power  The power to run the roller at.
+     */
     public void singleRoll(Rollers roller, double power) {
         switch (roller) {
             case LEFT:
