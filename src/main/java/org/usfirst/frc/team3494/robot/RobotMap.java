@@ -48,6 +48,7 @@ public class RobotMap {
 
     public static final int LIFT_MOTOR = 6;
 
-    public static final double COUNTS_PER_METER = 256 * (11.9 / 3) * (1 / (6 * Math.PI)) * (1 / 2.54) * 100;
-    public static final double COUNTS_PER_FOOT = 256 * (11.9 / 3) * (1 / (6 * Math.PI)) * 12;
+    private static final double ENCODER_TURNS_PER_WHEEL_TURN = 11.9 / 3;
+    public static final double COUNTS_PER_METER = 256 * ENCODER_TURNS_PER_WHEEL_TURN * (1 / (6 * Math.PI)) * (1 / 2.54) * 100;
+    public static final double COUNTS_PER_FOOT = 256 * ENCODER_TURNS_PER_WHEEL_TURN * (1 / (6 * Math.PI)) * 12;
 }
