@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3494.robot.RobotMap;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.RollSide;
 
 /**
  * The roller claw subsystem. Contains methods for controlling the robot's roller claw.
@@ -25,6 +26,7 @@ public class Rollerclaw extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
+        this.setDefaultCommand(new RollSide(0.75));
     }
 
     /**
