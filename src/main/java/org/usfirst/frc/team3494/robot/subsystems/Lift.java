@@ -26,6 +26,7 @@ public class Lift extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
+        setDefaultCommand(new org.usfirst.frc.team3494.robot.commands.lift.Lift());
     }
 
     /**
