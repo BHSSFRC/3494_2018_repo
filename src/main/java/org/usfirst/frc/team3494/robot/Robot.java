@@ -96,9 +96,11 @@ public class Robot extends IterativeRobot {
 
         driveTrain = new Drivetrain();
         rollerClaw = new Rollerclaw();
+        rollerClaw.setRollerPist(false);
         lights = new Lights();
         ramps = new Ramps();
         ramps.retract();
+        ramps.closeClaw();
         lift = new Lift();
 
         oi = new OI();
