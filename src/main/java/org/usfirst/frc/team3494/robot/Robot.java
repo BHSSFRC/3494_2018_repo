@@ -191,8 +191,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left wheel revolutions", (Robot.driveTrain.getCountsLeft_Talon() / 4) * 3 / 11.9 / 256);
 
         SmartDashboard.putNumber("Left speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()));
-        SmartDashboard.putNumber("Left speed wheel revs per sec", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()) * 3 / 11.9);
         SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityRight()));
+
+        SmartDashboard.putNumber("Average distance", Robot.countsToFeet(Robot.driveTrain.getAverageDistance_Talon() / 4));
     }
 
     public static Timer getTimer() {
@@ -239,6 +240,10 @@ public class Robot extends IterativeRobot {
 
     public static double feetToEdges(double feet) {
         return Robot.feetToCounts(feet) * 4;
+    }
+
+    public static double countsToFeet(double counts) {
+        return counts / RobotMap.COUNTS_PER_FOOT;
     }
 
     /**
