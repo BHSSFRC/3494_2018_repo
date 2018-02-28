@@ -194,6 +194,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityRight()));
 
         SmartDashboard.putNumber("Average distance", Robot.countsToFeet(Robot.driveTrain.getAverageDistance_Talon() / 4));
+
+        SmartDashboard.putBoolean("Claw relaxed?", Robot.rollerClaw.getRollerPist());
     }
 
     public static Timer getTimer() {
