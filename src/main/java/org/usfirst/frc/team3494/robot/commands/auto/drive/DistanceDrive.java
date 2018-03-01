@@ -35,6 +35,11 @@ public class DistanceDrive extends Command {
     }
 
     @Override
+    protected void end() {
+        Robot.driveTrain.TankDrive(0, 0);
+    }
+
+    @Override
     protected boolean isFinished() {
         return Math.abs(this.distance) <= Math.abs(Robot.driveTrain.getAverageCounts_Talon());
     }
