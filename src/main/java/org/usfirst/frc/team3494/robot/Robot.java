@@ -111,7 +111,7 @@ public class Robot extends IterativeRobot {
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
         chooser.addObject("Cube chaser", new CubePursuit());
-        chooser.addObject("Cross baseline", new DistanceDrive(10));
+        chooser.addObject("Cross baseline", new DistanceDrive(10.0D - (33.0 / 12.0)));
         chooser.addObject("Fully automated auto", null);
         chooser.addObject("2x over a", new QuickDirtyDrive());
         SmartDashboard.putData("auto selection", chooser);
