@@ -153,7 +153,6 @@ public class Robot extends IterativeRobot {
         }
 
         Robot.putDebugInfo();
-        SmartDashboard.putNumber("Angle (radians)", Pathfinder.d2r(Robot.ahrs.getAngle()));
         SmartDashboard.putNumber("two x over a", 200 / (Pathfinder.d2r(Robot.ahrs.getAngle())));
     }
 
@@ -196,6 +195,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Average distance", Robot.countsToFeet(Robot.driveTrain.getAverageDistance_Talon() / 4));
 
         SmartDashboard.putBoolean("Claw relaxed?", Robot.rollerClaw.getRollerPist());
+
+        SmartDashboard.putNumber("Angle", Robot.ahrs.getAngle());
     }
 
     public static Timer getTimer() {
