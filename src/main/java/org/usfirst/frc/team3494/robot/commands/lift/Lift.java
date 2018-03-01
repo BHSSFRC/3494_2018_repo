@@ -15,7 +15,7 @@ public class Lift extends Command {
         if (pov == -1) {
             Robot.lift.lift(0);
         } else if (pov == 0) {
-            Robot.lift.lift(0.5);
+            Robot.lift.lift(0.85);
         } else if (pov == 180) {
             Robot.lift.lift(-0.25);
         }

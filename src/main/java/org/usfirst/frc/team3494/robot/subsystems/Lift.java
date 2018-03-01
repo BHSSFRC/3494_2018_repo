@@ -20,7 +20,7 @@ public class Lift extends Subsystem {
 
     public Lift() {
         liftMotor = new TalonSRX(RobotMap.LIFT_MOTOR);
-        liftMotor.setNeutralMode(NeutralMode.Brake);
+        liftMotor.setNeutralMode(NeutralMode.Coast);
         liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     }
 
