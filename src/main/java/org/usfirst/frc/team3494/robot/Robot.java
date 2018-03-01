@@ -14,7 +14,7 @@ import org.usfirst.frc.team3494.robot.commands.auto.lift.LiftToHeight;
 import org.usfirst.frc.team3494.robot.commands.auto.rollerclaw.RemoveCube;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
-import org.usfirst.frc.team3494.robot.commands.auto.tests.ReflectivePursuit;
+import org.usfirst.frc.team3494.robot.commands.auto.vision.ReflectivePursuit;
 import org.usfirst.frc.team3494.robot.sensors.Limelight;
 import org.usfirst.frc.team3494.robot.subsystems.*;
 
