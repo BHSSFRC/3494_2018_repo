@@ -135,12 +135,25 @@ public class Robot extends IterativeRobot {
             char switchSide = fieldData.charAt(0);
             String selectedAuto = positionChooser.getSelected() + switchSide;
             String[] autoFiles = Robot.autoFiles.get(selectedAuto);
-            Command[] cmdList = new Command[]{
-                    new ProfileFollower(autoFiles[0], autoFiles[1]),
-                    new ReflectivePursuit(0),
-                    new LiftToHeight(100),
-                    new RemoveCube()
-            };
+            Command[] cmdList;
+            if (positionChooser.getSelected().equals(String.valueOf(switchSide))) {
+                cmdList = new Command[]{
+                        new ProfileFollower(autoFiles[0], autoFiles[1]),
+                        new LiftToHeight(100),
+                        new RemoveCube()
+                };
+            } else if (positionChooser.getSelected().equals("C")) {
+                cmdList = new Command[]{
+                        new ProfileFollower(autoFiles[0], autoFiles[1]),
+                        new ReflectivePursuit(0),
+                        new LiftToHeight(100),
+                        new RemoveCube()
+                };
+            } else {
+                cmdList = new Command[]{
+                        new DistanceDrive(10) // cross base
+                };
+            }
             autoCmd = new DynamicAutoCommand(cmdList);
             autoCmd.start();
         }
