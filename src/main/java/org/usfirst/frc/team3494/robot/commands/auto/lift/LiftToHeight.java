@@ -21,6 +21,11 @@ public class LiftToHeight extends Command {
     }
 
     @Override
+    protected void end() {
+        Robot.lift.lift(0);
+    }
+
+    @Override
     protected boolean isFinished() {
         return (height == Robot.lift.getHeight());
     }
