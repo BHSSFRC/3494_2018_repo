@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3494.robot.RobotMap;
@@ -16,17 +18,25 @@ public class Ramps extends Subsystem {
      * Solenoid running the right ramp.
      */
     private DoubleSolenoid rightRamp;
-
+    /**
+     * Solenoid that holds the ramps in place when not deployed.
+     */
     private DoubleSolenoid rampClaw;
+
+    private TalonSRX winch;
 
     public Ramps() {
         super("Ramps");
+
         this.leftRamp = new DoubleSolenoid(RobotMap.LEFT_RAMP_FORWARD, RobotMap.LEFT_RAMP_REVERSE);
         this.leftRamp.set(DoubleSolenoid.Value.kReverse);
         this.rightRamp = new DoubleSolenoid(RobotMap.RIGHT_RAMP_FORWARD, RobotMap.RIGHT_RAMP_REVERSE);
         this.rightRamp.set(DoubleSolenoid.Value.kReverse);
+
         this.rampClaw = new DoubleSolenoid(RobotMap.RAMP_CLAW_FORWARD, RobotMap.RAMP_CLAW_REVERSE);
         this.rampClaw.set(DoubleSolenoid.Value.kReverse);
+
+        this.winch = new TalonSRX(RobotMap.RAMP_WINCH);
     }
 
     @Override
@@ -63,5 +73,9 @@ public class Ramps extends Subsystem {
 
     public void setRightRamp(DoubleSolenoid.Value v) {
         this.rightRamp.set(v);
+    }
+
+    public void setWinch(double speed) {
+        this.winch.set(ControlMode.PercentOutput, speed);
     }
 }
