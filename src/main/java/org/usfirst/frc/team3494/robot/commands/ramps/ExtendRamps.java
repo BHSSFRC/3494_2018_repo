@@ -14,17 +14,19 @@ public class ExtendRamps extends Command {
 
     @Override
     protected void execute() {
-        switch (this.side) {
-            case LEFT:
-                Robot.ramps.setLeftRamp(DoubleSolenoid.Value.kForward);
-                break;
-            case RIGHT:
-                Robot.ramps.setRightRamp(DoubleSolenoid.Value.kForward);
-                break;
-            case BOTH:
-                Robot.ramps.extend();
-                break;
-        }
+        if (Robot.ramps.getClaw().equals(DoubleSolenoid.Value.kForward)) {
+            switch (this.side) {
+                case LEFT:
+                    Robot.ramps.setLeftRamp(DoubleSolenoid.Value.kForward);
+                    break;
+                case RIGHT:
+                    Robot.ramps.setRightRamp(DoubleSolenoid.Value.kForward);
+                    break;
+                case BOTH:
+                    Robot.ramps.extend();
+                    break;
+            }
+        } // else no-op
     }
 
     protected boolean isFinished() {
