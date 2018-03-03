@@ -67,6 +67,10 @@ public class Ramps extends Subsystem {
         this.rampClaw.set(DoubleSolenoid.Value.kReverse);
     }
 
+    public DoubleSolenoid.Value getClaw() {
+        return this.rampClaw.get();
+    }
+
     public void setLeftRamp(DoubleSolenoid.Value v) {
         this.leftRamp.set(v);
     }

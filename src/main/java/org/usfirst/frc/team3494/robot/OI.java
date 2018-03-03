@@ -3,7 +3,9 @@ package org.usfirst.frc.team3494.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import org.usfirst.frc.team3494.robot.commands.IncrementLights;
+import org.usfirst.frc.team3494.robot.commands.ramps.ExtendRamps;
+import org.usfirst.frc.team3494.robot.commands.ramps.OpenClaw;
+import org.usfirst.frc.team3494.robot.commands.ramps.RunWinch;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.HoldRollers;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.InvertClawState;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.Roll;
@@ -47,9 +49,21 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
     OI() {
+        // primary controls
         JoystickButton leftThumb = new JoystickButton(joyLeft, 2);
-        leftThumb.whenPressed(new IncrementLights());
+        leftThumb.whenPressed(new OpenClaw());
 
+        JoystickButton rightBase_Four = new JoystickButton(joyRight, 4);
+        rightBase_Four.whenPressed(new RunWinch(0.5));
+        rightBase_Four.whenReleased(new RunWinch(0));
+
+        JoystickButton rightBase_Six = new JoystickButton(joyRight, 6);
+        rightBase_Six.whenPressed(new ExtendRamps(ExtendRamps.Side.LEFT));
+
+        JoystickButton rightBase_Five = new JoystickButton(joyRight, 5);
+        rightBase_Five.whenPressed(new ExtendRamps(ExtendRamps.Side.RIGHT));
+
+        // secondary controls
         JoystickButton xbox_a = new JoystickButton(xbox, 1);
         xbox_a.whenPressed(new HoldRollers());
 
