@@ -52,6 +52,10 @@ public class Lift extends Subsystem {
         }
     }
 
+    public void unsafeLift(double power) {
+        liftMotor.set(ControlMode.PercentOutput, power);
+    }
+
     public double getHeight_Edges() {
         return liftMotor.getSelectedSensorPosition(0);
     }
