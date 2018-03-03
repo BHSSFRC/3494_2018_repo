@@ -53,15 +53,19 @@ public class OI {
         JoystickButton leftThumb = new JoystickButton(joyLeft, 3);
         leftThumb.whenPressed(new OpenClaw());
 
-        JoystickButton rightBase_Four = new JoystickButton(joyRight, 5);
-        rightBase_Four.whenPressed(new RunWinch(0.5));
-        rightBase_Four.whenReleased(new RunWinch(0));
+        JoystickButton rightBase_Winch = new JoystickButton(joyRight, 11);
+        rightBase_Winch.whenPressed(new RunWinch(0.5));
+        rightBase_Winch.whenReleased(new RunWinch(0));
 
-        JoystickButton rightBase_Six = new JoystickButton(joyRight, 7);
-        rightBase_Six.whenPressed(new ExtendRamps(ExtendRamps.Side.LEFT));
+        JoystickButton rightBase_WinchOut = new JoystickButton(joyRight, 5);
+        rightBase_WinchOut.whenPressed(new RunWinch(-0.5));
+        rightBase_WinchOut.whenReleased(new RunWinch(0));
 
-        JoystickButton rightBase_Five = new JoystickButton(joyRight, 6);
-        rightBase_Five.whenPressed(new ExtendRamps(ExtendRamps.Side.RIGHT));
+        JoystickButton rightBase_Left = new JoystickButton(joyRight, 12);
+        rightBase_Left.whenPressed(new ExtendRamps(ExtendRamps.Side.LEFT));
+
+        JoystickButton rightBase_Right = new JoystickButton(joyRight, 13);
+        rightBase_Right.whenPressed(new ExtendRamps(ExtendRamps.Side.RIGHT));
 
         // secondary controls
         JoystickButton xbox_a = new JoystickButton(xbox, 1);
