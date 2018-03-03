@@ -43,7 +43,13 @@ public class Lift extends Subsystem {
      *              between -1 and 1.
      */
     public void lift(double power) {
-        liftMotor.set(ControlMode.PercentOutput, power);
+        if (power > 0 && !this.getHallTop()) {
+            liftMotor.set(ControlMode.PercentOutput, power);
+        } else if (power < 0 && !this.getHallBottom()) {
+            liftMotor.set(ControlMode.PercentOutput, power);
+        } else if (power == 0) {
+            liftMotor.set(ControlMode.PercentOutput, power);
+        }
     }
 
     public double getHeight_Edges() {
