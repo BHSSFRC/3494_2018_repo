@@ -23,7 +23,6 @@ public class Drive extends Command {
 
     @Override
     protected void execute() {
-
         int pov = Robot.oi.getJoyLeft().getPOV();
         if (pov == 0) {
             this.front = Fronts.CLAW;
