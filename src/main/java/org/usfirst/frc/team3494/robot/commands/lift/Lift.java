@@ -14,9 +14,9 @@ public class Lift extends Command {
         int pov = Robot.oi.getXbox().getPOV();
         if (pov == -1) {
             Robot.lift.lift(0);
-        } else if (pov == 0) {
+        } else if (pov == 0 && !Robot.lift.getHallTop()) {
             Robot.lift.lift(0.85);
-        } else if (pov == 180) {
+        } else if (pov == 180 && !Robot.lift.getHallBottom()) {
             Robot.lift.lift(-0.25);
         }
     }
