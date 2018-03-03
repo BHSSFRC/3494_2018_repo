@@ -139,14 +139,14 @@ public class Robot extends IterativeRobot {
             if (positionChooser.getSelected().equals(String.valueOf(switchSide))) {
                 cmdList = new Command[]{
                         new ProfileFollower(autoFiles[0], autoFiles[1]),
-                        new LiftToHeight(100),
+                        // new LiftToHeight(100),
                         new RemoveCube()
                 };
             } else if (positionChooser.getSelected().equals("C")) {
                 cmdList = new Command[]{
                         new ProfileFollower(autoFiles[0], autoFiles[1]),
                         new ReflectivePursuit(0),
-                        new LiftToHeight(100),
+                        // new LiftToHeight(100),
                         new RemoveCube()
                 };
             } else {
