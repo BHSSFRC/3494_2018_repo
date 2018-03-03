@@ -61,10 +61,10 @@ public class OI {
         rightBase_WinchOut.whenPressed(new RunWinch(-0.5));
         rightBase_WinchOut.whenReleased(new RunWinch(0));
 
-        JoystickButton rightBase_Left = new JoystickButton(joyRight, 12);
+        JoystickButton rightBase_Left = new JoystickButton(joyRight, 16);
         rightBase_Left.whenPressed(new ExtendRamps(ExtendRamps.Side.LEFT));
 
-        JoystickButton rightBase_Right = new JoystickButton(joyRight, 13);
+        JoystickButton rightBase_Right = new JoystickButton(joyRight, 10);
         rightBase_Right.whenPressed(new ExtendRamps(ExtendRamps.Side.RIGHT));
 
         // secondary controls
