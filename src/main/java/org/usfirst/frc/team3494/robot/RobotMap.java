@@ -48,6 +48,8 @@ public class RobotMap {
     public static final int RAMP_CLAW_REVERSE = 6;
 
     public static final int LIFT_MOTOR = 6;
+    public static final int LIFT_HALL_TOP = 0;
+    public static final int LIFT_HALL_BOT = 1;
 
     private static final double ENCODER_TURNS_PER_WHEEL_TURN = 2.975;
     public static final double COUNTS_PER_METER = 256 * ENCODER_TURNS_PER_WHEEL_TURN * (1 / (6 * Math.PI)) * (1 / 2.54) * 100;
