@@ -10,7 +10,6 @@ import jaci.pathfinder.Pathfinder;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.ProfileFollower;
-import org.usfirst.frc.team3494.robot.commands.auto.lift.LiftToHeight;
 import org.usfirst.frc.team3494.robot.commands.auto.rollerclaw.RemoveCube;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
@@ -260,6 +259,24 @@ public class Robot extends IterativeRobot {
 
     public static double countsToFeet(double counts) {
         return counts / RobotMap.COUNTS_PER_FOOT;
+    }
+
+    /**
+     * Limit values to a range.
+     *
+     * @param num   The number to limit to [-bound, bound].
+     * @param bound The bounds to use in limiting.
+     * @return The limited value.
+     */
+    public static double limit(double num, double bound) {
+        bound = Math.abs(bound);
+        if (num > bound) {
+            return 1.0;
+        }
+        if (num < -bound) {
+            return -1.0;
+        }
+        return num;
     }
 
     /**

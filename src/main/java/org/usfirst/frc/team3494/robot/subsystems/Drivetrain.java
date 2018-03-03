@@ -141,10 +141,10 @@ public class Drivetrain extends PIDSubsystem {
      * @author Worcester Polytechnic Institute
      */
     public void ArcadeDrive(double xSpeed, double zRotation, boolean squaredInputs) {
-        xSpeed = limit(xSpeed);
+        xSpeed = Robot.limit(xSpeed, 1);
         xSpeed = applyDeadband(xSpeed, 0.02);
 
-        zRotation = limit(zRotation);
+        zRotation = Robot.limit(zRotation, 1);
         zRotation = applyDeadband(zRotation, 0.02);
 
         // Square the inputs (while preserving the sign) to increase fine control
@@ -179,8 +179,8 @@ public class Drivetrain extends PIDSubsystem {
             }
         }
 
-        driveLeftMaster.set(ControlMode.PercentOutput, limit(leftMotorOutput));
-        driveRightMaster.set(ControlMode.PercentOutput, limit(rightMotorOutput));
+        driveLeftMaster.set(ControlMode.PercentOutput, Robot.limit(leftMotorOutput, 1));
+        driveRightMaster.set(ControlMode.PercentOutput, Robot.limit(rightMotorOutput, 1));
     }
 
     public double getSonicDistance() {
@@ -238,22 +238,6 @@ public class Drivetrain extends PIDSubsystem {
     public void StopDrive() {
         this.driveLeftMaster.set(ControlMode.PercentOutput, 0);
         this.driveRightMaster.set(ControlMode.PercentOutput, 0);
-    }
-
-    /**
-     * Limit motor values to the -1.0 to +1.0 range.
-     *
-     * @param num The number to limit to [-1, 1].
-     * @return The limited value.
-     */
-    private static double limit(double num) {
-        if (num > 1.0) {
-            return 1.0;
-        }
-        if (num < -1.0) {
-            return -1.0;
-        }
-        return num;
     }
 
     /**
