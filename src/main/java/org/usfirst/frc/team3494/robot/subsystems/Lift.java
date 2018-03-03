@@ -47,8 +47,8 @@ public class Lift extends Subsystem {
             liftMotor.set(ControlMode.PercentOutput, power);
         } else if (power < 0 && !this.getHallBottom()) {
             liftMotor.set(ControlMode.PercentOutput, power);
-        } else if (power == 0) {
-            liftMotor.set(ControlMode.PercentOutput, power);
+        } else {
+            liftMotor.set(ControlMode.PercentOutput, 0);
         }
     }
 
