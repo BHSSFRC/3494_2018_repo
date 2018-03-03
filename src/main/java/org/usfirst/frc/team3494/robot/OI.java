@@ -50,17 +50,17 @@ public class OI {
     // button.whenReleased(new ExampleCommand());
     OI() {
         // primary controls
-        JoystickButton leftThumb = new JoystickButton(joyLeft, 2);
+        JoystickButton leftThumb = new JoystickButton(joyLeft, 3);
         leftThumb.whenPressed(new OpenClaw());
 
-        JoystickButton rightBase_Four = new JoystickButton(joyRight, 4);
+        JoystickButton rightBase_Four = new JoystickButton(joyRight, 5);
         rightBase_Four.whenPressed(new RunWinch(0.5));
         rightBase_Four.whenReleased(new RunWinch(0));
 
-        JoystickButton rightBase_Six = new JoystickButton(joyRight, 6);
+        JoystickButton rightBase_Six = new JoystickButton(joyRight, 7);
         rightBase_Six.whenPressed(new ExtendRamps(ExtendRamps.Side.LEFT));
 
-        JoystickButton rightBase_Five = new JoystickButton(joyRight, 5);
+        JoystickButton rightBase_Five = new JoystickButton(joyRight, 6);
         rightBase_Five.whenPressed(new ExtendRamps(ExtendRamps.Side.RIGHT));
 
         // secondary controls
