@@ -26,7 +26,7 @@ public class Rollerclaw extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        this.setDefaultCommand(new RollSide(0.85));
+        this.setDefaultCommand(new RollSide(0.9));
     }
 
     /**
