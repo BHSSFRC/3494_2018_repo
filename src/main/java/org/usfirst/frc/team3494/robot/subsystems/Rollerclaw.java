@@ -26,7 +26,7 @@ public class Rollerclaw extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        this.setDefaultCommand(new RollSide(0.9));
+        this.setDefaultCommand(new RollSide(1.0D));
     }
 
     /**
@@ -47,7 +47,7 @@ public class Rollerclaw extends Subsystem {
      * Runs the rollers outwards.
      */
     public void rollOut() {
-        this.customRoll(-0.5);
+        this.customRoll(-0.75);
     }
 
     /**
