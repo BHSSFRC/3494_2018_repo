@@ -130,9 +130,9 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
         autoCmd = chooser.getSelected();
-        if (autoCmd != null) {
+        if (autoCmd != null && !(autoCmd instanceof DistanceDrive)) {
             autoCmd.start();
-        } else {
+        } else if (autoCmd == null) {
             System.out.println("Defaulting to fully automatic auto");
             // generate appropriate command
             char switchSide = fieldData.charAt(0);
@@ -158,6 +158,13 @@ public class Robot extends IterativeRobot {
                 };
             }
             autoCmd = new DynamicAutoCommand(cmdList);
+            autoCmd.start();
+        } else {
+            if (String.valueOf(fieldData.charAt(0)).equals(positionChooser.getSelected())) {
+                autoCmd = new DistanceDrive(10.0D - (33.0 / 12.0), true);
+            } else {
+                autoCmd = new DistanceDrive(10.0D - (30.0 / 12.0), false);
+            }
             autoCmd.start();
         }
     }
