@@ -47,7 +47,7 @@ public class Rollerclaw extends Subsystem {
      * Runs the rollers outwards.
      */
     public void rollOut() {
-        this.customRoll(-0.75);
+        this.customRoll(-0.5);
     }
 
     /**
