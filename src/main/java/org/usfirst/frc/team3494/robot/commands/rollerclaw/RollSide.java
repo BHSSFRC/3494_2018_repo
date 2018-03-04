@@ -19,7 +19,7 @@ public class RollSide extends Command {
         if (Robot.oi.getXbox().getBumper(GenericHID.Hand.kLeft) && Robot.oi.getXbox().getBumper(GenericHID.Hand.kRight)) {
             Robot.rollerClaw.customRoll(power);
         } else if (Robot.oi.getXbox().getBumper(GenericHID.Hand.kLeft)) {
-            Robot.rollerClaw.singleRoll(Rollerclaw.Rollers.LEFT, this.power);
+            Robot.rollerClaw.singleRoll(Rollerclaw.Rollers.LEFT, this.power * 0.9);
         } else if (Robot.oi.getXbox().getBumper(GenericHID.Hand.kRight)) {
             Robot.rollerClaw.singleRoll(Rollerclaw.Rollers.RIGHT, this.power);
         } // if none of above are true, execute ends without doing anything
