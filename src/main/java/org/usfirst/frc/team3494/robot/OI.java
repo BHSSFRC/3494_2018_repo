@@ -69,7 +69,8 @@ public class OI {
 
         // secondary controls
         JoystickButton xbox_a = new JoystickButton(xbox, 1);
-        xbox_a.whenPressed(new HoldRollers());
+        xbox_a.whenPressed(new Roll(0.5));
+        xbox_a.whenReleased(new StopRoll());
 
         JoystickButton xbox_b = new JoystickButton(xbox, 2);
         xbox_b.whenPressed(new Roll(-0.5));
