@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team3494.robot.commands.ramps.ExtendRamps;
 import org.usfirst.frc.team3494.robot.commands.ramps.OpenClaw;
 import org.usfirst.frc.team3494.robot.commands.ramps.RunWinch;
-import org.usfirst.frc.team3494.robot.commands.rollerclaw.HoldRollers;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.InvertClawState;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.Roll;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.StopRoll;
