@@ -161,7 +161,11 @@ public class Robot extends IterativeRobot {
             autoCmd.start();
         } else {
             if (String.valueOf(fieldData.charAt(0)).equals(positionChooser.getSelected())) {
-                autoCmd = new DistanceDrive(10.0D - (33.0 / 12.0), true);
+                Command[] list = new Command[]{
+                        new DistanceDrive(10.0D - (33.0 / 12.0), true),
+                        new RemoveCube()
+                };
+                autoCmd = new DynamicAutoCommand(list);
             } else {
                 autoCmd = new DistanceDrive(10.0D - (30.0 / 12.0), false);
             }
@@ -181,6 +185,9 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
+        if (autoCmd != null) {
+            autoCmd.cancel();
+        }
         limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
         limelight.setPipeline(1);
         if (autoCmd != null && autoCmd.isRunning()) {
