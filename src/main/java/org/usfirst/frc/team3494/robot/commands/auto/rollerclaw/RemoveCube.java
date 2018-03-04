@@ -26,6 +26,6 @@ public class RemoveCube extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.getTimer().get() >= 1;
+        return Robot.getTimer().get() >= 5;
     }
 }
