@@ -9,6 +9,7 @@ import org.usfirst.frc.team3494.robot.Robot;
 public class DistanceDrive extends Command {
 
     private double distance;
+    private boolean fast;
 
     /**
      * Constructor.
@@ -16,8 +17,13 @@ public class DistanceDrive extends Command {
      * @param distance The distance to drive, in feet.
      */
     public DistanceDrive(double distance) {
+        this(distance, false);
+    }
+
+    public DistanceDrive(double distance, boolean fast) {
         requires(Robot.driveTrain);
         this.distance = Robot.feetToEdges(distance);
+        this.fast = fast;
     }
 
     @Override
@@ -27,10 +33,16 @@ public class DistanceDrive extends Command {
 
     @Override
     protected void execute() {
-        if (distance > 0) {
-            Robot.driveTrain.TankDrive(0.5, 0.5);
+        double speed;
+        if (fast) {
+            speed = 0.5;
         } else {
-            Robot.driveTrain.TankDrive(-0.5, -0.5);
+            speed = 0.25;
+        }
+        if (distance > 0) {
+            Robot.driveTrain.TankDrive(speed, speed);
+        } else {
+            Robot.driveTrain.TankDrive(-speed, -speed);
         }
     }
 
