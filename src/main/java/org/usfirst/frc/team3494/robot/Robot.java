@@ -185,6 +185,9 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
+        if (autoCmd != null) {
+            autoCmd.cancel();
+        }
         limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
         limelight.setPipeline(1);
         if (autoCmd != null && autoCmd.isRunning()) {
