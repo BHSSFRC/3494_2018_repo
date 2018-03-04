@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3494.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -106,6 +107,9 @@ public class Robot extends IterativeRobot {
         timer = new Timer();
         timer.reset();
         timer.start();
+
+        UsbCamera usbCamera = CameraServer.getInstance().startAutomaticCapture("Lift Camera", 0);
+        UsbCamera usbCamera_rear = CameraServer.getInstance().startAutomaticCapture("Rearview Camera", 1);
 
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
