@@ -58,7 +58,6 @@ public class Drivetrain extends PIDSubsystem {
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftMaster.setNeutralMode(NeutralMode.Brake);
         this.driveLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        // this.driveLeftMaster.setSensorPhase(true);
         this.driveLeftMaster.config_kP(0, talon_P, 10);
         this.driveLeftMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10.0) * 4.0), 10);
 
@@ -126,8 +125,6 @@ public class Drivetrain extends PIDSubsystem {
      * @param right The speed to drive the right side to.
      */
     public void VelocityTank(double left, double right) {
-        System.out.println("Target: " + left + ", " + right);
-        System.out.println("Actual: " + this.driveLeftMaster.getSensorCollection().getQuadratureVelocity() + ", " + this.driveRightMaster.getSensorCollection().getQuadratureVelocity());
         this.driveLeftMaster.set(ControlMode.Velocity, left);
         this.driveRightMaster.set(ControlMode.Velocity, right);
     }
@@ -229,7 +226,6 @@ public class Drivetrain extends PIDSubsystem {
         return ((double) this.getCountsLeft_Talon() / 4) / 256;
     }
 
-
     /**
      * The right drivetrain distance.
      *
@@ -239,6 +235,11 @@ public class Drivetrain extends PIDSubsystem {
         return ((double) this.getCountsRight_Talon() / 4) / 256;
     }
 
+    /**
+     * The average drivetrain distance.
+     *
+     * @return The average number of encoder revolutions.
+     */
     public double getAverageDistance_Talon() {
         return ((this.getDistanceLeft_Talon() + this.getDistanceRight_Talon()) / 2);
     }
