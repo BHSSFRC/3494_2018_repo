@@ -46,7 +46,9 @@ public class Drivetrain extends PIDSubsystem {
      */
     private HRLVUltrasonicSensor uSonic;
 
-    private boolean teleop;
+    /**
+     * The turn value to use with PID angle driving via {@link Drivetrain#ArcadeDrive(double, double, boolean)}.
+     */
     private double pidTune;
 
     public Drivetrain() {
@@ -88,7 +90,6 @@ public class Drivetrain extends PIDSubsystem {
 
         this.uSonic = new HRLVUltrasonicSensor(RobotMap.USONIC_PIN);
 
-        teleop = false;
         // config pid loop
         pidTune = 0;
         double outRange = 0.9;
@@ -295,11 +296,7 @@ public class Drivetrain extends PIDSubsystem {
 
     @Override
     protected double returnPIDInput() {
-        if (!teleop) {
-            return Robot.ahrs.getYaw();
-        } else {
-            return Robot.ahrs.getAngle();
-        }
+        return Robot.ahrs.getYaw();
     }
 
     @Override
@@ -307,6 +304,11 @@ public class Drivetrain extends PIDSubsystem {
         this.pidTune = output;
     }
 
+    /**
+     * Returns the turn value from the drivetrain PID controller. Should be used for driving with {@link Drivetrain#ArcadeDrive(double, double, boolean)}.
+     *
+     * @return The turn value to use for reaching the PID setpoint.
+     */
     public double getPidTune() {
         return pidTune;
     }
