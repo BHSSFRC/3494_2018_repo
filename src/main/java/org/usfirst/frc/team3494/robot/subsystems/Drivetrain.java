@@ -47,7 +47,7 @@ public class Drivetrain extends PIDSubsystem {
     private HRLVUltrasonicSensor uSonic;
 
     private boolean teleop;
-    public double pidTune;
+    private double pidTune;
 
     public Drivetrain() {
         super("Drivetrain", 0.025, 0, 0);

@@ -26,7 +26,7 @@ public class CubePursuit extends Command {
     @Override
     protected void execute() {
         if (Robot.limelight.hasValidTarget()) {
-            Robot.driveTrain.ArcadeDrive(0.65, Robot.driveTrain.pidTune, true);
+            Robot.driveTrain.ArcadeDrive(0.65, Robot.driveTrain.getPidTune(), true);
             double tx = Robot.limelight.getXDistance();
             Robot.driveTrain.setSetpoint(Robot.ahrs.getYaw() + tx);
             SmartDashboard.putNumber("Drive PID setpoint", Robot.driveTrain.getSetpoint());
