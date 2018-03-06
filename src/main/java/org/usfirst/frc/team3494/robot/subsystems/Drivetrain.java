@@ -41,10 +41,10 @@ public class Drivetrain extends PIDSubsystem {
      * Additional follower Talon SRX, right side.
      */
     private TalonSRX driveRightFollowTwo;
-
+    /**
+     * The ultrasonic sensor used for ending some vision commands.
+     */
     private HRLVUltrasonicSensor uSonic;
-
-    private static final double DISTANCE_PER_PULSE = 1 / 256;
 
     private boolean teleop;
     public double pidTune;
@@ -183,26 +183,57 @@ public class Drivetrain extends PIDSubsystem {
         driveRightMaster.set(ControlMode.PercentOutput, Robot.limit(rightMotorOutput, 1));
     }
 
+    /**
+     * Returns the distance from a wall as given by the ultrasonic sensor.
+     *
+     * @return The distance to a wall if the ultrasonic sensor is facing one.
+     */
     public double getSonicDistance() {
         return this.uSonic.getDistance();
     }
 
+    /**
+     * The number of encoder edges on the left side of the drivetrain.
+     *
+     * @return The number of encoder edges on the left side of the drivetrain.
+     */
     public int getCountsLeft_Talon() {
         return this.driveLeftMaster.getSensorCollection().getQuadraturePosition();
     }
 
+    /**
+     * The number of encoder edges on the right side of the drivetrain.
+     *
+     * @return The number of encoder edges on the right side of the drivetrain.
+     */
     public int getCountsRight_Talon() {
         return this.driveRightMaster.getSensorCollection().getQuadraturePosition();
     }
 
+    /**
+     * The average of the edges measured by each drivetrain side.
+     *
+     * @return The average distance traveled by the drivetrain.
+     */
     public double getAverageCounts_Talon() {
         return (this.getCountsLeft_Talon() + this.getCountsRight_Talon()) / 2;
     }
 
+    /**
+     * The left drivetrain distance.
+     *
+     * @return The number of encoder revolutions on the drivetrain left side.
+     */
     public double getDistanceLeft_Talon() {
         return ((double) this.getCountsLeft_Talon() / 4) / 256;
     }
 
+
+    /**
+     * The right drivetrain distance.
+     *
+     * @return The number of encoder revolutions on the drivetrain right side.
+     */
     public double getDistanceRight_Talon() {
         return ((double) this.getCountsRight_Talon() / 4) / 256;
     }
@@ -225,6 +256,9 @@ public class Drivetrain extends PIDSubsystem {
         return this.driveRightMaster.getSensorCollection().getQuadratureVelocity();
     }
 
+    /**
+     * Sets the number of encoder edges and revolutions on both sides to zero.
+     */
     public void resetEncoders() {
         this.driveRightMaster.getSensorCollection().setQuadraturePosition(0, 0);
         this.driveLeftMaster.getSensorCollection().setQuadraturePosition(0, 0);
@@ -232,8 +266,6 @@ public class Drivetrain extends PIDSubsystem {
 
     /**
      * Stops all drive motors. Does not require re-enabling motors after use.
-     *
-     * @since 0.0.0
      */
     public void StopDrive() {
         this.driveLeftMaster.set(ControlMode.PercentOutput, 0);
@@ -261,7 +293,6 @@ public class Drivetrain extends PIDSubsystem {
         }
     }
 
-
     @Override
     protected double returnPIDInput() {
         if (!teleop) {
@@ -280,16 +311,23 @@ public class Drivetrain extends PIDSubsystem {
         return pidTune;
     }
 
+    /**
+     * Convert native Talon units to revs/second.
+     *
+     * @param nat The value to convert in edges/decisecond.
+     * @return The converted value in revolutions/second.
+     */
     public static double nativeToRPS(double nat) {
         return nat * 10 / (256 * 4);
     }
 
+    /**
+     * Convert revs/second to native Talon units.
+     *
+     * @param rps The value to convert in revs/second.
+     * @return The converted value in edges/decisecond.
+     */
     public static double rpsToNative(double rps) {
         return rps / 10 * (256 * 4);
-    }
-
-    public void PosDrive(double left, double right) {
-        this.driveRightMaster.set(ControlMode.Position, right);
-        this.driveLeftMaster.set(ControlMode.Position, left);
     }
 }
