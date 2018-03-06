@@ -1,13 +1,11 @@
 package org.usfirst.frc.team3494.robot;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import jaci.pathfinder.Pathfinder;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.ProfileFollower;
@@ -108,8 +106,8 @@ public class Robot extends IterativeRobot {
         timer.reset();
         timer.start();
 
-        UsbCamera usbCamera = CameraServer.getInstance().startAutomaticCapture("Lift Camera", 0);
-        UsbCamera usbCamera_rear = CameraServer.getInstance().startAutomaticCapture("Rearview Camera", 1);
+        CameraServer.getInstance().startAutomaticCapture("Lift Camera", 0);
+        CameraServer.getInstance().startAutomaticCapture("Rearview Camera", 1);
 
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
@@ -135,17 +133,18 @@ public class Robot extends IterativeRobot {
         } else if (autoCmd == null) {
             System.out.println("Defaulting to fully automatic auto");
             // generate appropriate command
-            char switchSide = fieldData.charAt(0);
-            String selectedAuto = positionChooser.getSelected() + switchSide;
+            String switchSide = String.valueOf(fieldData.charAt(0));
+            String startSide = positionChooser.getSelected();
+            String selectedAuto = startSide + switchSide;
             String[] autoFiles = Robot.autoFiles.get(selectedAuto);
             Command[] cmdList;
-            if (positionChooser.getSelected().equals(String.valueOf(switchSide))) {
+            if (startSide.equals(switchSide)) {
                 cmdList = new Command[]{
                         new ProfileFollower(autoFiles[0], autoFiles[1]),
                         // new LiftToHeight(100),
                         new RemoveCube()
                 };
-            } else if (positionChooser.getSelected().equals("C")) {
+            } else if (startSide.equals("C")) {
                 cmdList = new Command[]{
                         new ProfileFollower(autoFiles[0], autoFiles[1]),
                         new ReflectivePursuit(0),
@@ -178,9 +177,7 @@ public class Robot extends IterativeRobot {
         if (autoCmd != null) {
             Scheduler.getInstance().run();
         }
-
         Robot.putDebugInfo();
-        SmartDashboard.putNumber("two x over a", 200 / (Pathfinder.d2r(Robot.ahrs.getAngle())));
     }
 
     @Override
@@ -194,7 +191,6 @@ public class Robot extends IterativeRobot {
             autoCmd.cancel();
         }
         Robot.driveTrain.resetEncoders();
-        SmartDashboard.putNumber("Left speed wheel revs per sec", 0);
     }
 
     @Override
@@ -217,7 +213,6 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left enc", Robot.driveTrain.getCountsLeft_Talon());
         SmartDashboard.putNumber("Right enc", Robot.driveTrain.getCountsRight_Talon());
 
-        SmartDashboard.putNumber("Left wheel revolutions", (Robot.driveTrain.getCountsLeft_Talon() / 4) * 3 / 11.9 / 256);
 
         SmartDashboard.putNumber("Left speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()));
         SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityRight()));
@@ -253,12 +248,6 @@ public class Robot extends IterativeRobot {
         return meters * RobotMap.COUNTS_PER_METER;
     }
 
-    /**
-     * Convert a distance in meters to a number of encoder edges.
-     *
-     * @param meters The number of meters to convert to edges.
-     * @return The number of edges in the given distance.
-     */
     public static double metersToEdges(double meters) {
         return Robot.metersToCounts(meters) * 4;
     }
@@ -289,10 +278,10 @@ public class Robot extends IterativeRobot {
     public static double limit(double num, double bound) {
         bound = Math.abs(bound);
         if (num > bound) {
-            return 1.0;
+            return bound;
         }
         if (num < -bound) {
-            return -1.0;
+            return -bound;
         }
         return num;
     }
