@@ -71,15 +71,25 @@ public class Ramps extends Subsystem {
         return this.rampClaw.get();
     }
 
+    public boolean isSafe() {
+        return this.getClaw().equals(DoubleSolenoid.Value.kForward);
+    }
+
     public void setLeftRamp(DoubleSolenoid.Value v) {
-        this.leftRamp.set(v);
+        if (this.isSafe() || v.equals(DoubleSolenoid.Value.kReverse)) {
+            this.leftRamp.set(v);
+        }
     }
 
     public void setRightRamp(DoubleSolenoid.Value v) {
-        this.rightRamp.set(v);
+        if (this.isSafe() || v.equals(DoubleSolenoid.Value.kReverse)) {
+            this.rightRamp.set(v);
+        }
     }
 
     public void setWinch(double speed) {
-        this.winch.set(ControlMode.PercentOutput, speed);
+        if (this.isSafe() || speed <= 0) {
+            this.winch.set(ControlMode.PercentOutput, speed);
+        }
     }
 }
