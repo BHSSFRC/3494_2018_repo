@@ -20,7 +20,7 @@ public class Lift extends Subsystem {
     private HallEffectSensor hallTop;
     private HallEffectSensor hallBottom;
 
-    public static final double UNITS_PER_ROTATION = 4096;
+    private static final double UNITS_PER_ROTATION = 4096;
 
     public Lift() {
         liftMotor = new TalonSRX(RobotMap.LIFT_MOTOR);
@@ -72,4 +72,3 @@ public class Lift extends Subsystem {
         return this.hallBottom.isActive();
     }
 }
-
