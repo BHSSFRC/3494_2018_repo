@@ -23,10 +23,10 @@ public class OI {
     // Joystick stick = new Joystick(port);
     // Button button = new JoystickButton(stick, buttonNumber);
 
-    Joystick joyLeft = new Joystick(RobotMap.JOYSTICK_LEFT);
-    Joystick joyRight = new Joystick(RobotMap.JOYSTICK_RIGHT);
+    private Joystick joyLeft = new Joystick(RobotMap.JOYSTICK_LEFT);
+    private Joystick joyRight = new Joystick(RobotMap.JOYSTICK_RIGHT);
 
-    XboxController xbox = new XboxController(RobotMap.XBOX_CONTROLLER);
+    private XboxController xbox = new XboxController(RobotMap.XBOX_CONTROLLER);
 
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to

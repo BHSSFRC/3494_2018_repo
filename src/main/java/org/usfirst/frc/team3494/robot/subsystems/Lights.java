@@ -44,4 +44,3 @@ public class Lights extends Subsystem {
         return voltage;
     }
 }
-
