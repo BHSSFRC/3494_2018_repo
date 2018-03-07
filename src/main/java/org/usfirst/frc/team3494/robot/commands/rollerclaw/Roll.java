@@ -9,6 +9,8 @@ public class Roll extends Command {
 
     /**
      * Constructor.
+     *
+     * @param power The power to roll both sides of the claw at.
      */
     public Roll(double power) {
         requires(Robot.rollerClaw);
