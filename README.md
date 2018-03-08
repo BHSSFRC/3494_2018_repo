@@ -8,8 +8,8 @@ FRC Team 3494's 2018 source code repository.
 ## Getting started
 1. [Set up your tools and account.](https://bhssfrc.github.io/new_prog_doc/)
 2. Run the proper gradle task for your IDE.
- * `gradlew eclipse` for Eclipse
- * `gradlew idea` for IntelliJ
+    * `gradlew eclipse` for Eclipse
+    * `gradlew idea` for IntelliJ
  
 ## Building, running, and deploying new code
 
