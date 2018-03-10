@@ -20,8 +20,6 @@ public class ReflectivePursuit extends Command {
     @Override
     protected void initialize() {
         Robot.driveTrain.enable();
-        Robot.driveTrain.TankDrive(0, 0);
-
         Robot.limelight.setLEDs(Limelight.LIMELIGHT_LED_ON);
         Robot.limelight.setPipeline(0);
     }
