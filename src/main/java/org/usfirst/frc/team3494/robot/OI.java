@@ -66,13 +66,13 @@ public class OI {
         rightBase_Left.whenPressed(new ExtendRamps(Ramps.Side.LEFT));
 
         JoystickButton rightBase_LeftInside = new JoystickButton(joyRight, 8);
-        rightBase_LeftInside.whenPressed(new RetractRamps(Ramps.Side.LEFT));
+        rightBase_LeftInside.whenPressed(new RetractRamps(Ramps.Side.RIGHT));
 
         JoystickButton rightBase_Right = new JoystickButton(joyRight, 10);
         rightBase_Right.whenPressed(new ExtendRamps(Ramps.Side.RIGHT));
 
         JoystickButton rightBase_RightInside = new JoystickButton(joyRight, 14);
-        rightBase_RightInside.whenPressed(new RetractRamps(Ramps.Side.RIGHT));
+        rightBase_RightInside.whenPressed(new RetractRamps(Ramps.Side.LEFT));
 
         // secondary controls
         JoystickButton xbox_a = new JoystickButton(xbox, 1);
