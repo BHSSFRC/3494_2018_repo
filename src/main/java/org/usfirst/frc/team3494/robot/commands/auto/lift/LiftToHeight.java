@@ -27,6 +27,6 @@ public class LiftToHeight extends Command {
 
     @Override
     protected boolean isFinished() {
-        return (height == Robot.lift.getHeight());
+        return Robot.lift.getHeight() == this.height || (this.height > Robot.lift.getHeight() && Robot.lift.getHallTop()) || (this.height < Robot.lift.getHeight() && Robot.lift.getHallTop());
     }
 }
