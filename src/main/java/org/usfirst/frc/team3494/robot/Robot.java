@@ -110,7 +110,7 @@ public class Robot extends IterativeRobot {
         CameraServer.getInstance().startAutomaticCapture("Rearview Camera", 1);
 
         chooser = new SendableChooser<>();
-        chooser.addObject("Reflective chaser", new ReflectivePursuit(0));
+        chooser.addObject("Reflective chaser", new org.usfirst.frc.team3494.robot.commands.auto.tests.ReflectivePursuit(0));
         chooser.addObject("Cube chaser", new CubePursuit());
         chooser.addObject("Cross baseline", new DistanceDrive(10.0D - (33.0 / 12.0)));
         chooser.addObject("Fully automated auto", null);
@@ -210,9 +210,10 @@ public class Robot extends IterativeRobot {
     }
 
     private static void putDebugInfo() {
+        SmartDashboard.putNumber("Ultrasonic distance CM", Robot.driveTrain.getSonicDistance());
+
         SmartDashboard.putNumber("Left enc", Robot.driveTrain.getCountsLeft_Talon());
         SmartDashboard.putNumber("Right enc", Robot.driveTrain.getCountsRight_Talon());
-
 
         SmartDashboard.putNumber("Left speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()));
         SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityRight()));
@@ -222,6 +223,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Claw relaxed?", Robot.rollerClaw.getRollerPist());
 
         SmartDashboard.putNumber("Angle", Robot.ahrs.getAngle());
+
+        SmartDashboard.putNumber("Lift encoder", Robot.lift.getHeight());
     }
 
     public static Timer getTimer() {
