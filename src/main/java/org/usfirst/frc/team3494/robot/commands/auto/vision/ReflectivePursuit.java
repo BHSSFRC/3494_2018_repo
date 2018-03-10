@@ -48,7 +48,12 @@ public class ReflectivePursuit extends Command {
     }
 
     @Override
+    protected void end() {
+        Robot.driveTrain.TankDrive(0, 0);
+    }
+
+    @Override
     protected boolean isFinished() {
-        return (Robot.driveTrain.getSonicDistance() <= 100);
+        return (Robot.driveTrain.getSonicDistance() <= 24.0D);
     }
 }
