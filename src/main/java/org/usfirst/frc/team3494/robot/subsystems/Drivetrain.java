@@ -53,7 +53,7 @@ public class Drivetrain extends PIDSubsystem {
 
     public Drivetrain() {
         super("Drivetrain", 0.025, 0, 0);
-        double talon_P = 3.0D;
+        double talon_P = 2.0D;
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftMaster.setNeutralMode(NeutralMode.Brake);
