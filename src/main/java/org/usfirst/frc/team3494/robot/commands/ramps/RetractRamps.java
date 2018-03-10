@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.subsystems.Ramps;
 
-public class ExtendRamps extends Command {
+public class RetractRamps extends Command {
     private Ramps.Side side;
 
-    public ExtendRamps(Ramps.Side s) {
+    public RetractRamps(Ramps.Side s) {
         requires(Robot.ramps);
         this.side = s;
     }
@@ -17,17 +17,18 @@ public class ExtendRamps extends Command {
     protected void execute() {
         switch (this.side) {
             case LEFT:
-                Robot.ramps.setLeftRamp(DoubleSolenoid.Value.kForward);
+                Robot.ramps.setLeftRamp(DoubleSolenoid.Value.kReverse);
                 break;
             case RIGHT:
-                Robot.ramps.setRightRamp(DoubleSolenoid.Value.kForward);
+                Robot.ramps.setRightRamp(DoubleSolenoid.Value.kReverse);
                 break;
             case BOTH:
-                Robot.ramps.extend();
+                Robot.ramps.retract();
                 break;
         }
     }
 
+    @Override
     protected boolean isFinished() {
         return true;
     }
