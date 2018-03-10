@@ -92,4 +92,8 @@ public class Ramps extends Subsystem {
             this.winch.set(ControlMode.PercentOutput, speed);
         }
     }
+
+    public enum Side {
+        LEFT, RIGHT, BOTH;
+    }
 }
