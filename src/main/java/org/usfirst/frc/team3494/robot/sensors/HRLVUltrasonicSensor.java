@@ -39,6 +39,10 @@ public class HRLVUltrasonicSensor extends SensorBase {
         return ai.getVoltage() / HRLVUltrasonicSensor.VOLTS_PER_CM;
     }
 
+    public double getVoltage() {
+        return ai.getVoltage();
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("Ultrasonic (analog)");

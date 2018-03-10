@@ -190,6 +190,10 @@ public class Drivetrain extends PIDSubsystem {
         return this.uSonic.getDistance();
     }
 
+    public double getSonicVoltage() {
+        return this.uSonic.getVoltage();
+    }
+
     /**
      * The number of encoder edges on the left side of the drivetrain.
      *

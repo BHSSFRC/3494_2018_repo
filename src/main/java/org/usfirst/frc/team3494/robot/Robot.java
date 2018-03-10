@@ -211,6 +211,7 @@ public class Robot extends IterativeRobot {
 
     private static void putDebugInfo() {
         SmartDashboard.putNumber("Ultrasonic distance CM", Robot.driveTrain.getSonicDistance());
+        SmartDashboard.putNumber("Ultrasonic voltage", Robot.driveTrain.getSonicVoltage());
 
         SmartDashboard.putNumber("Left enc", Robot.driveTrain.getCountsLeft_Talon());
         SmartDashboard.putNumber("Right enc", Robot.driveTrain.getCountsRight_Talon());
