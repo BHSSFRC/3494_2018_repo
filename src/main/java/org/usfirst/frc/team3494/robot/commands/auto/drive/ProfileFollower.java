@@ -12,7 +12,6 @@ public class ProfileFollower extends Command {
     private Trajectory left;
     private Trajectory right;
 
-    private double startTime;
     private int index;
 
     public ProfileFollower(String leftFile, String rightFile) {
@@ -25,12 +24,12 @@ public class ProfileFollower extends Command {
     protected void initialize() {
         Robot.driveTrain.resetEncoders();
         Robot.getTimer().reset();
-        startTime = Robot.getTimer().get() * 1000.0;
+        Robot.getTimer().start();
     }
 
     @Override
     protected void execute() {
-        index = ((int) Math.floor(((Robot.getTimer().get() * 1000.0) - startTime) / 50));
+        index = ((int) Math.floor(((Robot.getTimer().get() * 1000.0)) / 200));
 
         double leftVelo = Robot.feetToMeters(left.segments[index].velocity);
         double rightVelo = Robot.feetToMeters(right.segments[index].velocity);
