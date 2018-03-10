@@ -5,10 +5,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team3494.robot.commands.ramps.ExtendRamps;
 import org.usfirst.frc.team3494.robot.commands.ramps.OpenClaw;
+import org.usfirst.frc.team3494.robot.commands.ramps.RetractRamps;
 import org.usfirst.frc.team3494.robot.commands.ramps.RunWinch;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.InvertClawState;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.Roll;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.StopRoll;
+import org.usfirst.frc.team3494.robot.subsystems.Ramps;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -61,10 +63,16 @@ public class OI {
         rightBase_WinchOut.whenReleased(new RunWinch(0));
 
         JoystickButton rightBase_Left = new JoystickButton(joyRight, 16);
-        rightBase_Left.whenPressed(new ExtendRamps(ExtendRamps.Side.LEFT));
+        rightBase_Left.whenPressed(new ExtendRamps(Ramps.Side.LEFT));
+
+        JoystickButton rightBase_LeftInside = new JoystickButton(joyRight, 8);
+        rightBase_LeftInside.whenPressed(new RetractRamps(Ramps.Side.LEFT));
 
         JoystickButton rightBase_Right = new JoystickButton(joyRight, 10);
-        rightBase_Right.whenPressed(new ExtendRamps(ExtendRamps.Side.RIGHT));
+        rightBase_Right.whenPressed(new ExtendRamps(Ramps.Side.RIGHT));
+
+        JoystickButton rightBase_RightInside = new JoystickButton(joyRight, 14);
+        rightBase_RightInside.whenPressed(new RetractRamps(Ramps.Side.RIGHT));
 
         // secondary controls
         JoystickButton xbox_a = new JoystickButton(xbox, 1);
