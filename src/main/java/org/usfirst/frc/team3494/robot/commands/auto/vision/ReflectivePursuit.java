@@ -6,7 +6,7 @@ import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.sensors.Limelight;
 
 /**
- * Auton program to chase Power Cubes (or whatever is in pipeline one.)
+ * Auton program to chase reflective items (or whatever is in pipeline zero.)
  */
 public class ReflectivePursuit extends Command {
     private double lastTX;
@@ -20,6 +20,8 @@ public class ReflectivePursuit extends Command {
     @Override
     protected void initialize() {
         Robot.driveTrain.enable();
+        Robot.driveTrain.TankDrive(0, 0);
+
         Robot.limelight.setLEDs(Limelight.LIMELIGHT_LED_ON);
         Robot.limelight.setPipeline(0);
     }
@@ -38,6 +40,8 @@ public class ReflectivePursuit extends Command {
                     Robot.driveTrain.TankDrive(.25, -.25);
                 } else if (lastTX < 0) {
                     Robot.driveTrain.TankDrive(-.25, .25);
+                } else {
+                    Robot.driveTrain.TankDrive(0.25, 0.25);
                 }
             } catch (NullPointerException e) {
                 Robot.driveTrain.TankDrive(0, 0);
