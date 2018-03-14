@@ -13,7 +13,12 @@ public class Lift extends Command {
     @Override
     protected void execute() {
         double stick = -Robot.oi.getXbox().getY(GenericHID.Hand.kLeft);
-        Robot.lift.lift(stick / 2);
+        if (stick < 0) {
+            Robot.lift.lift(stick / 2);
+        } else {
+            Robot.lift.lift(stick / 1.6);
+        }
+
 
         int pov = Robot.oi.getXbox().getPOV();
         if (pov == 0) {
