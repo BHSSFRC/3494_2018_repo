@@ -47,6 +47,12 @@ public class CubePursuit extends Command {
     }
 
     @Override
+    protected void end() {
+        Robot.driveTrain.disable();
+        Robot.driveTrain.StopDrive();
+    }
+
+    @Override
     protected boolean isFinished() {
         return false;
     }

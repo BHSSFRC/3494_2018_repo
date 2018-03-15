@@ -51,6 +51,7 @@ public class ReflectivePursuit extends Command {
 
     @Override
     protected void end() {
+        Robot.driveTrain.disable();
         Robot.driveTrain.StopDrive();
     }
 
