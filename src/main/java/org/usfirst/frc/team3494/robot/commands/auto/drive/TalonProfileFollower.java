@@ -2,21 +2,26 @@ package org.usfirst.frc.team3494.robot.commands.auto.drive;
 
 import com.ctre.phoenix.motion.SetValueMotionProfile;
 import edu.wpi.first.wpilibj.command.Command;
+import jaci.pathfinder.Trajectory;
 import org.usfirst.frc.team3494.robot.Robot;
 
+/**
+ * Command to follow a motion profile with Talon SRX MP.
+ */
 public class TalonProfileFollower extends Command {
 
     private static final int min_points = 128;
+    private Trajectory trajectory;
 
-    public TalonProfileFollower() {
+    public TalonProfileFollower(Trajectory trajectory) {
         requires(Robot.driveTrain);
+        this.trajectory = trajectory;
     }
 
     @Override
     protected void initialize() {
-        // TODO: get actual profiles to fill into Talons
-        // Robot.driveTrain.startFillingLeft();
-        // Robot.driveTrain.startFillingRight();
+        Robot.driveTrain.startFillingLeft(Robot.pathfinderFormatToTalon(trajectory), trajectory.length());
+        Robot.driveTrain.startFillingRight(Robot.pathfinderFormatToTalon(trajectory), trajectory.length());
         while (Robot.driveTrain.getLeftMpStatus().btmBufferCnt < min_points || Robot.driveTrain.getRightMpStatus().btmBufferCnt < min_points) {
             continue; // loop until done filling
         }
