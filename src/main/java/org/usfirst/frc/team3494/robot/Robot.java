@@ -118,10 +118,6 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Cross baseline", new DistanceDrive(10.0D - (33.0 / 12.0)));
         chooser.addObject("Fully automated auto", null);
         chooser.addObject("Simpler fully automatic weapon", new QuickDirtyDrive());
-        chooser.addObject("BETA Talon SRX MP", new TalonProfileFollower(
-                Robot.autoFiles.get("CL")[0],
-                Robot.autoFiles.get("CL")[1]
-        ));
         SmartDashboard.putData("auto selection", chooser);
 
         positionChooser = new SendableChooser<>();
@@ -147,13 +143,13 @@ public class Robot extends IterativeRobot {
             Command[] cmdList;
             if (startSide.equals(switchSide)) {
                 cmdList = new Command[]{
-                        new ProfileFollower(autoFiles[0], autoFiles[1]),
+                        new TalonProfileFollower(autoFiles[0], autoFiles[1]),
                         // new LiftToHeight(100),
                         new RemoveCube()
                 };
             } else if (startSide.equals("C")) {
                 cmdList = new Command[]{
-                        new ProfileFollower(autoFiles[0], autoFiles[1]),
+                        new TalonProfileFollower(autoFiles[0], autoFiles[1]),
                         new ReflectivePursuit(0),
                         // new LiftToHeight(100),
                         new RemoveCube()
@@ -266,6 +262,9 @@ public class Robot extends IterativeRobot {
 
         SmartDashboard.putNumber("Lift encoder revs", Robot.lift.getHeight_Revolutions());
         SmartDashboard.putNumber("Lift encoder edges", Robot.lift.getHeight_Edges());
+
+        SmartDashboard.putNumber("Left Talon MP bottom buffer count", Robot.driveTrain.getLeftMpStatus().btmBufferCnt);
+        SmartDashboard.putNumber("Right Talon MP bottom buffer count", Robot.driveTrain.getRightMpStatus().btmBufferCnt);
     }
 
     public static Timer getTimer() {
