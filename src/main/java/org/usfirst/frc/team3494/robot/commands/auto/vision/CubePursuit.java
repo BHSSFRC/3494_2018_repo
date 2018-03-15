@@ -39,7 +39,7 @@ public class CubePursuit extends Command {
                     Robot.driveTrain.TankDrive(-.25, -.25);
                 }
             } catch (NullPointerException e) {
-                Robot.driveTrain.TankDrive(0, 0);
+                Robot.driveTrain.StopDrive();
                 System.out.println("oh no");
                 e.printStackTrace();
             }
