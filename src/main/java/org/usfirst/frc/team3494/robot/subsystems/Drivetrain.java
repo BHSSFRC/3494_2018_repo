@@ -339,6 +339,7 @@ public class Drivetrain extends PIDSubsystem {
      * @param size    The number of points in the profile.
      */
     public void startFillingLeft(double[][] profile, int size) {
+        this.driveLeftMaster.clearMotionProfileTrajectories();
         TrajectoryPoint point = new TrajectoryPoint();
 
         this.driveLeftMaster.configMotionProfileTrajectoryPeriod(50, 10);
@@ -358,6 +359,7 @@ public class Drivetrain extends PIDSubsystem {
 
             this.driveLeftMaster.pushMotionProfileTrajectory(point);
         }
+        System.out.println(String.format("Pushed %d points to left.", size));
     }
 
     /**
@@ -367,6 +369,7 @@ public class Drivetrain extends PIDSubsystem {
      * @param size    The number of points in the profile.
      */
     public void startFillingRight(double[][] profile, int size) {
+        this.driveRightMaster.clearMotionProfileTrajectories();
         TrajectoryPoint point = new TrajectoryPoint();
 
         this.driveRightMaster.configMotionProfileTrajectoryPeriod(50, 10);
@@ -386,6 +389,7 @@ public class Drivetrain extends PIDSubsystem {
 
             this.driveRightMaster.pushMotionProfileTrajectory(point);
         }
+        System.out.println(String.format("Pushed %d points to right.", size));
     }
 
     public void leftMpControl(SetValueMotionProfile v) {
