@@ -8,6 +8,10 @@ import org.usfirst.frc.team3494.robot.Robot;
 
 import java.io.File;
 
+/**
+ * Follows a path using RIO based control. Instead of loading points into the Talons, the RoboRIO is
+ * responsible for correctly changing the velocity target. Points are loaded from Pathfinder CSV files.
+ */
 public class ProfileFollower extends Command {
 
     private Trajectory left;
@@ -15,6 +19,12 @@ public class ProfileFollower extends Command {
 
     private int index;
 
+    /**
+     * Constructor.
+     *
+     * @param leftFile  The path to the left side trajectory CSV.
+     * @param rightFile The path to the right side trajectory CSV.
+     */
     public ProfileFollower(String leftFile, String rightFile) {
         requires(Robot.driveTrain);
         left = Pathfinder.readFromCSV(new File(leftFile));
