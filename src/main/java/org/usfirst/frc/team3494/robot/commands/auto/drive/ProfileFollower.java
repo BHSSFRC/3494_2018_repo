@@ -42,7 +42,7 @@ public class ProfileFollower extends Command {
 
     @Override
     protected void end() {
-        Robot.driveTrain.TankDrive(0, 0);
+        Robot.driveTrain.StopDrive();
     }
 
     @Override

@@ -42,7 +42,7 @@ public class ReflectivePursuit extends Command {
                     Robot.driveTrain.TankDrive(0.25, 0.25);
                 }
             } catch (NullPointerException e) {
-                Robot.driveTrain.TankDrive(0, 0);
+                Robot.driveTrain.StopDrive();
                 System.out.println("oh no");
                 e.printStackTrace();
             }
@@ -51,7 +51,7 @@ public class ReflectivePursuit extends Command {
 
     @Override
     protected void end() {
-        Robot.driveTrain.TankDrive(0, 0);
+        Robot.driveTrain.StopDrive();
     }
 
     @Override
