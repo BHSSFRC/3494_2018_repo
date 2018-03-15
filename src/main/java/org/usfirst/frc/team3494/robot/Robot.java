@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Trajectory;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.AngleDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
@@ -312,6 +313,18 @@ public class Robot extends IterativeRobot {
 
     public static double countsToFeet(double counts) {
         return counts / RobotMap.COUNTS_PER_FOOT;
+    }
+
+    public static double[][] pathfinderFormatToTalon(Trajectory t) {
+        int i = 0;
+        double[][] list = new double[t.length()][3];
+        for (Trajectory.Segment s : t.segments) {
+            list[i][0] = s.position;
+            list[i][1] = s.velocity;
+            list[i][2] = s.dt;
+            i++;
+        }
+        return list;
     }
 
     /**
