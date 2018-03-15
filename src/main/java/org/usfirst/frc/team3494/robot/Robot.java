@@ -126,6 +126,11 @@ public class Robot extends IterativeRobot {
     }
 
     @Override
+    public void robotPeriodic() {
+        Robot.driveTrain.periodicUpdate();
+    }
+
+    @Override
     public void autonomousInit() {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
         autoCmd = chooser.getSelected();
