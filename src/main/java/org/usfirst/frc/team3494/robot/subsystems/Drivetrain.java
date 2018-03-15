@@ -332,17 +332,23 @@ public class Drivetrain extends PIDSubsystem {
         return retval;
     }
 
+    /**
+     * Starts filling the motion profile buffer on the left drivetrain Talon SRX. Uses units of feet and feet/sec.
+     *
+     * @param profile The profile to fill the talon with. Should be a list of the form [[point_pos, point_vel, point_timestep], ...].
+     * @param size    The number of points in the profile.
+     */
     public void startFillingLeft(double[][] profile, int size) {
         TrajectoryPoint point = new TrajectoryPoint();
 
         this.driveLeftMaster.configMotionProfileTrajectoryPeriod(50, 10);
 
         for (int i = 0; i < size; i++) {
-            double positionRot = profile[i][0];
-            double velocityRPM = profile[i][1];
+            double positionRot = profile[i][0] * 12.0 * (1 / RobotMap.INCHES_PER_WHEEL_TURN) * (1 / RobotMap.WHEEL_TURNS_PER_ENCODER_TURN);
+            double velocityRPM = profile[i][1] * 12.0 * (1 / RobotMap.INCHES_PER_WHEEL_TURN) * (1 / RobotMap.WHEEL_TURNS_PER_ENCODER_TURN);
             /* for each point, fill our structure and pass it to API */
-            point.position = positionRot * (256.0 * 4.0); //Convert Revolutions to Units
-            point.velocity = velocityRPM * (256.0 * 4.0) / 600.0; //Convert RPM to Units/100ms
+            point.position = positionRot * (256.0 * 4.0); // Convert Revolutions to Units
+            point.velocity = velocityRPM * (256.0 * 4.0) / 10.0; // Convert RPS to Units/100ms
             point.headingDeg = 0; /* future feature - not used in this example*/
             point.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
             point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */
@@ -354,17 +360,23 @@ public class Drivetrain extends PIDSubsystem {
         }
     }
 
+    /**
+     * Starts filling the motion profile buffer on the right drivetrain Talon SRX. Uses units of feet and feet/sec.
+     *
+     * @param profile The profile to fill the talon with. Should be a list of the form [[point_pos, point_vel, point_timestep], ...].
+     * @param size    The number of points in the profile.
+     */
     public void startFillingRight(double[][] profile, int size) {
         TrajectoryPoint point = new TrajectoryPoint();
 
         this.driveRightMaster.configMotionProfileTrajectoryPeriod(50, 10);
 
         for (int i = 0; i < size; i++) {
-            double positionRot = profile[i][0];
-            double velocityRPM = profile[i][1];
+            double positionRot = profile[i][0] * 12.0 * (1 / RobotMap.INCHES_PER_WHEEL_TURN) * (1 / RobotMap.WHEEL_TURNS_PER_ENCODER_TURN);
+            double velocityRPM = profile[i][1] * 12.0 * (1 / RobotMap.INCHES_PER_WHEEL_TURN) * (1 / RobotMap.WHEEL_TURNS_PER_ENCODER_TURN);
             /* for each point, fill our structure and pass it to API */
-            point.position = positionRot * (256.0 * 4.0); //Convert Revolutions to Units
-            point.velocity = velocityRPM * (256.0 * 4.0) / 600.0; //Convert RPM to Units/100ms
+            point.position = positionRot * (256.0 * 4.0); // Convert Revolutions to Units
+            point.velocity = velocityRPM * (256.0 * 4.0) / 10.0; // Convert RPS to Units/100ms
             point.headingDeg = 0; /* future feature - not used in this example*/
             point.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
             point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */
