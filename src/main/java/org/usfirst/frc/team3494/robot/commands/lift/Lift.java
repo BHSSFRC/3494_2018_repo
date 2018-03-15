@@ -23,7 +23,7 @@ public class Lift extends Command {
         } else {
             Robot.lift.lift(stick / 1.6);
         }
-        
+
         if (pov == 0) {
             Robot.lift.unsafeLift(0.1);
         } else if (pov == 180) {
