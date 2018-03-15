@@ -355,30 +355,30 @@ public class Robot extends IterativeRobot {
         autoFiles = new HashMap<>();
 
         autoFiles.put("CL", new String[]{
-                "/home/lvuser/paths/center/center2left_left.csv",
-                "/home/lvuser/paths/center/center2left_right.csv"
+                "/home/lvuser/paths_finder/center/center2left_left.csv",
+                "/home/lvuser/paths_finder/center/center2left_right.csv"
         });
         autoFiles.put("CR", new String[]{
-                "/home/lvuser/paths/center/center2right_left.csv",
-                "/home/lvuser/paths/center/center2right_right.csv"
+                "/home/lvuser/paths_finder/center/center2right_left.csv",
+                "/home/lvuser/paths_finder/center/center2right_right.csv"
         });
 
         autoFiles.put("LL", new String[]{
-                "/home/lvuser/paths/left/left2left_left.csv",
-                "/home/lvuser/paths/left/left2left_right.csv"
+                "/home/lvuser/paths_finder/left/left2left_left.csv",
+                "/home/lvuser/paths_finder/left/left2left_right.csv"
         });
         autoFiles.put("LR", new String[]{
-                "/home/lvuser/paths/left/left2right_left.csv",
-                "/home/lvuser/paths/left/left2right_right.csv"
+                "/home/lvuser/paths_finder/left/left2right_left.csv",
+                "/home/lvuser/paths_finder/left/left2right_right.csv"
         });
 
         autoFiles.put("RL", new String[]{
-                "/home/lvuser/paths/right/right2left_left.csv",
-                "/home/lvuser/paths/right/right2left_right.csv"
+                "/home/lvuser/paths_finder/right/right2left_left.csv",
+                "/home/lvuser/paths_finder/right/right2left_right.csv"
         });
         autoFiles.put("RR", new String[]{
-                "/home/lvuser/paths/right/right2right_left.csv",
-                "/home/lvuser/paths/right/right2right_right.csv"
+                "/home/lvuser/paths_finder/right/right2right_left.csv",
+                "/home/lvuser/paths_finder/right/right2right_right.csv"
         });
     }
 }
