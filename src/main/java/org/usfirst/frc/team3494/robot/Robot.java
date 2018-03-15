@@ -130,7 +130,7 @@ public class Robot extends IterativeRobot {
         positionChooser.addObject("right", "R");
         SmartDashboard.putData("Position chooser", positionChooser);
     }
-    
+
     @Override
     public void autonomousInit() {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();

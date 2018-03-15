@@ -11,6 +11,11 @@ import org.usfirst.frc.team3494.robot.sensors.Limelight;
 public class ReflectivePursuit extends Command {
     private double lastTX;
 
+    /**
+     * Constructor.
+     *
+     * @param Tx A "guess" value for an initial horizontal displacement.
+     */
     public ReflectivePursuit(double Tx) {
         requires(Robot.driveTrain);
         this.lastTX = Tx;
