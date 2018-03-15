@@ -254,9 +254,6 @@ public class Robot extends IterativeRobot {
     }
 
     private static void putDebugInfo() {
-        SmartDashboard.putNumber("Timer s", Robot.getTimer().get());
-        SmartDashboard.putNumber("Timer ms", Robot.getTimer().get() * 1000.0);
-
         SmartDashboard.putNumber("Ultrasonic distance CM", Robot.driveTrain.getSonicDistance());
         SmartDashboard.putNumber("Ultrasonic voltage", Robot.driveTrain.getSonicVoltage());
 
