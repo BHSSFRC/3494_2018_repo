@@ -47,8 +47,10 @@ public class TalonProfileFollower extends Command {
 
     @Override
     protected void end() {
+        System.out.println("Done MP driving!");
         Robot.driveTrain.leftMpControl(SetValueMotionProfile.Disable);
         Robot.driveTrain.rightMpControl(SetValueMotionProfile.Disable);
+        Robot.driveTrain.StopDrive();
     }
 
     @Override
