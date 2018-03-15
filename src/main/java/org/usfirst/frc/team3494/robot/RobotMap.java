@@ -52,8 +52,8 @@ public class RobotMap {
     public static final int LIFT_HALL_BOT = 1;
 
     private static final double ENCODER_PULSES_PER_REVOLUTION = 256.0D;
-    private static final double WHEEL_TURNS_PER_ENCODER_TURN = 1.0 / 2.975;
-    private static final double INCHES_PER_WHEEL_TURN = 6.0 * Math.PI;
+    public static final double WHEEL_TURNS_PER_ENCODER_TURN = 1.0 / 2.975;
+    public static final double INCHES_PER_WHEEL_TURN = 6.0 * Math.PI;
 
     public static final double INCHES_PER_COUNT = (1.0 / ENCODER_PULSES_PER_REVOLUTION) * WHEEL_TURNS_PER_ENCODER_TURN * INCHES_PER_WHEEL_TURN;
     public static final double COUNTS_PER_INCH = 1.0 / INCHES_PER_COUNT;

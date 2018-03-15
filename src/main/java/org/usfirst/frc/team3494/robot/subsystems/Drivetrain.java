@@ -1,9 +1,13 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
+import com.ctre.phoenix.motion.MotionProfileStatus;
+import com.ctre.phoenix.motion.SetValueMotionProfile;
+import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
@@ -20,6 +24,7 @@ public class Drivetrain extends PIDSubsystem {
      * Master Talon SRX, left side.
      */
     private TalonSRX driveLeftMaster;
+    private MotionProfileStatus leftMpStatus;
     /**
      * Follower Talon SRX, left side.
      */
@@ -33,6 +38,7 @@ public class Drivetrain extends PIDSubsystem {
      * Master Talon SRX, right side.
      */
     private TalonSRX driveRightMaster;
+    private MotionProfileStatus rightMpStatus;
     /**
      * Follower Talon SRX, right side.
      */
@@ -41,6 +47,7 @@ public class Drivetrain extends PIDSubsystem {
      * Additional follower Talon SRX, right side.
      */
     private TalonSRX driveRightFollowTwo;
+
     /**
      * The ultrasonic sensor used for ending some vision commands.
      */
@@ -53,13 +60,17 @@ public class Drivetrain extends PIDSubsystem {
 
     public Drivetrain() {
         super("Drivetrain", 0.025, 0, 0);
-        double talon_P = 2.0D;
+        double talon_P = 1.0D;
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftMaster.setNeutralMode(NeutralMode.Brake);
         this.driveLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         this.driveLeftMaster.config_kP(0, talon_P, 10);
-        this.driveLeftMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10.0) * 4.0), 10);
+        this.driveLeftMaster.config_kF(0, 1 / (RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER * 4.0 * (1.0 / 10.0)), 10);
+
+        this.driveLeftMaster.clearMotionProfileTrajectories();
+        this.driveLeftMaster.changeMotionControlFramePeriod(25);
+        this.leftMpStatus = new MotionProfileStatus();
 
         this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
         this.driveLeftFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_MASTER);
@@ -71,11 +82,15 @@ public class Drivetrain extends PIDSubsystem {
 
         this.driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightMaster.setNeutralMode(NeutralMode.Brake);
-        this.driveRightMaster.setInverted(true);
-        this.driveRightMaster.setSensorPhase(true);
         this.driveRightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         this.driveRightMaster.config_kP(0, talon_P, 10);
         this.driveRightMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10) * 4), 10);
+        this.driveRightMaster.setInverted(true);
+        this.driveRightMaster.setSensorPhase(true);
+
+        this.driveRightMaster.clearMotionProfileTrajectories();
+        this.driveRightMaster.changeMotionControlFramePeriod(25);
+        this.rightMpStatus = new MotionProfileStatus();
 
         this.driveRightFollowOne = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
         this.driveRightFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
@@ -103,6 +118,14 @@ public class Drivetrain extends PIDSubsystem {
         setDefaultCommand(new Drive());
     }
 
+    public void periodicUpdate() {
+        this.driveLeftMaster.processMotionProfileBuffer();
+        this.driveRightMaster.processMotionProfileBuffer();
+
+        this.driveLeftMaster.getMotionProfileStatus(this.leftMpStatus);
+        this.driveRightMaster.getMotionProfileStatus(this.rightMpStatus);
+    }
+
     /**
      * Drives the drive train tank drive style. The driveTrain will continue to
      * run until stopped with a method like {@link Drivetrain#StopDrive()}.
@@ -127,6 +150,14 @@ public class Drivetrain extends PIDSubsystem {
     public void VelocityTank(double left, double right) {
         this.driveLeftMaster.set(ControlMode.Velocity, left);
         this.driveRightMaster.set(ControlMode.Velocity, right);
+    }
+
+    /**
+     * Stops all drive motors. Does not require re-enabling motors after use.
+     */
+    public void StopDrive() {
+        this.driveLeftMaster.set(ControlMode.PercentOutput, 0);
+        this.driveRightMaster.set(ControlMode.PercentOutput, 0);
     }
 
     /**
@@ -270,12 +301,93 @@ public class Drivetrain extends PIDSubsystem {
         this.driveLeftMaster.getSensorCollection().setQuadraturePosition(0, 0);
     }
 
+    public MotionProfileStatus getLeftMpStatus() {
+        return leftMpStatus;
+    }
+
+    public MotionProfileStatus getRightMpStatus() {
+        return rightMpStatus;
+    }
+
+    private TrajectoryPoint.TrajectoryDuration GetTrajectoryDuration(int durationMs) {
+        /* create return value */
+        TrajectoryPoint.TrajectoryDuration retval = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_0ms;
+        /* convert duration to supported type */
+        retval = retval.valueOf(durationMs);
+        /* check that it is valid */
+        if (retval.value != durationMs) {
+            DriverStation.reportError("Trajectory Duration not supported - use configMotionProfileTrajectoryPeriod instead", false);
+        }
+        /* pass to caller */
+        return retval;
+    }
+
     /**
-     * Stops all drive motors. Does not require re-enabling motors after use.
+     * Starts filling the motion profile buffer on the left drivetrain Talon SRX. Uses units of feet and feet/sec.
+     *
+     * @param profile The profile to fill the talon with. Should be a list of the form [[point_pos, point_vel, point_timestep], ...].
+     * @param size    The number of points in the profile.
      */
-    public void StopDrive() {
-        this.driveLeftMaster.set(ControlMode.PercentOutput, 0);
-        this.driveRightMaster.set(ControlMode.PercentOutput, 0);
+    public void startFillingLeft(double[][] profile, int size) {
+        this.driveLeftMaster.clearMotionProfileTrajectories();
+        TrajectoryPoint point = new TrajectoryPoint();
+
+        this.driveLeftMaster.configMotionProfileTrajectoryPeriod(50, 10);
+
+        for (int i = 0; i < size; i++) {
+            double positionRot = profile[i][0] * 12.0 * (1 / RobotMap.INCHES_PER_WHEEL_TURN) * (1 / RobotMap.WHEEL_TURNS_PER_ENCODER_TURN);
+            double velocityRPM = profile[i][1] * 12.0 * (1 / RobotMap.INCHES_PER_WHEEL_TURN) * (1 / RobotMap.WHEEL_TURNS_PER_ENCODER_TURN);
+            /* for each point, fill our structure and pass it to API */
+            point.position = positionRot * (256.0 * 4.0); // Convert Revolutions to Units
+            point.velocity = velocityRPM * (256.0 * 4.0) / 10.0; // Convert RPS to Units/100ms
+            point.headingDeg = 0; /* future feature - not used in this example*/
+            point.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
+            point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */
+            point.timeDur = GetTrajectoryDuration((int) profile[i][2]);
+            point.zeroPos = i == 0;
+            point.isLastPoint = ((i + 1) == size);
+
+            this.driveLeftMaster.pushMotionProfileTrajectory(point);
+        }
+        System.out.println(String.format("Pushed %d points to left.", size));
+    }
+
+    /**
+     * Starts filling the motion profile buffer on the right drivetrain Talon SRX. Uses units of feet and feet/sec.
+     *
+     * @param profile The profile to fill the talon with. Should be a list of the form [[point_pos, point_vel, point_timestep], ...].
+     * @param size    The number of points in the profile.
+     */
+    public void startFillingRight(double[][] profile, int size) {
+        this.driveRightMaster.clearMotionProfileTrajectories();
+        TrajectoryPoint point = new TrajectoryPoint();
+
+        this.driveRightMaster.configMotionProfileTrajectoryPeriod(50, 10);
+
+        for (int i = 0; i < size; i++) {
+            double positionRot = profile[i][0] * 12.0 * (1 / RobotMap.INCHES_PER_WHEEL_TURN) * (1 / RobotMap.WHEEL_TURNS_PER_ENCODER_TURN);
+            double velocityRPM = profile[i][1] * 12.0 * (1 / RobotMap.INCHES_PER_WHEEL_TURN) * (1 / RobotMap.WHEEL_TURNS_PER_ENCODER_TURN);
+            /* for each point, fill our structure and pass it to API */
+            point.position = positionRot * (256.0 * 4.0); // Convert Revolutions to Units
+            point.velocity = velocityRPM * (256.0 * 4.0) / 10.0; // Convert RPS to Units/100ms
+            point.headingDeg = 0; /* future feature - not used in this example*/
+            point.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
+            point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */
+            point.timeDur = GetTrajectoryDuration((int) profile[i][2]);
+            point.zeroPos = i == 0;
+            point.isLastPoint = ((i + 1) == size);
+
+            this.driveRightMaster.pushMotionProfileTrajectory(point);
+        }
+        System.out.println(String.format("Pushed %d points to right.", size));
+    }
+
+    public void leftMpControl(SetValueMotionProfile v) {
+        this.driveLeftMaster.set(ControlMode.MotionProfile, v.value);
+    }
+
+    public void rightMpControl(SetValueMotionProfile v) {
+        this.driveRightMaster.set(ControlMode.MotionProfile, v.value);
     }
 
     @Override
