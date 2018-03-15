@@ -11,6 +11,7 @@ import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.AngleDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.ProfileFollower;
+import org.usfirst.frc.team3494.robot.commands.auto.drive.TalonProfileFollower;
 import org.usfirst.frc.team3494.robot.commands.auto.rollerclaw.RemoveCube;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
@@ -117,6 +118,10 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Cross baseline", new DistanceDrive(10.0D - (33.0 / 12.0)));
         chooser.addObject("Fully automated auto", null);
         chooser.addObject("Simpler fully automatic weapon", new QuickDirtyDrive());
+        chooser.addObject("BETA Talon SRX MP", new TalonProfileFollower(
+                Robot.autoFiles.get("CL")[0],
+                Robot.autoFiles.get("CL")[1]
+        ));
         SmartDashboard.putData("auto selection", chooser);
 
         positionChooser = new SendableChooser<>();
