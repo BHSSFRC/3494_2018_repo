@@ -2,8 +2,11 @@ package org.usfirst.frc.team3494.robot.commands.auto.drive;
 
 import com.ctre.phoenix.motion.SetValueMotionProfile;
 import edu.wpi.first.wpilibj.command.Command;
+import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import org.usfirst.frc.team3494.robot.Robot;
+
+import java.io.File;
 
 /**
  * Command to follow a motion profile with Talon SRX MP.
@@ -13,6 +16,10 @@ public class TalonProfileFollower extends Command {
     private static final int min_points = 128;
     private Trajectory trajectory_left;
     private Trajectory trajectory_right;
+
+    public TalonProfileFollower(String leftFile, String rightFile) {
+        this(Pathfinder.readFromCSV(new File(leftFile)), Pathfinder.readFromCSV(new File(rightFile)));
+    }
 
     public TalonProfileFollower(Trajectory traj_l, Trajectory traj_r) {
         requires(Robot.driveTrain);
