@@ -20,12 +20,14 @@ public class Lift extends Subsystem {
     private HallEffectSensor hallTop;
     private HallEffectSensor hallBottom;
 
-    private static final double UNITS_PER_ROTATION = 4096;
+    private static final double UNITS_PER_ROTATION = 4096.0D;
+
+    private double target;
 
     public Lift() {
         liftMotor = new TalonSRX(RobotMap.LIFT_MOTOR);
         liftMotor.setNeutralMode(NeutralMode.Coast);
-        liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+        liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
 
         hallTop = new HallEffectSensor(RobotMap.LIFT_HALL_TOP);
         hallBottom = new HallEffectSensor(RobotMap.LIFT_HALL_BOT);
@@ -56,12 +58,35 @@ public class Lift extends Subsystem {
         liftMotor.set(ControlMode.PercentOutput, power);
     }
 
-    public double getHeight_Edges() {
-        return liftMotor.getSelectedSensorPosition(0);
+    public void posLift(double pos) {
+        if (pos > this.getHeight_Edges() && !this.getHallTop()) {
+            this.target = pos;
+            this.liftMotor.set(ControlMode.Position, pos);
+        } else if (pos < this.getHeight_Edges() && !this.getHallBottom()) {
+            this.target = pos;
+            this.liftMotor.set(ControlMode.Position, pos);
+        }
     }
 
-    public double getHeight() {
-        return this.getHeight_Edges() / UNITS_PER_ROTATION;
+    public boolean isPositionLifting() {
+        return this.liftMotor.getControlMode().equals(ControlMode.Position) &&
+                this.liftMotor.getSensorCollection().getPulseWidthPosition() != this.target;
+    }
+
+    public ControlMode getLiftStatus() {
+        return this.liftMotor.getControlMode();
+    }
+
+    public int getHeight_Edges() {
+        return liftMotor.getSensorCollection().getPulseWidthPosition();
+    }
+
+    public double getHeight_Revolutions() {
+        return ((double) this.getHeight_Edges()) / UNITS_PER_ROTATION;
+    }
+
+    public double getHeight_Inches() {
+        return this.getHeight_Revolutions() * 1.4D * Math.PI;
     }
 
     public boolean getHallTop() {
@@ -69,6 +94,17 @@ public class Lift extends Subsystem {
     }
 
     public boolean getHallBottom() {
+        if (this.hallBottom.isActive()) {
+            this.liftMotor.getSensorCollection().setPulseWidthPosition(0, 0);
+        }
         return this.hallBottom.isActive();
+    }
+
+    public static double inchesToRevs(double inches) {
+        return inches / (1.4 * Math.PI);
+    }
+
+    public static double revsToCounts(double revs) {
+        return revs * 4096;
     }
 }

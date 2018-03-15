@@ -113,8 +113,8 @@ public class Drivetrain extends PIDSubsystem {
      *              between -1 and 1.
      */
     public void TankDrive(double left, double right) {
-        this.driveLeftMaster.set(ControlMode.PercentOutput, applyDeadband(left, 0.05));
-        this.driveRightMaster.set(ControlMode.PercentOutput, applyDeadband(right, 0.05));
+        this.driveLeftMaster.set(ControlMode.PercentOutput, Robot.applyDeadband(left, 0.05));
+        this.driveRightMaster.set(ControlMode.PercentOutput, Robot.applyDeadband(right, 0.05));
     }
 
     /**
@@ -140,10 +140,10 @@ public class Drivetrain extends PIDSubsystem {
      */
     public void ArcadeDrive(double xSpeed, double zRotation, boolean squaredInputs) {
         xSpeed = Robot.limit(xSpeed, 1);
-        xSpeed = applyDeadband(xSpeed, 0.02);
+        xSpeed = Robot.applyDeadband(xSpeed, 0.02);
 
         zRotation = Robot.limit(zRotation, 1);
-        zRotation = applyDeadband(zRotation, 0.02);
+        zRotation = Robot.applyDeadband(zRotation, 0.02);
 
         // Square the inputs (while preserving the sign) to increase fine control
         // while permitting full power.
@@ -276,27 +276,6 @@ public class Drivetrain extends PIDSubsystem {
     public void StopDrive() {
         this.driveLeftMaster.set(ControlMode.PercentOutput, 0);
         this.driveRightMaster.set(ControlMode.PercentOutput, 0);
-    }
-
-    /**
-     * Returns 0.0 if the given value is within the specified range around zero. The remaining range
-     * between the deadband and 1.0 is scaled from 0.0 to 1.0.
-     *
-     * @param value    value to clip
-     * @param deadband range around zero
-     * @return Zero if the value is in the deadband, or the value unchanged.
-     * @author Worcester Polytechnic Institute
-     */
-    private double applyDeadband(double value, double deadband) {
-        if (Math.abs(value) > deadband) {
-            if (value > 0.0) {
-                return (value - deadband) / (1.0 - deadband);
-            } else {
-                return (value + deadband) / (1.0 - deadband);
-            }
-        } else {
-            return 0.0;
-        }
     }
 
     @Override

@@ -115,7 +115,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Cube chaser", new CubePursuit());
         chooser.addObject("Cross baseline", new DistanceDrive(10.0D - (33.0 / 12.0)));
         chooser.addObject("Fully automated auto", null);
-        chooser.addObject("2x over a", new QuickDirtyDrive());
+        chooser.addObject("Simpler fully automatic weapon", new QuickDirtyDrive());
         SmartDashboard.putData("auto selection", chooser);
 
         positionChooser = new SendableChooser<>();
@@ -243,6 +243,9 @@ public class Robot extends IterativeRobot {
     }
 
     private static void putDebugInfo() {
+        SmartDashboard.putNumber("Timer s", Robot.getTimer().get());
+        SmartDashboard.putNumber("Timer ms", Robot.getTimer().get() * 1000.0);
+
         SmartDashboard.putNumber("Ultrasonic distance CM", Robot.driveTrain.getSonicDistance());
         SmartDashboard.putNumber("Ultrasonic voltage", Robot.driveTrain.getSonicVoltage());
 
@@ -258,7 +261,8 @@ public class Robot extends IterativeRobot {
 
         SmartDashboard.putNumber("Angle", Robot.ahrs.getAngle());
 
-        SmartDashboard.putNumber("Lift encoder", Robot.lift.getHeight());
+        SmartDashboard.putNumber("Lift encoder revs", Robot.lift.getHeight_Revolutions());
+        SmartDashboard.putNumber("Lift encoder edges", Robot.lift.getHeight_Edges());
     }
 
     public static Timer getTimer() {
@@ -321,6 +325,27 @@ public class Robot extends IterativeRobot {
             return -bound;
         }
         return num;
+    }
+
+    /**
+     * Returns 0.0 if the given value is within the specified range around zero. The remaining range
+     * between the deadband and 1.0 is scaled from 0.0 to 1.0.
+     *
+     * @param value    value to clip
+     * @param deadband range around zero
+     * @return Zero if the value is in the deadband, or the value unchanged.
+     * @author Worcester Polytechnic Institute
+     */
+    public static double applyDeadband(double value, double deadband) {
+        if (Math.abs(value) > deadband) {
+            if (value > 0.0) {
+                return (value - deadband) / (1.0 - deadband);
+            } else {
+                return (value + deadband) / (1.0 - deadband);
+            }
+        } else {
+            return 0.0;
+        }
     }
 
     /**

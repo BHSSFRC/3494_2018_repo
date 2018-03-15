@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3494.robot.commands.auto.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import org.usfirst.frc.team3494.robot.Robot;
@@ -29,13 +30,14 @@ public class ProfileFollower extends Command {
 
     @Override
     protected void execute() {
-        index = ((int) Math.floor(((Robot.getTimer().get() * 1000.0)) / 200));
+        index = ((int) Math.floor((Robot.getTimer().get() * 1000.0) / 200.0));
+        SmartDashboard.putNumber("ProfileFollower index", index);
 
-        double leftVelo = Robot.feetToMeters(left.segments[index].velocity);
-        double rightVelo = Robot.feetToMeters(right.segments[index].velocity);
+        double leftVelo = left.segments[index].velocity;
+        double rightVelo = right.segments[index].velocity;
         Robot.driveTrain.VelocityTank(
-                (Robot.metersToEdges(leftVelo)) / 10,
-                (Robot.metersToEdges(rightVelo)) / 10);
+                (Robot.feetToEdges(leftVelo)) / 10,
+                (Robot.feetToEdges(rightVelo)) / 10);
     }
 
     @Override
