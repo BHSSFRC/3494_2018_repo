@@ -42,6 +42,7 @@ public class TalonProfileFollower extends Command {
 
     @Override
     protected void initialize() {
+        Robot.driveTrain.StopDrive();
         Robot.driveTrain.resetEncoders();
         System.out.println("Filling talons...");
         Robot.driveTrain.startFillingLeft(Robot.pathfinderFormatToTalon(trajectory_left), trajectory_left.length());
@@ -68,12 +69,6 @@ public class TalonProfileFollower extends Command {
 
     @Override
     protected boolean isFinished() {
-        boolean finished = false;
-        if (Robot.driveTrain.getLeftMpStatus().activePointValid && Robot.driveTrain.getLeftMpStatus().isLast) {
-            finished = true;
-        } else if (Robot.driveTrain.getRightMpStatus().activePointValid && Robot.driveTrain.getRightMpStatus().isLast) {
-            finished = true;
-        }
-        return finished;
+        return (Robot.driveTrain.getLeftMpStatus().btmBufferCnt == 0 || Robot.driveTrain.getRightMpStatus().btmBufferCnt == 0);
     }
 }

@@ -356,7 +356,7 @@ public class Drivetrain extends PIDSubsystem {
             point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */
             point.timeDur = GetTrajectoryDuration((int) profile[i][2]);
             point.zeroPos = i == 0;
-            point.isLastPoint = ((i + 1) == size);
+            point.isLastPoint = false; // HACK: isLastPoint points seem to not play nice with MP
 
             this.driveLeftMaster.pushMotionProfileTrajectory(point);
         }
@@ -386,7 +386,7 @@ public class Drivetrain extends PIDSubsystem {
             point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */
             point.timeDur = GetTrajectoryDuration((int) profile[i][2]);
             point.zeroPos = i == 0;
-            point.isLastPoint = ((i + 1) == size);
+            point.isLastPoint = false; // HACK: isLastPoint points seem to not play nice with MP
 
             this.driveRightMaster.pushMotionProfileTrajectory(point);
         }
