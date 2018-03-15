@@ -30,7 +30,7 @@ public class ProfileFollower extends Command {
 
     @Override
     protected void execute() {
-        index = ((int) Math.floor((Robot.getTimer().get() * 1000.0) / 200.0));
+        index = ((int) Math.floor((Robot.getTimer().get() * 1000.0) / 50.0));
         SmartDashboard.putNumber("ProfileFollower index", index);
 
         double leftVelo = left.segments[index].velocity;
