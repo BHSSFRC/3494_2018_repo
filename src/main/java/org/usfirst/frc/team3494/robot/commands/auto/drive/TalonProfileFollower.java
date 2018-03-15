@@ -9,7 +9,8 @@ import org.usfirst.frc.team3494.robot.Robot;
 import java.io.File;
 
 /**
- * Command to follow a motion profile with Talon SRX MP.
+ * Command to follow a motion profile with Talon SRX MP. Similar to {@link ProfileFollower}, but loads
+ * the points onto the Talons and uses Talon-side motion profiling.
  */
 public class TalonProfileFollower extends Command {
 
@@ -17,10 +18,22 @@ public class TalonProfileFollower extends Command {
     private Trajectory trajectory_left;
     private Trajectory trajectory_right;
 
+    /**
+     * Constructor.
+     *
+     * @param leftFile  The path to the left side trajectory CSV.
+     * @param rightFile The path to the right side trajectory CSV.
+     */
     public TalonProfileFollower(String leftFile, String rightFile) {
         this(Pathfinder.readFromCSV(new File(leftFile)), Pathfinder.readFromCSV(new File(rightFile)));
     }
 
+    /**
+     * Constructor.
+     *
+     * @param traj_l The left side Pathfinder trajectory.
+     * @param traj_r The right side Pathfinder trajectory.
+     */
     public TalonProfileFollower(Trajectory traj_l, Trajectory traj_r) {
         requires(Robot.driveTrain);
         this.trajectory_left = traj_l;
@@ -34,7 +47,7 @@ public class TalonProfileFollower extends Command {
         Robot.driveTrain.startFillingLeft(Robot.pathfinderFormatToTalon(trajectory_left), trajectory_left.length());
         Robot.driveTrain.startFillingRight(Robot.pathfinderFormatToTalon(trajectory_right), trajectory_right.length());
         while (Robot.driveTrain.getLeftMpStatus().btmBufferCnt < min_points || Robot.driveTrain.getRightMpStatus().btmBufferCnt < min_points) {
-            Robot.driveTrain.periodicUpdate();
+            Robot.driveTrain.periodic();
         }
         System.out.println("Talons filled (enough)!");
     }

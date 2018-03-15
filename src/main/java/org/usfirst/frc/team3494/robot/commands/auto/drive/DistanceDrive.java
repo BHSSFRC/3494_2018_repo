@@ -20,6 +20,12 @@ public class DistanceDrive extends Command {
         this(distance, false);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param distance The distance to drive, in feet.
+     * @param fast     If driving at higher speed, set to true.
+     */
     public DistanceDrive(double distance, boolean fast) {
         requires(Robot.driveTrain);
         this.distance = Robot.feetToEdges(distance);

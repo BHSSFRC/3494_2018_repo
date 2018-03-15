@@ -118,7 +118,8 @@ public class Drivetrain extends PIDSubsystem {
         setDefaultCommand(new Drive());
     }
 
-    public void periodicUpdate() {
+    @Override
+    public void periodic() {
         this.driveLeftMaster.processMotionProfileBuffer();
         this.driveRightMaster.processMotionProfileBuffer();
 
@@ -301,10 +302,20 @@ public class Drivetrain extends PIDSubsystem {
         this.driveLeftMaster.getSensorCollection().setQuadraturePosition(0, 0);
     }
 
+    /**
+     * Getter for the left drivetrain motion profile status.
+     *
+     * @return Object representation of left motion profile status.
+     */
     public MotionProfileStatus getLeftMpStatus() {
         return leftMpStatus;
     }
 
+    /**
+     * Getter for the right drivetrain motion profile status.
+     *
+     * @return Object representation of right motion profile status.
+     */
     public MotionProfileStatus getRightMpStatus() {
         return rightMpStatus;
     }
@@ -382,10 +393,20 @@ public class Drivetrain extends PIDSubsystem {
         System.out.println(String.format("Pushed %d points to right.", size));
     }
 
+    /**
+     * Control the drivetrain left side in MotionProfile mode.
+     *
+     * @param v The value to set the left drivetrain at.
+     */
     public void leftMpControl(SetValueMotionProfile v) {
         this.driveLeftMaster.set(ControlMode.MotionProfile, v.value);
     }
 
+    /**
+     * Control the drivetrain right side in MotionProfile mode.
+     *
+     * @param v The value to set the right drivetrain at.
+     */
     public void rightMpControl(SetValueMotionProfile v) {
         this.driveRightMaster.set(ControlMode.MotionProfile, v.value);
     }

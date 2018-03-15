@@ -3,10 +3,18 @@ package org.usfirst.frc.team3494.robot.commands.auto.drive;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.Robot;
 
+/**
+ * Class to drive to a specific angle.
+ */
 public class AngleDrive extends Command {
 
     private double angle;
 
+    /**
+     * Constructor.
+     *
+     * @param angle The target angle in degrees.
+     */
     public AngleDrive(double angle) {
         requires(Robot.driveTrain);
         this.angle = angle;
