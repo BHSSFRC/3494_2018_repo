@@ -1,10 +1,14 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
 import com.ctre.phoenix.motion.MotionProfileStatus;
+import com.ctre.phoenix.motion.SetValueMotionProfile;
+import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
@@ -44,6 +48,17 @@ public class Drivetrain extends PIDSubsystem {
      * Additional follower Talon SRX, right side.
      */
     private TalonSRX driveRightFollowTwo;
+
+    private class PeriodicRunnable implements Runnable {
+        @Override
+        public void run() {
+            driveLeftMaster.processMotionProfileBuffer();
+            driveRightMaster.processMotionProfileBuffer();
+        }
+    }
+
+    Notifier n = new Notifier(new PeriodicRunnable());
+
     /**
      * The ultrasonic sensor used for ending some vision commands.
      */
@@ -65,6 +80,7 @@ public class Drivetrain extends PIDSubsystem {
         this.driveLeftMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10.0) * 4.0), 10);
 
         this.driveLeftMaster.clearMotionProfileTrajectories();
+        this.driveLeftMaster.changeMotionControlFramePeriod(25);
         this.leftMpStatus = new MotionProfileStatus();
 
         this.driveLeftFollowOne = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
@@ -84,6 +100,7 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightMaster.setSensorPhase(true);
 
         this.driveRightMaster.clearMotionProfileTrajectories();
+        this.driveRightMaster.changeMotionControlFramePeriod(25);
         this.rightMpStatus = new MotionProfileStatus();
 
         this.driveRightFollowOne = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
@@ -95,6 +112,8 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowTwo.setNeutralMode(NeutralMode.Brake);
         this.driveRightFollowTwo.setInverted(true);
+
+        this.n.startPeriodic(0.025);
 
         this.uSonic = new HRLVUltrasonicSensor(RobotMap.USONIC_PIN);
 
@@ -141,6 +160,14 @@ public class Drivetrain extends PIDSubsystem {
     public void VelocityTank(double left, double right) {
         this.driveLeftMaster.set(ControlMode.Velocity, left);
         this.driveRightMaster.set(ControlMode.Velocity, right);
+    }
+
+    /**
+     * Stops all drive motors. Does not require re-enabling motors after use.
+     */
+    public void StopDrive() {
+        this.driveLeftMaster.set(ControlMode.PercentOutput, 0);
+        this.driveRightMaster.set(ControlMode.PercentOutput, 0);
     }
 
     /**
@@ -284,12 +311,77 @@ public class Drivetrain extends PIDSubsystem {
         this.driveLeftMaster.getSensorCollection().setQuadraturePosition(0, 0);
     }
 
-    /**
-     * Stops all drive motors. Does not require re-enabling motors after use.
-     */
-    public void StopDrive() {
-        this.driveLeftMaster.set(ControlMode.PercentOutput, 0);
-        this.driveRightMaster.set(ControlMode.PercentOutput, 0);
+    public MotionProfileStatus getLeftMpStatus() {
+        return leftMpStatus;
+    }
+
+    public MotionProfileStatus getRightMpStatus() {
+        return rightMpStatus;
+    }
+
+    private TrajectoryPoint.TrajectoryDuration GetTrajectoryDuration(int durationMs) {
+        /* create return value */
+        TrajectoryPoint.TrajectoryDuration retval = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_0ms;
+        /* convert duration to supported type */
+        retval = retval.valueOf(durationMs);
+        /* check that it is valid */
+        if (retval.value != durationMs) {
+            DriverStation.reportError("Trajectory Duration not supported - use configMotionProfileTrajectoryPeriod instead", false);
+        }
+        /* pass to caller */
+        return retval;
+    }
+
+    public void startFillingLeft(double[][] profile, int size) {
+        TrajectoryPoint point = new TrajectoryPoint();
+
+        this.driveLeftMaster.configMotionProfileTrajectoryPeriod(50, 10);
+
+        for (int i = 0; i < size; i++) {
+            double positionRot = profile[i][0];
+            double velocityRPM = profile[i][1];
+            /* for each point, fill our structure and pass it to API */
+            point.position = positionRot * (256.0 * 4.0); //Convert Revolutions to Units
+            point.velocity = velocityRPM * (256.0 * 4.0) / 600.0; //Convert RPM to Units/100ms
+            point.headingDeg = 0; /* future feature - not used in this example*/
+            point.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
+            point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */
+            point.timeDur = GetTrajectoryDuration((int) profile[i][2]);
+            point.zeroPos = i == 0;
+            point.isLastPoint = ((i + 1) == size);
+
+            this.driveLeftMaster.pushMotionProfileTrajectory(point);
+        }
+    }
+
+    public void startFillingRight(double[][] profile, int size) {
+        TrajectoryPoint point = new TrajectoryPoint();
+
+        this.driveRightMaster.configMotionProfileTrajectoryPeriod(50, 10);
+
+        for (int i = 0; i < size; i++) {
+            double positionRot = profile[i][0];
+            double velocityRPM = profile[i][1];
+            /* for each point, fill our structure and pass it to API */
+            point.position = positionRot * (256.0 * 4.0); //Convert Revolutions to Units
+            point.velocity = velocityRPM * (256.0 * 4.0) / 600.0; //Convert RPM to Units/100ms
+            point.headingDeg = 0; /* future feature - not used in this example*/
+            point.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
+            point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */
+            point.timeDur = GetTrajectoryDuration((int) profile[i][2]);
+            point.zeroPos = i == 0;
+            point.isLastPoint = ((i + 1) == size);
+
+            this.driveRightMaster.pushMotionProfileTrajectory(point);
+        }
+    }
+
+    public void leftMpControl(SetValueMotionProfile v) {
+        this.driveLeftMaster.set(ControlMode.MotionProfile, v.value);
+    }
+
+    public void rightMpControl(SetValueMotionProfile v) {
+        this.driveRightMaster.set(ControlMode.MotionProfile, v.value);
     }
 
     @Override
