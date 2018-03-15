@@ -80,7 +80,7 @@ public class OI {
         xbox_a.whenReleased(new StopRoll());
 
         JoystickButton xbox_b = new JoystickButton(xbox, 2);
-        xbox_b.whenPressed(new Roll(-0.5));
+        xbox_b.whenPressed(new Roll(-0.6));
         xbox_b.whenReleased(new StopRoll());
 
         JoystickButton xbox_x = new JoystickButton(xbox, 3);

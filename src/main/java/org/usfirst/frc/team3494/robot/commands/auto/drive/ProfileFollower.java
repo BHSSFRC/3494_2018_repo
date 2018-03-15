@@ -39,6 +39,11 @@ public class ProfileFollower extends Command {
     }
 
     @Override
+    protected void end() {
+        Robot.driveTrain.TankDrive(0, 0);
+    }
+
+    @Override
     protected boolean isFinished() {
         return index + 1 >= left.segments.length;
     }

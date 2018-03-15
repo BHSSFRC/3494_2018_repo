@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
+import org.usfirst.frc.team3494.robot.commands.auto.drive.AngleDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.ProfileFollower;
 import org.usfirst.frc.team3494.robot.commands.auto.rollerclaw.RemoveCube;
@@ -128,7 +129,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
         autoCmd = chooser.getSelected();
-        if (autoCmd != null && !(autoCmd instanceof DistanceDrive)) {
+        if (autoCmd != null && !(autoCmd instanceof DistanceDrive) && !(autoCmd instanceof QuickDirtyDrive)) {
             autoCmd.start();
         } else if (autoCmd == null) {
             System.out.println("Defaulting to fully automatic auto");
@@ -158,7 +159,7 @@ public class Robot extends IterativeRobot {
             }
             autoCmd = new DynamicAutoCommand(cmdList);
             autoCmd.start();
-        } else {
+        } else if (autoCmd instanceof DistanceDrive) {
             if (String.valueOf(fieldData.charAt(0)).equals(positionChooser.getSelected())) {
                 Command[] list = new Command[]{
                         new DistanceDrive(10.0D - (33.0 / 12.0), true),
@@ -167,6 +168,38 @@ public class Robot extends IterativeRobot {
                 autoCmd = new DynamicAutoCommand(list);
             } else {
                 autoCmd = new DistanceDrive(10.0D - (30.0 / 12.0), false);
+            }
+            autoCmd.start();
+        } else {
+            Command[] list;
+            String fieldPos = positionChooser.getSelected();
+            String switchPos = String.valueOf(fieldData.charAt(0));
+            if (!fieldPos.equals("C")) {
+                if (fieldPos.equals(switchPos)) {
+                    switch (fieldPos) {
+                        case "R":
+                            list = new Command[]{
+                                    new DistanceDrive(10.0D + (55.5 / 12.0) - (33.0 / 12.0)),
+                                    new AngleDrive(-90.0),
+                                    new RemoveCube()
+                            };
+                            break;
+                        case "L":
+                            list = new Command[]{
+                                    new DistanceDrive(10.0D + (55.5 / 12.0) - (33.0 / 12.0)),
+                                    new AngleDrive(90.0),
+                                    new RemoveCube()
+                            };
+                            break;
+                        default:
+                            list = new Command[]{
+                                    new DistanceDrive(10.0D - (33.0 / 12.0))
+                            };
+                    }
+                    autoCmd = new DynamicAutoCommand(list);
+                }
+            } else {
+                autoCmd = new DistanceDrive(10.0D - (33.0 / 12.0));
             }
             autoCmd.start();
         }
