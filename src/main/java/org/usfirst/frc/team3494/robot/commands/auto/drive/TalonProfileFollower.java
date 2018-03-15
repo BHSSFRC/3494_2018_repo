@@ -29,11 +29,14 @@ public class TalonProfileFollower extends Command {
 
     @Override
     protected void initialize() {
+        Robot.driveTrain.resetEncoders();
+        System.out.println("Filling talons...");
         Robot.driveTrain.startFillingLeft(Robot.pathfinderFormatToTalon(trajectory_left), trajectory_left.length());
         Robot.driveTrain.startFillingRight(Robot.pathfinderFormatToTalon(trajectory_right), trajectory_right.length());
         while (Robot.driveTrain.getLeftMpStatus().btmBufferCnt < min_points || Robot.driveTrain.getRightMpStatus().btmBufferCnt < min_points) {
-            continue; // loop until done filling
+            Robot.driveTrain.periodicUpdate();
         }
+        System.out.println("Talons filled (enough)!");
     }
 
     @Override
