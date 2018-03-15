@@ -11,17 +11,19 @@ import org.usfirst.frc.team3494.robot.Robot;
 public class TalonProfileFollower extends Command {
 
     private static final int min_points = 128;
-    private Trajectory trajectory;
+    private Trajectory trajectory_left;
+    private Trajectory trajectory_right;
 
-    public TalonProfileFollower(Trajectory trajectory) {
+    public TalonProfileFollower(Trajectory traj_l, Trajectory traj_r) {
         requires(Robot.driveTrain);
-        this.trajectory = trajectory;
+        this.trajectory_left = traj_l;
+        this.trajectory_right = traj_r;
     }
 
     @Override
     protected void initialize() {
-        Robot.driveTrain.startFillingLeft(Robot.pathfinderFormatToTalon(trajectory), trajectory.length());
-        Robot.driveTrain.startFillingRight(Robot.pathfinderFormatToTalon(trajectory), trajectory.length());
+        Robot.driveTrain.startFillingLeft(Robot.pathfinderFormatToTalon(trajectory_left), trajectory_left.length());
+        Robot.driveTrain.startFillingRight(Robot.pathfinderFormatToTalon(trajectory_right), trajectory_right.length());
         while (Robot.driveTrain.getLeftMpStatus().btmBufferCnt < min_points || Robot.driveTrain.getRightMpStatus().btmBufferCnt < min_points) {
             continue; // loop until done filling
         }
