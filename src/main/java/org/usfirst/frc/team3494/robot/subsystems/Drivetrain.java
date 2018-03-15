@@ -49,16 +49,6 @@ public class Drivetrain extends PIDSubsystem {
      */
     private TalonSRX driveRightFollowTwo;
 
-    private class PeriodicRunnable implements Runnable {
-        @Override
-        public void run() {
-            driveLeftMaster.processMotionProfileBuffer();
-            driveRightMaster.processMotionProfileBuffer();
-        }
-    }
-
-    Notifier n = new Notifier(new PeriodicRunnable());
-
     /**
      * The ultrasonic sensor used for ending some vision commands.
      */
@@ -113,8 +103,6 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightFollowTwo.setNeutralMode(NeutralMode.Brake);
         this.driveRightFollowTwo.setInverted(true);
 
-        this.n.startPeriodic(0.025);
-
         this.uSonic = new HRLVUltrasonicSensor(RobotMap.USONIC_PIN);
 
         // config pid loop
@@ -132,6 +120,9 @@ public class Drivetrain extends PIDSubsystem {
     }
 
     public void periodicUpdate() {
+        this.driveLeftMaster.processMotionProfileBuffer();
+        this.driveRightMaster.processMotionProfileBuffer();
+
         this.driveLeftMaster.getMotionProfileStatus(this.leftMpStatus);
         this.driveRightMaster.getMotionProfileStatus(this.rightMpStatus);
     }
