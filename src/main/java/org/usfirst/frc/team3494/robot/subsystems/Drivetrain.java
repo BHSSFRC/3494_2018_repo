@@ -84,7 +84,7 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightMaster.setNeutralMode(NeutralMode.Brake);
         this.driveRightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         this.driveRightMaster.config_kP(0, talon_P, 10);
-        this.driveRightMaster.config_kF(0, 1 / ((RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER / 10) * 4), 10);
+        this.driveRightMaster.config_kF(0, 1 / (RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER * 4.0 * (1.0 / 10.0)), 10);
         this.driveRightMaster.setInverted(true);
         this.driveRightMaster.setSensorPhase(true);
 
