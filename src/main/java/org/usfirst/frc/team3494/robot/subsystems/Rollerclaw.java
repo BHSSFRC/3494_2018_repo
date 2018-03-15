@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3494.robot.RobotMap;
+import org.usfirst.frc.team3494.robot.commands.rollerclaw.RollSide;
 
 /**
  * The roller claw subsystem. Contains methods for controlling the robot's roller claw.
@@ -25,30 +26,28 @@ public class Rollerclaw extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
+        this.setDefaultCommand(new RollSide(1.0D));
     }
 
     /**
      * Runs the rollers inwards.
      */
     public void rollIn() {
-        //rollerLeft.set(ControlMode.PercentOutput, .75); // this is dumb
-        rollerRight.set(ControlMode.PercentOutput, .75);
+        this.customRoll(0, 0.75);
     }
 
     /**
      * Stops the rollers.
      */
     public void rollStop() {
-        rollerLeft.set(ControlMode.PercentOutput, 0);
-        rollerRight.set(ControlMode.PercentOutput, 0);
+        this.customRoll(0);
     }
 
     /**
      * Runs the rollers outwards.
      */
     public void rollOut() {
-        rollerLeft.set(ControlMode.PercentOutput, -.5);
-        rollerRight.set(ControlMode.PercentOutput, -.5);
+        this.customRoll(-0.5);
     }
 
     /**
@@ -57,8 +56,39 @@ public class Rollerclaw extends Subsystem {
      * @param power The power to run the roller claw at.
      */
     public void customRoll(double power) {
-        rollerLeft.set(ControlMode.PercentOutput, power);
-        rollerRight.set(ControlMode.PercentOutput, power);
+        this.customRoll(power, power);
+    }
+
+    /**
+     * Run both sides of the roller claw at given speeds.
+     *
+     * @param p_left  The power to run the left side at.
+     * @param p_right The power to run the right side at.
+     */
+    public void customRoll(double p_left, double p_right) {
+        rollerLeft.set(ControlMode.PercentOutput, p_left);
+        rollerRight.set(ControlMode.PercentOutput, p_right);
+    }
+
+    /**
+     * Run single or both sides of the roller claw. Unlike {@link Rollerclaw#customRoll(double, double)} and {@link Rollerclaw#customRoll(double)},
+     * this method can be used to run a single side without changing the other.
+     *
+     * @param roller The {@link Rollers roller} to control.
+     * @param power  The power to run the roller at.
+     */
+    public void singleRoll(Rollers roller, double power) {
+        switch (roller) {
+            case LEFT:
+                this.rollerLeft.set(ControlMode.PercentOutput, power);
+                break;
+            case RIGHT:
+                this.rollerRight.set(ControlMode.PercentOutput, power);
+                break;
+            case All:
+                this.customRoll(power);
+                break;
+        }
     }
 
     /**
@@ -77,5 +107,9 @@ public class Rollerclaw extends Subsystem {
      */
     public boolean getRollerPist() {
         return this.rollerPist.get();
+    }
+
+    public enum Rollers {
+        LEFT, RIGHT, All
     }
 }

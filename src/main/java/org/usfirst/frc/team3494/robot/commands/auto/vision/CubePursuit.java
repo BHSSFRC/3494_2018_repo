@@ -26,7 +26,7 @@ public class CubePursuit extends Command {
     @Override
     protected void execute() {
         if (Robot.limelight.hasValidTarget()) {
-            Robot.driveTrain.ArcadeDrive(0.65, Robot.driveTrain.pidTune, true);
+            Robot.driveTrain.ArcadeDrive(0.65, Robot.driveTrain.getPidTune(), true);
             double tx = Robot.limelight.getXDistance();
             Robot.driveTrain.setSetpoint(Robot.ahrs.getYaw() + tx);
             SmartDashboard.putNumber("Drive PID setpoint", Robot.driveTrain.getSetpoint());
@@ -39,11 +39,17 @@ public class CubePursuit extends Command {
                     Robot.driveTrain.TankDrive(-.25, -.25);
                 }
             } catch (NullPointerException e) {
-                Robot.driveTrain.TankDrive(0, 0);
+                Robot.driveTrain.StopDrive();
                 System.out.println("oh no");
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    protected void end() {
+        Robot.driveTrain.disable();
+        Robot.driveTrain.StopDrive();
     }
 
     @Override

@@ -11,7 +11,7 @@ public class HoldRollers extends Command {
 
     @Override
     protected void execute() {
-        Robot.rollerClaw.customRoll(0.2);
+        Robot.rollerClaw.customRoll(0.5);
     }
 
     @Override

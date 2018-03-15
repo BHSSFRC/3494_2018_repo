@@ -13,7 +13,7 @@ public class LiftToHeight extends Command {
 
     @Override
     protected void execute() {
-        if (height > Robot.lift.getHeight()) {
+        if (height > Robot.lift.getHeight_Revolutions()) {
             Robot.lift.lift(.75);
         } else {
             Robot.lift.lift(-.25);
@@ -21,7 +21,12 @@ public class LiftToHeight extends Command {
     }
 
     @Override
+    protected void end() {
+        Robot.lift.lift(0);
+    }
+
+    @Override
     protected boolean isFinished() {
-        return (height == Robot.lift.getHeight());
+        return Robot.lift.getHeight_Revolutions() == this.height || (this.height > Robot.lift.getHeight_Revolutions() && Robot.lift.getHallTop()) || (this.height < Robot.lift.getHeight_Revolutions() && Robot.lift.getHallTop());
     }
 }

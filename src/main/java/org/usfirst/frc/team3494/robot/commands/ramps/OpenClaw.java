@@ -1,18 +1,20 @@
-package org.usfirst.frc.team3494.robot.commands;
+package org.usfirst.frc.team3494.robot.commands.ramps;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.Robot;
 
-public class ExtendRamps extends Command {
-    public ExtendRamps() {
+public class OpenClaw extends Command {
+
+    public OpenClaw() {
         requires(Robot.ramps);
     }
 
     @Override
     protected void execute() {
-        Robot.ramps.extend();
+        Robot.ramps.openClaw();
     }
 
+    @Override
     protected boolean isFinished() {
         return true;
     }

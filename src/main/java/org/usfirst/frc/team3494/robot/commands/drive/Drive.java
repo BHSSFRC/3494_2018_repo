@@ -8,6 +8,8 @@ import org.usfirst.frc.team3494.robot.Robot;
  */
 public class Drive extends Command {
 
+    private Fronts front = Fronts.CLAW;
+
     public Drive() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -21,14 +23,32 @@ public class Drive extends Command {
 
     @Override
     protected void execute() {
-        Robot.driveTrain.TankDrive(
-                -Robot.oi.getJoyLeft().getY(),
-                -Robot.oi.getJoyRight().getY()
-        );
+        int pov = Robot.oi.getJoyLeft().getPOV();
+        if (pov == 0) {
+            this.front = Fronts.CLAW;
+        } else if (pov == 180) {
+            this.front = Fronts.BATTERY;
+        }
+
+        if (front.equals(Fronts.CLAW)) {
+            Robot.driveTrain.TankDrive(
+                    -Robot.oi.getJoyLeft().getY(),
+                    -Robot.oi.getJoyRight().getY()
+            );
+        } else {
+            Robot.driveTrain.TankDrive(
+                    Robot.oi.getJoyRight().getY(),
+                    Robot.oi.getJoyLeft().getY()
+            );
+        }
     }
 
     @Override
     protected boolean isFinished() {
         return false;
+    }
+
+    private enum Fronts {
+        CLAW, BATTERY
     }
 }
