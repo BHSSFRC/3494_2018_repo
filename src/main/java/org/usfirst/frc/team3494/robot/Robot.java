@@ -117,7 +117,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Cube chaser", new CubePursuit());
         chooser.addObject("Cross baseline", new DistanceDrive(10.0D - (33.0 / 12.0)));
         chooser.addObject("Fully automated auto", null);
-        chooser.addObject("Simpler fully automatic weapon", new QuickDirtyDrive());
+        chooser.addObject("Simpler fully automatic auto", new QuickDirtyDrive());
         SmartDashboard.putData("auto selection", chooser);
 
         positionChooser = new SendableChooser<>();
@@ -133,75 +133,70 @@ public class Robot extends IterativeRobot {
         autoCmd = chooser.getSelected();
         if (autoCmd != null && !(autoCmd instanceof DistanceDrive) && !(autoCmd instanceof QuickDirtyDrive)) {
             autoCmd.start();
-        } else if (autoCmd == null) {
-            System.out.println("Defaulting to fully automatic auto");
-            // generate appropriate command
+        } else {
+            Command[] cmdList;
+
             String switchSide = String.valueOf(fieldData.charAt(0));
             String startSide = positionChooser.getSelected();
-            String selectedAuto = startSide + switchSide;
-            String[] autoFiles = Robot.autoFiles.get(selectedAuto);
-            Command[] cmdList;
-            if (startSide.equals(switchSide)) {
-                cmdList = new Command[]{
-                        new TalonProfileFollower(autoFiles[0], autoFiles[1]),
-                        // new LiftToHeight(100),
-                        new RemoveCube()
-                };
-            } else if (startSide.equals("C")) {
-                cmdList = new Command[]{
-                        new TalonProfileFollower(autoFiles[0], autoFiles[1]),
-                        new ReflectivePursuit(0),
-                        // new LiftToHeight(100),
-                        new RemoveCube()
-                };
-            } else {
-                cmdList = new Command[]{
-                        new DistanceDrive(10) // cross base
-                };
-            }
-            autoCmd = new DynamicAutoCommand(cmdList);
-            autoCmd.start();
-        } else if (autoCmd instanceof DistanceDrive) {
-            if (String.valueOf(fieldData.charAt(0)).equals(positionChooser.getSelected())) {
-                Command[] list = new Command[]{
-                        new DistanceDrive(10.0D - (33.0 / 12.0), true),
-                        new RemoveCube()
-                };
-                autoCmd = new DynamicAutoCommand(list);
-            } else {
-                autoCmd = new DistanceDrive(10.0D - (30.0 / 12.0), false);
-            }
-            autoCmd.start();
-        } else {
-            Command[] list;
-            String fieldPos = positionChooser.getSelected();
-            String switchPos = String.valueOf(fieldData.charAt(0));
-            if (!fieldPos.equals("C")) {
-                if (fieldPos.equals(switchPos)) {
-                    switch (fieldPos) {
-                        case "R":
-                            list = new Command[]{
-                                    new DistanceDrive(10.0D + (55.5 / 12.0) - (33.0 / 12.0)),
-                                    new AngleDrive(-90.0),
-                                    new RemoveCube()
-                            };
-                            break;
-                        case "L":
-                            list = new Command[]{
-                                    new DistanceDrive(10.0D + (55.5 / 12.0) - (33.0 / 12.0)),
-                                    new AngleDrive(90.0),
-                                    new RemoveCube()
-                            };
-                            break;
-                        default:
-                            list = new Command[]{
-                                    new DistanceDrive(10.0D - (33.0 / 12.0))
-                            };
-                    }
-                    autoCmd = new DynamicAutoCommand(list);
+            if (autoCmd == null) {
+                System.out.println("Defaulting to fully automatic auto");
+                // generate appropriate command
+                String[] autoFiles = Robot.autoFiles.get(startSide + switchSide);
+                if (startSide.equals(switchSide)) {
+                    cmdList = new Command[]{
+                            new TalonProfileFollower(autoFiles[0], autoFiles[1]),
+                            new RemoveCube()
+                    };
+                } else if (startSide.equals("C")) {
+                    cmdList = new Command[]{
+                            new TalonProfileFollower(autoFiles[0], autoFiles[1]),
+                            new ReflectivePursuit(0),
+                            new RemoveCube()
+                    };
+                } else {
+                    cmdList = new Command[]{
+                            new DistanceDrive(10) // cross base
+                    };
+                }
+                autoCmd = new DynamicAutoCommand(cmdList);
+            } else if (autoCmd instanceof DistanceDrive) {
+                if (switchSide.equals(startSide)) {
+                    cmdList = new Command[]{
+                            new DistanceDrive(10.0D - (33.0 / 12.0), true),
+                            new RemoveCube()
+                    };
+                    autoCmd = new DynamicAutoCommand(cmdList);
+                } else {
+                    autoCmd = new DistanceDrive(10.0D - (30.0 / 12.0), false);
                 }
             } else {
-                autoCmd = new DistanceDrive(10.0D - (33.0 / 12.0));
+                if (!startSide.equals("C")) {
+                    if (switchSide.equals(startSide)) {
+                        switch (startSide) {
+                            case "R":
+                                cmdList = new Command[]{
+                                        new DistanceDrive(10.0D + (55.5 / 12.0) - (33.0 / 12.0)),
+                                        new AngleDrive(-90.0),
+                                        new RemoveCube()
+                                };
+                                break;
+                            case "L":
+                                cmdList = new Command[]{
+                                        new DistanceDrive(10.0D + (55.5 / 12.0) - (33.0 / 12.0)),
+                                        new AngleDrive(90.0),
+                                        new RemoveCube()
+                                };
+                                break;
+                            default:
+                                cmdList = new Command[]{
+                                        new DistanceDrive(10.0D - (33.0 / 12.0))
+                                };
+                        }
+                        autoCmd = new DynamicAutoCommand(cmdList);
+                    }
+                } else {
+                    autoCmd = new DistanceDrive(10.0D - (33.0 / 12.0));
+                }
             }
             autoCmd.start();
         }
