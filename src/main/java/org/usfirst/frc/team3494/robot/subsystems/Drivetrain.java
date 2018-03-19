@@ -106,11 +106,11 @@ public class Drivetrain extends PIDSubsystem {
 
         // config pid loop
         pidTune = 0;
-        double outRange = 0.9;
+        double outRange = 1.0D;
         setInputRange(-180, 180);
         setOutputRange(-outRange, outRange);
         getPIDController().setContinuous(true);
-        setPercentTolerance(1);
+        setPercentTolerance(0.5D);
     }
 
     @Override

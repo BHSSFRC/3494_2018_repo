@@ -15,8 +15,8 @@ import java.io.File;
 public class TalonProfileFollower extends Command {
 
     private static final int min_points = 60;
-    private Trajectory trajectory_left;
-    private Trajectory trajectory_right;
+    private double[][] trajectory_left;
+    private double[][] trajectory_right;
 
     /**
      * Constructor.
@@ -35,6 +35,17 @@ public class TalonProfileFollower extends Command {
      * @param traj_r The right side Pathfinder trajectory.
      */
     public TalonProfileFollower(Trajectory traj_l, Trajectory traj_r) {
+        this(Robot.pathfinderFormatToTalon(traj_l), Robot.pathfinderFormatToTalon(traj_r));
+    }
+
+    /**
+     * Constructor. Takes "talon" format profiles
+     * (i.e. lists of lists of doubles in the form [position, velocity, dt].)
+     *
+     * @param traj_l The left side trajectory.
+     * @param traj_r The right side trajectory.
+     */
+    public TalonProfileFollower(double[][] traj_l, double[][] traj_r) {
         requires(Robot.driveTrain);
         this.trajectory_left = traj_l;
         this.trajectory_right = traj_r;
@@ -45,8 +56,8 @@ public class TalonProfileFollower extends Command {
         Robot.driveTrain.StopDrive();
         Robot.driveTrain.resetEncoders();
         System.out.println("Filling talons...");
-        Robot.driveTrain.startFillingLeft(Robot.pathfinderFormatToTalon(trajectory_left), trajectory_left.length());
-        Robot.driveTrain.startFillingRight(Robot.pathfinderFormatToTalon(trajectory_right), trajectory_right.length());
+        Robot.driveTrain.startFillingLeft(trajectory_left, trajectory_left.length);
+        Robot.driveTrain.startFillingRight(trajectory_right, trajectory_right.length);
         while (Robot.driveTrain.getLeftMpStatus().btmBufferCnt < min_points || Robot.driveTrain.getRightMpStatus().btmBufferCnt < min_points) {
             Robot.driveTrain.periodic();
         }

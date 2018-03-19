@@ -23,8 +23,8 @@ public class AngleDrive extends Command {
     @Override
     protected void initialize() {
         Robot.ahrs.reset();
-        Robot.driveTrain.setSetpoint(this.angle);
         Robot.driveTrain.enable();
+        Robot.driveTrain.setSetpoint(this.angle);
     }
 
     @Override
