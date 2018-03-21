@@ -49,6 +49,7 @@ public class Robot extends IterativeRobot {
      * Chosen command for auto.
      */
     private Command autoCmd;
+    public static PowerDistributionPanel pdp;
     /**
      * The gyro board on the RoboRIO.
      */
@@ -93,6 +94,7 @@ public class Robot extends IterativeRobot {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
 
         ahrs = new AHRS(SPI.Port.kMXP);
+        pdp = new PowerDistributionPanel();
         limelight = new Limelight();
 
         driveTrain = new Drivetrain();
