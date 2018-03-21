@@ -213,6 +213,18 @@ public class Drivetrain extends PIDSubsystem {
         driveRightMaster.set(ControlMode.PercentOutput, Robot.limit(rightMotorOutput, 1));
     }
 
+    public double getCurrentLeft() {
+        return Robot.pdp.getCurrent(RobotMap.DRIVE_LEFT_MASTER) + Robot.pdp.getCurrent(RobotMap.DRIVE_LEFT_FOLLOW_ONE) + Robot.pdp.getCurrent(RobotMap.DRIVE_LEFT_FOLLOW_TWO);
+    }
+
+    public double getCurrentRight() {
+        return Robot.pdp.getCurrent(RobotMap.DRIVE_RIGHT_MASTER) + Robot.pdp.getCurrent(RobotMap.DRIVE_RIGHT_FOLLOW_ONE) + Robot.pdp.getCurrent(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
+    }
+
+    public double getCurrentTotal() {
+        return this.getCurrentLeft() + this.getCurrentRight();
+    }
+
     /**
      * Returns the distance from a wall as given by the ultrasonic sensor.
      *
