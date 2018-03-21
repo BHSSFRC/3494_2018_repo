@@ -27,6 +27,7 @@ public class Lift extends Subsystem {
     public Lift() {
         liftMotor = new TalonSRX(RobotMap.LIFT_MOTOR);
         liftMotor.setNeutralMode(NeutralMode.Coast);
+        liftMotor.setInverted(true);
         liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
 
         hallTop = new HallEffectSensor(RobotMap.LIFT_HALL_TOP);
