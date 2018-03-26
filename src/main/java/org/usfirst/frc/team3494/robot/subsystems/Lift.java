@@ -26,9 +26,11 @@ public class Lift extends Subsystem {
 
     public Lift() {
         liftMotor = new TalonSRX(RobotMap.LIFT_MOTOR);
-        liftMotor.setNeutralMode(NeutralMode.Coast);
+        liftMotor.setNeutralMode(NeutralMode.Brake);
         liftMotor.setInverted(true);
+        liftMotor.setSensorPhase(true);
         liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+        liftMotor.setSelectedSensorPosition(0, 0, 10);
 
         hallTop = new HallEffectSensor(RobotMap.LIFT_HALL_TOP);
         hallBottom = new HallEffectSensor(RobotMap.LIFT_HALL_BOT);
@@ -37,6 +39,13 @@ public class Lift extends Subsystem {
     @Override
     protected void initDefaultCommand() {
         setDefaultCommand(new org.usfirst.frc.team3494.robot.commands.lift.Lift());
+    }
+
+    @Override
+    public void periodic() {
+        if (this.hallBottom.isActive()) {
+            this.liftMotor.setSelectedSensorPosition(0, 0, 0);
+        }
     }
 
     /**
