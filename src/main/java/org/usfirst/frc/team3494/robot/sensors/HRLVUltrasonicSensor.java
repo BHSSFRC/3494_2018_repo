@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  */
 public class HRLVUltrasonicSensor extends SensorBase {
     private AnalogInput ai;
-    private static final double VOLTS_PER_CM = 5.0D / 1024.0D;
+    private static final double VOLTS_PER_MM = (5.0D / 1024.0D) * 5.0D;
 
     /**
      * Constructor.
@@ -36,7 +36,7 @@ public class HRLVUltrasonicSensor extends SensorBase {
      * @return The distance found in cm.
      */
     public double getDistance() {
-        return ai.getVoltage() / HRLVUltrasonicSensor.VOLTS_PER_CM;
+        return (ai.getVoltage() / HRLVUltrasonicSensor.VOLTS_PER_MM) / 10.0;
     }
 
     public double getVoltage() {
