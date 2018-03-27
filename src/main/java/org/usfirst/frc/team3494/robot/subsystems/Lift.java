@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.sensors.HallEffectSensor;
 
@@ -23,14 +24,18 @@ public class Lift extends Subsystem {
     private static final double UNITS_PER_ROTATION = 4096.0D;
 
     private double target;
+    private boolean posLifting;
 
     public Lift() {
         liftMotor = new TalonSRX(RobotMap.LIFT_MOTOR);
         liftMotor.setNeutralMode(NeutralMode.Brake);
         liftMotor.setInverted(true);
         liftMotor.setSensorPhase(true);
-        liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+        liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
         liftMotor.setSelectedSensorPosition(0, 0, 10);
+
+        posLifting = false;
+        target = -1.0D;
 
         hallTop = new HallEffectSensor(RobotMap.LIFT_HALL_TOP);
         hallBottom = new HallEffectSensor(RobotMap.LIFT_HALL_BOT);
@@ -43,6 +48,7 @@ public class Lift extends Subsystem {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Lift target", this.target);
         if (this.hallBottom.isActive()) {
             this.liftMotor.setSelectedSensorPosition(0, 0, 0);
         }
@@ -69,18 +75,11 @@ public class Lift extends Subsystem {
     }
 
     public void posLift(double pos) {
-        if (pos > this.getHeight_Edges() && !this.getHallTop()) {
-            this.target = pos;
-            this.liftMotor.set(ControlMode.Position, pos);
-        } else if (pos < this.getHeight_Edges() && !this.getHallBottom()) {
-            this.target = pos;
-            this.liftMotor.set(ControlMode.Position, pos);
-        }
+        this.target = pos;
     }
 
     public boolean isPositionLifting() {
-        return this.liftMotor.getControlMode().equals(ControlMode.Position) &&
-                this.liftMotor.getSensorCollection().getPulseWidthPosition() != this.target;
+        return this.posLifting;
     }
 
     public ControlMode getLiftStatus() {
@@ -88,7 +87,7 @@ public class Lift extends Subsystem {
     }
 
     public int getHeight_Edges() {
-        return liftMotor.getSensorCollection().getPulseWidthPosition();
+        return liftMotor.getSensorCollection().getQuadraturePosition();
     }
 
     public double getHeight_Revolutions() {

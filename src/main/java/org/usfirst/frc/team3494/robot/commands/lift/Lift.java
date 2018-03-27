@@ -17,22 +17,25 @@ public class Lift extends Command {
     @Override
     protected void execute() {
         int pov = Robot.oi.getXbox().getPOV();
-        double stick = -Robot.oi.getXbox().getY(GenericHID.Hand.kLeft);
-        if (stick < 0) {
-            Robot.lift.lift(stick / 2);
-        } else {
-            Robot.lift.lift(stick / 1.6);
+        double stick = Robot.applyDeadband(-Robot.oi.getXbox().getY(GenericHID.Hand.kLeft), 0.01);
+        if (stick != 0) {
+            if (stick < 0) {
+                Robot.lift.lift(stick / 2);
+            } else {
+                Robot.lift.lift(stick / 1.6);
+            }
         }
-        /*
-        if (pov == 0) {
-            Robot.lift.unsafeLift(0.1);
-        } else if (pov == 180) {
-            Robot.lift.posLift(BOTTOM_POSITION);
-        } else if (pov == 90 || pov == 270) {
-            Robot.lift.posLift(EXCHANGE_POSITION);
-        } else if (!Robot.lift.isPositionLifting()) {
-            Robot.lift.lift(0);
-        } */
+        if (pov == 180) {
+            if (Robot.lift.getHeight_Edges() != 0) {
+                if (Robot.lift.getHeight_Edges() > 0 && !Robot.lift.getHallBottom()) {
+                    Robot.lift.lift(-0.4);
+                } else {
+                    Robot.lift.lift(0.4);
+                }
+            } else {
+                Robot.lift.lift(0);
+            }
+        }
     }
 
     @Override
