@@ -130,14 +130,19 @@ public class Robot extends IterativeRobot {
     }
 
     @Override
+    public void robotPeriodic() {
+        // make the logs be quiet
+    }
+
+    @Override
     public void autonomousInit() {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
+        System.out.println("Hey FTA! Pay attention! Received field data " + fieldData);
         autoCmd = chooser.getSelected();
         if (autoCmd != null && !(autoCmd instanceof DistanceDrive) && !(autoCmd instanceof QuickDirtyDrive)) {
             autoCmd.start();
         } else {
             Command[] cmdList;
-
             String switchSide = String.valueOf(fieldData.charAt(0));
             String startSide = positionChooser.getSelected();
             if (autoCmd == null) {
@@ -162,6 +167,7 @@ public class Robot extends IterativeRobot {
                 }
                 autoCmd = new DynamicAutoCommand(cmdList);
             } else if (autoCmd instanceof DistanceDrive) {
+                // fancy baseline crosser, rams switch or sanely crosses the line
                 if (switchSide.equals(startSide)) {
                     cmdList = new Command[]{
                             new DistanceDrive(10.0D - (33.0 / 12.0), true),
@@ -172,6 +178,7 @@ public class Robot extends IterativeRobot {
                     autoCmd = new DistanceDrive(10.0D - (30.0 / 12.0), false);
                 }
             } else {
+                // worse version of fully automatic auto
                 if (!startSide.equals("C")) {
                     if (switchSide.equals(startSide)) {
                         switch (startSide) {
