@@ -218,7 +218,7 @@ public class Drivetrain extends PIDSubsystem {
     }
 
     public double getCurrentRight() {
-        return Robot.pdp.getCurrent(RobotMap.DRIVE_RIGHT_MASTER) + Robot.pdp.getCurrent(RobotMap.DRIVE_RIGHT_FOLLOW_ONE) + Robot.pdp.getCurrent(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
+        return Robot.pdp.getCurrent(0) + Robot.pdp.getCurrent(RobotMap.DRIVE_RIGHT_FOLLOW_ONE) + Robot.pdp.getCurrent(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
     }
 
     public double getCurrentTotal() {
