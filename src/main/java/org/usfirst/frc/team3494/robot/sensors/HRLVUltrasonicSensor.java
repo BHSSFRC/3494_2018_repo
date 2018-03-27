@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  */
 public class HRLVUltrasonicSensor extends SensorBase {
     private AnalogInput ai;
-    private static final double VOLTS_PER_MM = (5.0D / 1024.0D) * 5.0D;
+    private static final double VOLTS_PER_MM = 1.0D / 1024.0D;
 
     /**
      * Constructor.
