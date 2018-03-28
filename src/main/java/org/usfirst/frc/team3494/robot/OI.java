@@ -77,7 +77,7 @@ public class OI {
 
         // secondary controls
         JoystickButton xbox_a = new JoystickButton(xbox, 1);
-        xbox_a.whenPressed(new LiftToHeight(0));
+        xbox_a.whenPressed(new LiftToHeight(Lift.revsToCounts(Lift.inchesToRevs(2.0)) * 4.0));
 
         JoystickButton xbox_b = new JoystickButton(xbox, 2);
         xbox_b.whenPressed(new Roll(-0.6));
@@ -88,7 +88,7 @@ public class OI {
         xbox_x.whenReleased(new StopRoll());
 
         JoystickButton xbox_y = new JoystickButton(xbox, 4);
-        xbox_y.whenPressed(new LiftToHeight(Lift.inchesToRevs(2.0)));
+        xbox_y.whenPressed(new LiftToHeight(21596));
 
         JoystickButton xbox_lb = new JoystickButton(xbox, 5);
         xbox_lb.whenReleased(new StopRoll());
