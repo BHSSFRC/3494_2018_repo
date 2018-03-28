@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.sensors.HallEffectSensor;
@@ -12,7 +12,7 @@ import org.usfirst.frc.team3494.robot.sensors.HallEffectSensor;
 /**
  * The lift subsystem. Contains methods for controlling the robot's lift.
  */
-public class Lift extends Subsystem {
+public class Lift extends PIDSubsystem {
     /**
      * The single motor that runs the lift up and down.
      */
@@ -23,19 +23,22 @@ public class Lift extends Subsystem {
 
     private static final double UNITS_PER_ROTATION = 4096.0D;
 
-    private double target;
-    private boolean posLifting;
+    private double pidTune;
 
     public Lift() {
+        super("Lift", 0.001, 0, 0);
+        this.setInputRange(-20365, 20365);
+        this.setOutputRange(-0.4, 0.4);
+        this.setAbsoluteTolerance(100.0D);
+        this.getPIDController().setContinuous(false);
+        this.pidTune = 0;
+
         liftMotor = new TalonSRX(RobotMap.LIFT_MOTOR);
         liftMotor.setNeutralMode(NeutralMode.Brake);
         liftMotor.setInverted(true);
         liftMotor.setSensorPhase(true);
         liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
         liftMotor.setSelectedSensorPosition(0, 0, 10);
-
-        posLifting = false;
-        target = -1.0D;
 
         hallTop = new HallEffectSensor(RobotMap.LIFT_HALL_TOP);
         hallBottom = new HallEffectSensor(RobotMap.LIFT_HALL_BOT);
@@ -48,7 +51,6 @@ public class Lift extends Subsystem {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Lift target", this.target);
         if (this.hallBottom.isActive()) {
             this.liftMotor.setSelectedSensorPosition(0, 0, 0);
         }
@@ -68,22 +70,6 @@ public class Lift extends Subsystem {
         } else {
             liftMotor.set(ControlMode.PercentOutput, 0);
         }
-    }
-
-    public void unsafeLift(double power) {
-        liftMotor.set(ControlMode.PercentOutput, power);
-    }
-
-    public void posLift(double pos) {
-        this.target = pos;
-    }
-
-    public boolean isPositionLifting() {
-        return this.posLifting;
-    }
-
-    public ControlMode getLiftStatus() {
-        return this.liftMotor.getControlMode();
     }
 
     public int getHeight_Edges() {
@@ -115,5 +101,19 @@ public class Lift extends Subsystem {
 
     public static double revsToCounts(double revs) {
         return revs * 4096;
+    }
+
+    @Override
+    protected double returnPIDInput() {
+        return this.getHeight_Edges();
+    }
+
+    @Override
+    protected void usePIDOutput(double output) {
+        this.pidTune = output;
+    }
+
+    public double getPidTune() {
+        return this.pidTune;
     }
 }
