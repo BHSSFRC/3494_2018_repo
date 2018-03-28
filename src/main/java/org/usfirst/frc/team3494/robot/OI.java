@@ -3,13 +3,14 @@ package org.usfirst.frc.team3494.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.usfirst.frc.team3494.robot.commands.auto.lift.LiftToHeight;
 import org.usfirst.frc.team3494.robot.commands.ramps.ExtendRamps;
 import org.usfirst.frc.team3494.robot.commands.ramps.OpenClaw;
 import org.usfirst.frc.team3494.robot.commands.ramps.RetractRamps;
 import org.usfirst.frc.team3494.robot.commands.ramps.RunWinch;
-import org.usfirst.frc.team3494.robot.commands.rollerclaw.InvertClawState;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.Roll;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.StopRoll;
+import org.usfirst.frc.team3494.robot.subsystems.Lift;
 import org.usfirst.frc.team3494.robot.subsystems.Ramps;
 
 /**
@@ -76,8 +77,7 @@ public class OI {
 
         // secondary controls
         JoystickButton xbox_a = new JoystickButton(xbox, 1);
-        xbox_a.whenPressed(new Roll(0.5));
-        xbox_a.whenReleased(new StopRoll());
+        xbox_a.whenPressed(new LiftToHeight(0));
 
         JoystickButton xbox_b = new JoystickButton(xbox, 2);
         xbox_b.whenPressed(new Roll(-0.6));
@@ -88,7 +88,7 @@ public class OI {
         xbox_x.whenReleased(new StopRoll());
 
         JoystickButton xbox_y = new JoystickButton(xbox, 4);
-        xbox_y.whenPressed(new InvertClawState());
+        xbox_y.whenPressed(new LiftToHeight(Lift.inchesToRevs(2.0)));
 
         JoystickButton xbox_lb = new JoystickButton(xbox, 5);
         xbox_lb.whenReleased(new StopRoll());
