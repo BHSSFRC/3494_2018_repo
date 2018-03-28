@@ -12,6 +12,7 @@ import org.usfirst.frc.team3494.robot.commands.auto.drive.AngleDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.ProfileFollower;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.TalonProfileFollower;
+import org.usfirst.frc.team3494.robot.commands.auto.lift.LiftToHeight;
 import org.usfirst.frc.team3494.robot.commands.auto.rollerclaw.RemoveCube;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
@@ -151,11 +152,13 @@ public class Robot extends IterativeRobot {
                 String[] autoFiles = Robot.autoFiles.get(startSide + switchSide);
                 if (startSide.equals(switchSide)) {
                     cmdList = new Command[]{
+                            new LiftToHeight(300000),
                             new TalonProfileFollower(autoFiles[0], autoFiles[1]),
                             new RemoveCube()
                     };
                 } else if (startSide.equals("C")) {
                     cmdList = new Command[]{
+                            new LiftToHeight(300000),
                             new TalonProfileFollower(autoFiles[0], autoFiles[1]),
                             new ReflectivePursuit(0),
                             new RemoveCube()
