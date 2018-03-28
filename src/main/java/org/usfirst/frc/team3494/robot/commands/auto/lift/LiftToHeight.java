@@ -34,10 +34,6 @@ public class LiftToHeight extends Command {
 
     @Override
     protected boolean isFinished() {
-        boolean done = Robot.lift.onTarget();
-        if (height <= 0) {
-            done = done || Robot.lift.getHallBottom();
-        }
-        return done;
+        return Robot.lift.onTarget() || Robot.lift.getHallTop() || Robot.lift.getHallBottom();
     }
 }
