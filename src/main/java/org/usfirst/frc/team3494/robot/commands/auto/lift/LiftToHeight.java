@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3494.robot.commands.auto.lift;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.Robot;
 
 public class LiftToHeight extends Command {
@@ -12,21 +13,28 @@ public class LiftToHeight extends Command {
     }
 
     @Override
+    protected void initialize() {
+        Robot.lift.setSetpoint(height);
+        Robot.lift.enable();
+    }
+
+    @Override
     protected void execute() {
-        if (height > Robot.lift.getHeight_Revolutions()) {
-            Robot.lift.lift(.75);
-        } else {
-            Robot.lift.lift(-.25);
-        }
+        SmartDashboard.putNumber("Lift target", Robot.lift.getSetpoint());
+        SmartDashboard.putNumber("Lift error", Robot.lift.getPIDController().getError());
+        SmartDashboard.putNumber("Lift PID output", Robot.lift.getPidTune());
+        SmartDashboard.putBoolean("Lift on target", Robot.lift.onTarget());
+        Robot.lift.lift(Robot.lift.getPidTune());
     }
 
     @Override
     protected void end() {
+        Robot.lift.disable();
         Robot.lift.lift(0);
     }
 
     @Override
     protected boolean isFinished() {
-        return Robot.lift.getHeight_Revolutions() == this.height || (this.height > Robot.lift.getHeight_Revolutions() && Robot.lift.getHallTop()) || (this.height < Robot.lift.getHeight_Revolutions() && Robot.lift.getHallTop());
+        return Robot.lift.onTarget() || Robot.lift.getHallTop() || Robot.lift.getHallBottom();
     }
 }
