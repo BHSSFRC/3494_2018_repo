@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.sensors.HallEffectSensor;
 
@@ -26,10 +25,10 @@ public class Lift extends PIDSubsystem {
     private double pidTune;
 
     public Lift() {
-        super("Lift", 0.001, 0, 0);
-        this.setInputRange(-20365, 20365);
+        super("Lift", 0.00008, 0, 0);
+        this.setInputRange(0, 21596);
         this.setOutputRange(-0.4, 0.4);
-        this.setAbsoluteTolerance(100.0D);
+        this.setAbsoluteTolerance(225);
         this.getPIDController().setContinuous(false);
         this.pidTune = 0;
 
@@ -53,6 +52,8 @@ public class Lift extends PIDSubsystem {
     public void periodic() {
         if (this.hallBottom.isActive()) {
             this.liftMotor.setSelectedSensorPosition(0, 0, 0);
+        } else if (this.hallTop.isActive()) {
+            this.liftMotor.setSelectedSensorPosition(21596, 0, 0);
         }
     }
 
