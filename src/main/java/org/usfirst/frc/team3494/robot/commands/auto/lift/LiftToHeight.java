@@ -21,6 +21,7 @@ public class LiftToHeight extends Command {
     @Override
     protected void execute() {
         SmartDashboard.putNumber("Lift target", Robot.lift.getSetpoint());
+        SmartDashboard.putNumber("Lift error", Robot.lift.getPIDController().getError());
         SmartDashboard.putNumber("Lift PID output", Robot.lift.getPidTune());
         SmartDashboard.putBoolean("Lift on target", Robot.lift.onTarget());
         Robot.lift.lift(Robot.lift.getPidTune());
