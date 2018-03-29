@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team3494.robot.commands.auto.lift.LiftToHeight;
 import org.usfirst.frc.team3494.robot.commands.ramps.ExtendRamps;
-import org.usfirst.frc.team3494.robot.commands.ramps.OpenClaw;
 import org.usfirst.frc.team3494.robot.commands.ramps.RetractRamps;
 import org.usfirst.frc.team3494.robot.commands.ramps.RunWinch;
+import org.usfirst.frc.team3494.robot.commands.ramps.ToggleClaw;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.Roll;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.StopRoll;
 import org.usfirst.frc.team3494.robot.subsystems.Lift;
@@ -53,7 +53,7 @@ public class OI {
     OI() {
         // primary controls
         JoystickButton leftThumb = new JoystickButton(joyLeft, 3);
-        leftThumb.whenPressed(new OpenClaw());
+        leftThumb.whenPressed(new ToggleClaw());
 
         JoystickButton rightBase_Winch = new JoystickButton(joyRight, 11);
         rightBase_Winch.whenPressed(new RunWinch(0.5));
