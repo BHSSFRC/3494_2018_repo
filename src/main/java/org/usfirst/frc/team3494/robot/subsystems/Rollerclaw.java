@@ -24,6 +24,7 @@ public class Rollerclaw extends Subsystem {
         rollerRight.setInverted(true);
 
         rollerWinch = new TalonSRX(RobotMap.ROLLER_WINCH);
+        rollerWinch.setInverted(true);
     }
 
     @Override
