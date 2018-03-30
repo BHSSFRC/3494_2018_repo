@@ -53,7 +53,7 @@ public class Drivetrain extends PIDSubsystem {
 
     public Drivetrain() {
         super("Drivetrain", 0.025, 0, 0);
-        double talon_P = 1.5D;
+        double talon_P = 1.0D;
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftMaster.setNeutralMode(NeutralMode.Brake);
@@ -117,8 +117,12 @@ public class Drivetrain extends PIDSubsystem {
 
         SmartDashboard.putNumber("Left enc", this.getCountsLeft_Talon());
         SmartDashboard.putNumber("Right enc", this.getCountsRight_Talon());
-
         SmartDashboard.putNumber("Average distance", Robot.countsToFeet(this.getAverageDistance_Talon() / 4));
+
+        SmartDashboard.putNumber("Left speed", Robot.driveTrain.getVelocityLeft());
+        SmartDashboard.putNumber("Left speed target", Robot.driveTrain.getTargetVelocityLeft());
+        SmartDashboard.putNumber("Right speed", Robot.driveTrain.getVelocityRight());
+        SmartDashboard.putNumber("Right speed target", Robot.driveTrain.getTargetVelocityRight());
     }
 
     /**
@@ -293,11 +297,19 @@ public class Drivetrain extends PIDSubsystem {
         return this.driveLeftMaster.getSensorCollection().getQuadratureVelocity();
     }
 
+    public double getTargetVelocityLeft() {
+        return this.driveLeftMaster.getActiveTrajectoryVelocity();
+    }
+
     /**
      * @return The right side velocity, in edges per 100ms (decisecond.)
      */
     public double getVelocityRight() {
         return this.driveRightMaster.getSensorCollection().getQuadratureVelocity();
+    }
+
+    public double getTargetVelocityRight() {
+        return this.driveRightMaster.getActiveTrajectoryVelocity();
     }
 
     /**
