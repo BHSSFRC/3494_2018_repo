@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.drive.Drive;
@@ -125,6 +126,19 @@ public class Drivetrain extends PIDSubsystem {
 
         this.driveLeftMaster.getMotionProfileStatus(this.leftMpStatus);
         this.driveRightMaster.getMotionProfileStatus(this.rightMpStatus);
+        SmartDashboard.putNumber("Left Talon MP bottom buffer count", this.getLeftMpStatus().btmBufferCnt);
+        SmartDashboard.putNumber("Right Talon MP bottom buffer count", this.getRightMpStatus().btmBufferCnt);
+
+        SmartDashboard.putNumber("Ultrasonic distance CM", this.getSonicDistance());
+        SmartDashboard.putNumber("Ultrasonic voltage", this.getSonicVoltage());
+
+        SmartDashboard.putNumber("Left enc", this.getCountsLeft_Talon());
+        SmartDashboard.putNumber("Right enc", this.getCountsRight_Talon());
+
+        SmartDashboard.putNumber("Left speed", Drivetrain.nativeToRPS(this.getVelocityLeft()));
+        SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(this.getVelocityRight()));
+
+        SmartDashboard.putNumber("Average distance", Robot.countsToFeet(this.getAverageDistance_Talon() / 4));
     }
 
     /**

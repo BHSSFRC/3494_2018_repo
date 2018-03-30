@@ -252,26 +252,7 @@ public class Robot extends IterativeRobot {
     }
 
     private static void putDebugInfo() {
-        SmartDashboard.putNumber("Ultrasonic distance CM", Robot.driveTrain.getSonicDistance());
-        SmartDashboard.putNumber("Ultrasonic voltage", Robot.driveTrain.getSonicVoltage());
-
-        SmartDashboard.putNumber("Left enc", Robot.driveTrain.getCountsLeft_Talon());
-        SmartDashboard.putNumber("Right enc", Robot.driveTrain.getCountsRight_Talon());
-
-        SmartDashboard.putNumber("Left speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityLeft()));
-        SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(Robot.driveTrain.getVelocityRight()));
-
-        SmartDashboard.putNumber("Average distance", Robot.countsToFeet(Robot.driveTrain.getAverageDistance_Talon() / 4));
-
-        SmartDashboard.putBoolean("Claw relaxed?", Robot.rollerClaw.getRollerPist());
-
         SmartDashboard.putNumber("Angle", Robot.ahrs.getAngle());
-
-        SmartDashboard.putNumber("Lift encoder revs", Robot.lift.getHeight_Revolutions());
-        SmartDashboard.putNumber("Lift encoder edges", Robot.lift.getHeight_Edges());
-
-        SmartDashboard.putNumber("Left Talon MP bottom buffer count", Robot.driveTrain.getLeftMpStatus().btmBufferCnt);
-        SmartDashboard.putNumber("Right Talon MP bottom buffer count", Robot.driveTrain.getRightMpStatus().btmBufferCnt);
     }
 
     public static Timer getTimer() {

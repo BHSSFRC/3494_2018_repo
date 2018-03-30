@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.RollSide;
 
@@ -27,6 +28,11 @@ public class Rollerclaw extends Subsystem {
     @Override
     protected void initDefaultCommand() {
         this.setDefaultCommand(new RollSide(1.0D));
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putBoolean("Claw relaxed?", this.getRollerPist());
     }
 
     /**
