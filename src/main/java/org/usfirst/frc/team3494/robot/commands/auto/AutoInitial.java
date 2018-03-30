@@ -23,7 +23,7 @@ public class AutoInitial extends CommandGroup {
 
         @Override
         protected void execute() {
-            Robot.rollerClaw.runWinch(0.5);
+            Robot.rollerClaw.runWinch(1.0);
         }
 
         @Override

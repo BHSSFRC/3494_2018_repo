@@ -154,13 +154,13 @@ public class Robot extends IterativeRobot {
                 String[] autoFiles = Robot.autoFiles.get(startSide + switchSide);
                 if (startSide.equals(switchSide)) {
                     cmdList = new Command[]{
-                            new LiftToHeight(300000),
+                            new AutoInitial(),
                             new TalonProfileFollower(autoFiles[0], autoFiles[1]),
                             new RemoveCube()
                     };
                 } else if (startSide.equals("C")) {
                     cmdList = new Command[]{
-                            new LiftToHeight(300000),
+                            new AutoInitial(),
                             new TalonProfileFollower(autoFiles[0], autoFiles[1]),
                             new ReflectivePursuit(0),
                             new RemoveCube()
@@ -168,6 +168,7 @@ public class Robot extends IterativeRobot {
                 } else {
                     System.out.println("or just cross base");
                     cmdList = new Command[]{
+                            new AutoInitial(),
                             new DistanceDrive(10.0D - (66.0 / 12.0)) // cross base
                     };
                 }
