@@ -118,9 +118,6 @@ public class Drivetrain extends PIDSubsystem {
         SmartDashboard.putNumber("Left enc", this.getCountsLeft_Talon());
         SmartDashboard.putNumber("Right enc", this.getCountsRight_Talon());
 
-        SmartDashboard.putNumber("Left speed", Drivetrain.nativeToRPS(this.getVelocityLeft()));
-        SmartDashboard.putNumber("Right speed", Drivetrain.nativeToRPS(this.getVelocityRight()));
-
         SmartDashboard.putNumber("Average distance", Robot.countsToFeet(this.getAverageDistance_Talon() / 4));
     }
 
