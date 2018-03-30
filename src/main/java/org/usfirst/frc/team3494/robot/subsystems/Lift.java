@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.sensors.HallEffectSensor;
 
@@ -34,7 +35,7 @@ public class Lift extends PIDSubsystem {
 
         liftMotor = new TalonSRX(RobotMap.LIFT_MOTOR);
         liftMotor.setNeutralMode(NeutralMode.Brake);
-        liftMotor.setInverted(true);
+        liftMotor.setInverted(false);
         liftMotor.setSensorPhase(true);
         liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
         liftMotor.setSelectedSensorPosition(0, 0, 10);
@@ -50,6 +51,9 @@ public class Lift extends PIDSubsystem {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Lift encoder revs", this.getHeight_Revolutions());
+        SmartDashboard.putNumber("Lift encoder edges", this.getHeight_Edges());
+
         if (this.hallBottom.isActive()) {
             this.liftMotor.setSelectedSensorPosition(0, 0, 0);
         } else if (this.hallTop.isActive()) {
