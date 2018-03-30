@@ -30,10 +30,6 @@ public class Drivetrain extends PIDSubsystem {
      * Follower Talon SRX, left side.
      */
     private TalonSRX driveLeftFollowOne;
-    /**
-     * Additional follower Talon SRX, left side.
-     */
-    private TalonSRX driveLeftFollowTwo;
 
     /**
      * Master Talon SRX, right side.
@@ -44,10 +40,6 @@ public class Drivetrain extends PIDSubsystem {
      * Follower Talon SRX, right side.
      */
     private TalonSRX driveRightFollowOne;
-    /**
-     * Additional follower Talon SRX, right side.
-     */
-    private TalonSRX driveRightFollowTwo;
 
     /**
      * The ultrasonic sensor used for ending some vision commands.
@@ -77,10 +69,6 @@ public class Drivetrain extends PIDSubsystem {
         this.driveLeftFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftFollowOne.setNeutralMode(NeutralMode.Brake);
 
-        this.driveLeftFollowTwo = new TalonSRX(RobotMap.DRIVE_LEFT_FOLLOW_TWO);
-        this.driveLeftFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_MASTER);
-        this.driveLeftFollowTwo.setNeutralMode(NeutralMode.Brake);
-
         this.driveRightMaster = new TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightMaster.setNeutralMode(NeutralMode.Brake);
         this.driveRightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
@@ -97,11 +85,6 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightFollowOne.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
         this.driveRightFollowOne.setNeutralMode(NeutralMode.Brake);
         this.driveRightFollowOne.setInverted(true);
-
-        this.driveRightFollowTwo = new TalonSRX(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
-        this.driveRightFollowTwo.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_MASTER);
-        this.driveRightFollowTwo.setNeutralMode(NeutralMode.Brake);
-        this.driveRightFollowTwo.setInverted(true);
 
         this.uSonic = new HRLVUltrasonicSensor(RobotMap.USONIC_PIN);
 
@@ -228,11 +211,11 @@ public class Drivetrain extends PIDSubsystem {
     }
 
     public double getCurrentLeft() {
-        return Robot.pdp.getCurrent(RobotMap.DRIVE_LEFT_MASTER) + Robot.pdp.getCurrent(RobotMap.DRIVE_LEFT_FOLLOW_ONE) + Robot.pdp.getCurrent(RobotMap.DRIVE_LEFT_FOLLOW_TWO);
+        return Robot.pdp.getCurrent(RobotMap.DRIVE_LEFT_MASTER) + Robot.pdp.getCurrent(RobotMap.DRIVE_LEFT_FOLLOW_ONE);
     }
 
     public double getCurrentRight() {
-        return Robot.pdp.getCurrent(0) + Robot.pdp.getCurrent(RobotMap.DRIVE_RIGHT_FOLLOW_ONE) + Robot.pdp.getCurrent(RobotMap.DRIVE_RIGHT_FOLLOW_TWO);
+        return Robot.pdp.getCurrent(0) + Robot.pdp.getCurrent(RobotMap.DRIVE_RIGHT_FOLLOW_ONE);
     }
 
     public double getCurrentTotal() {
