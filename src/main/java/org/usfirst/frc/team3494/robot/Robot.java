@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Trajectory;
+import org.usfirst.frc.team3494.robot.commands.auto.AutoInitial;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.AngleDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
@@ -100,7 +101,6 @@ public class Robot extends IterativeRobot {
 
         driveTrain = new Drivetrain();
         rollerClaw = new Rollerclaw();
-        rollerClaw.setRollerPist(false);
         lights = new Lights();
         ramps = new Ramps();
         ramps.retract();
@@ -118,9 +118,10 @@ public class Robot extends IterativeRobot {
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new org.usfirst.frc.team3494.robot.commands.auto.tests.ReflectivePursuit(0));
         chooser.addObject("Cube chaser", new CubePursuit());
+        chooser.addObject("Auto Init test", new AutoInitial());
         chooser.addObject("Cross baseline", new DistanceDrive(10.0D - (33.0 / 12.0)));
-        chooser.addObject("Fully automated auto", null);
         chooser.addObject("Simpler fully automatic auto", new QuickDirtyDrive());
+        chooser.addDefault("Fully automated auto", null);
         SmartDashboard.putData("auto selection", chooser);
 
         positionChooser = new SendableChooser<>();
@@ -140,7 +141,7 @@ public class Robot extends IterativeRobot {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
         System.out.println("Hey FTA! Pay attention! Received field data " + fieldData);
         autoCmd = chooser.getSelected();
-        if (autoCmd != null && !(autoCmd instanceof DistanceDrive) && !(autoCmd instanceof QuickDirtyDrive)) {
+        if (autoCmd != null && !(autoCmd instanceof QuickDirtyDrive)) {
             autoCmd.start();
         } else {
             Command[] cmdList;
@@ -148,6 +149,7 @@ public class Robot extends IterativeRobot {
             String startSide = positionChooser.getSelected();
             if (autoCmd == null) {
                 System.out.println("Defaulting to fully automatic auto");
+                System.out.println(startSide + switchSide);
                 // generate appropriate command
                 String[] autoFiles = Robot.autoFiles.get(startSide + switchSide);
                 if (startSide.equals(switchSide)) {
@@ -164,22 +166,12 @@ public class Robot extends IterativeRobot {
                             new RemoveCube()
                     };
                 } else {
+                    System.out.println("or just cross base");
                     cmdList = new Command[]{
-                            new DistanceDrive(10) // cross base
+                            new DistanceDrive(10.0D - (66.0 / 12.0)) // cross base
                     };
                 }
                 autoCmd = new DynamicAutoCommand(cmdList);
-            } else if (autoCmd instanceof DistanceDrive) {
-                // fancy baseline crosser, rams switch or sanely crosses the line
-                if (switchSide.equals(startSide)) {
-                    cmdList = new Command[]{
-                            new DistanceDrive(10.0D - (33.0 / 12.0), true),
-                            new RemoveCube()
-                    };
-                    autoCmd = new DynamicAutoCommand(cmdList);
-                } else {
-                    autoCmd = new DistanceDrive(10.0D - (30.0 / 12.0), false);
-                }
             } else {
                 // worse version of fully automatic auto
                 if (!startSide.equals("C")) {
@@ -253,6 +245,7 @@ public class Robot extends IterativeRobot {
 
     private static void putDebugInfo() {
         SmartDashboard.putNumber("Angle", Robot.ahrs.getAngle());
+        SmartDashboard.putData(Scheduler.getInstance());
     }
 
     public static Timer getTimer() {
