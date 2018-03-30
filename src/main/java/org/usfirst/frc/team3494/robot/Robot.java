@@ -141,7 +141,7 @@ public class Robot extends IterativeRobot {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
         System.out.println("Hey FTA! Pay attention! Received field data " + fieldData);
         autoCmd = chooser.getSelected();
-        if (autoCmd != null && !(autoCmd instanceof DistanceDrive) && !(autoCmd instanceof QuickDirtyDrive)) {
+        if (autoCmd != null && !(autoCmd instanceof QuickDirtyDrive)) {
             autoCmd.start();
         } else {
             Command[] cmdList;
@@ -149,6 +149,7 @@ public class Robot extends IterativeRobot {
             String startSide = positionChooser.getSelected();
             if (autoCmd == null) {
                 System.out.println("Defaulting to fully automatic auto");
+                System.out.println(startSide + switchSide);
                 // generate appropriate command
                 String[] autoFiles = Robot.autoFiles.get(startSide + switchSide);
                 if (startSide.equals(switchSide)) {
@@ -165,22 +166,12 @@ public class Robot extends IterativeRobot {
                             new RemoveCube()
                     };
                 } else {
+                    System.out.println("or just cross base");
                     cmdList = new Command[]{
-                            new DistanceDrive(10) // cross base
+                            new DistanceDrive(10.0D - (66.0 / 12.0)) // cross base
                     };
                 }
                 autoCmd = new DynamicAutoCommand(cmdList);
-            } else if (autoCmd instanceof DistanceDrive) {
-                // fancy baseline crosser, rams switch or sanely crosses the line
-                if (switchSide.equals(startSide)) {
-                    cmdList = new Command[]{
-                            new DistanceDrive(10.0D - (33.0 / 12.0), true),
-                            new RemoveCube()
-                    };
-                    autoCmd = new DynamicAutoCommand(cmdList);
-                } else {
-                    autoCmd = new DistanceDrive(10.0D - (30.0 / 12.0), false);
-                }
             } else {
                 // worse version of fully automatic auto
                 if (!startSide.equals("C")) {
