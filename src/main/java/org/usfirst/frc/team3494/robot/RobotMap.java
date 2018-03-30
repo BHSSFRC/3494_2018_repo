@@ -29,6 +29,7 @@ public class RobotMap {
     public static final int ROLLER_LEFT = 4;
     public static final int ROLLER_RIGHT = 5;
     public static final int ROLLER_PISTON = 4;
+    public static final int ROLLER_WINCH = 10;
 
     public static final int JOYSTICK_LEFT = 0;
     public static final int JOYSTICK_RIGHT = 1;

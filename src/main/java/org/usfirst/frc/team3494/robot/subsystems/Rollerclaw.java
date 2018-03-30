@@ -1,10 +1,9 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.rollerclaw.RollSide;
 
@@ -15,24 +14,21 @@ public class Rollerclaw extends Subsystem {
 
     private VictorSPX rollerLeft;
     private VictorSPX rollerRight;
-    private Solenoid rollerPist;
+
+    private TalonSRX rollerWinch;
 
     public Rollerclaw() {
         super("Rollerclaw");
         rollerLeft = new VictorSPX(RobotMap.ROLLER_LEFT);
         rollerRight = new VictorSPX(RobotMap.ROLLER_RIGHT);
         rollerRight.setInverted(true);
-        this.rollerPist = new Solenoid(RobotMap.ROLLER_PISTON);
+
+        rollerWinch = new TalonSRX(RobotMap.ROLLER_WINCH);
     }
 
     @Override
     protected void initDefaultCommand() {
         this.setDefaultCommand(new RollSide(1.0D));
-    }
-
-    @Override
-    public void periodic() {
-        SmartDashboard.putBoolean("Claw relaxed?", this.getRollerPist());
     }
 
     /**
@@ -97,22 +93,8 @@ public class Rollerclaw extends Subsystem {
         }
     }
 
-    /**
-     * Sets the piston on the claw (opening for {@code false} and closing for {@code true}.)
-     *
-     * @param v The state to set the claw to.
-     */
-    public void setRollerPist(boolean v) {
-        this.rollerPist.set(v);
-    }
-
-    /**
-     * Get the state of the piston on the claw.
-     *
-     * @return {@code false} for open and {@code true} for closed.
-     */
-    public boolean getRollerPist() {
-        return this.rollerPist.get();
+    public void runWinch(double power) {
+        this.rollerWinch.set(ControlMode.PercentOutput, power);
     }
 
     public enum Rollers {
