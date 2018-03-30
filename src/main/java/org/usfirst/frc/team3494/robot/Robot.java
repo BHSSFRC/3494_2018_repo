@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Trajectory;
+import org.usfirst.frc.team3494.robot.commands.auto.AutoInitial;
 import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.AngleDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
@@ -117,9 +118,10 @@ public class Robot extends IterativeRobot {
         chooser = new SendableChooser<>();
         chooser.addObject("Reflective chaser", new org.usfirst.frc.team3494.robot.commands.auto.tests.ReflectivePursuit(0));
         chooser.addObject("Cube chaser", new CubePursuit());
+        chooser.addObject("Auto Init test", new AutoInitial());
         chooser.addObject("Cross baseline", new DistanceDrive(10.0D - (33.0 / 12.0)));
-        chooser.addObject("Fully automated auto", null);
         chooser.addObject("Simpler fully automatic auto", new QuickDirtyDrive());
+        chooser.addDefault("Fully automated auto", null);
         SmartDashboard.putData("auto selection", chooser);
 
         positionChooser = new SendableChooser<>();
@@ -252,6 +254,7 @@ public class Robot extends IterativeRobot {
 
     private static void putDebugInfo() {
         SmartDashboard.putNumber("Angle", Robot.ahrs.getAngle());
+        SmartDashboard.putData(Scheduler.getInstance());
     }
 
     public static Timer getTimer() {
