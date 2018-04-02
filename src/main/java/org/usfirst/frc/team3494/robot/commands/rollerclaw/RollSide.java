@@ -24,7 +24,7 @@ public class RollSide extends Command {
             Robot.rollerClaw.singleRoll(Rollerclaw.Rollers.RIGHT, this.power);
         }
 
-        Robot.rollerClaw.runWinch(-Robot.oi.getXbox().getY(GenericHID.Hand.kRight));
+        Robot.rollerClaw.runWinch(Robot.applyDeadband(-Robot.oi.getXbox().getY(GenericHID.Hand.kRight), 0.05));
     }
 
     @Override
