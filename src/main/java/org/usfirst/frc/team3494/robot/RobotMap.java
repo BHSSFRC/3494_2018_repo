@@ -22,7 +22,7 @@ public class RobotMap {
     public static final int DRIVE_LEFT_MASTER = 14;
     public static final int DRIVE_LEFT_FOLLOW_ONE = 15;
 
-    public static final double PATH_MAX_SPEED = 4.0;
+    public static final double PATH_MAX_SPEED = 3.048;
 
     public static final int USONIC_PIN = 0;
 
