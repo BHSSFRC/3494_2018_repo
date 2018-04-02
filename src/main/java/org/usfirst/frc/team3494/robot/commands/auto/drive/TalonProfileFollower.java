@@ -14,7 +14,7 @@ import java.io.File;
  */
 public class TalonProfileFollower extends Command {
 
-    private static final int min_points = 60;
+    private static final int min_points = 40;
     private double[][] trajectory_left;
     private double[][] trajectory_right;
 
