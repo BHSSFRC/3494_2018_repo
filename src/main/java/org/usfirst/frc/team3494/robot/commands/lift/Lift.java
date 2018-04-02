@@ -13,9 +13,9 @@ public class Lift extends Command {
     protected void execute() {
         double stick = Robot.applyDeadband(-Robot.oi.getXbox().getY(GenericHID.Hand.kLeft), 0.01);
         if (stick < 0) {
-            Robot.lift.lift(stick / 2);
+            Robot.lift.lift(stick / 2.0);
         } else {
-            Robot.lift.lift(stick / 1.6);
+            Robot.lift.lift(stick / 1.3);
         }
     }
 
