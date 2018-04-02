@@ -53,7 +53,7 @@ public class Drivetrain extends PIDSubsystem {
 
     public Drivetrain() {
         super("Drivetrain", 0.025, 0, 0);
-        double talon_P = 1.0D;
+        double talon_P = 2.625D;
 
         this.driveLeftMaster = new TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
         this.driveLeftMaster.setNeutralMode(NeutralMode.Brake);
@@ -120,8 +120,10 @@ public class Drivetrain extends PIDSubsystem {
         SmartDashboard.putNumber("Average distance", Robot.countsToFeet(this.getAverageDistance_Talon() / 4));
 
         SmartDashboard.putNumber("Left speed", Robot.driveTrain.getVelocityLeft());
+        SmartDashboard.putNumber("Left speed feet per sec", Robot.edgesToFeet(Robot.driveTrain.getVelocityLeft()) * 10);
         SmartDashboard.putNumber("Left speed target", Robot.driveTrain.getTargetVelocityLeft());
         SmartDashboard.putNumber("Right speed", Robot.driveTrain.getVelocityRight());
+        SmartDashboard.putNumber("Right speed feet per sec", Robot.edgesToFeet(Robot.driveTrain.getVelocityRight()) * 10);
         SmartDashboard.putNumber("Right speed target", Robot.driveTrain.getTargetVelocityRight());
     }
 

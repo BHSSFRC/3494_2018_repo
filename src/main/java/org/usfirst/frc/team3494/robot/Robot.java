@@ -275,6 +275,10 @@ public class Robot extends IterativeRobot {
         return counts / RobotMap.COUNTS_PER_FOOT;
     }
 
+    public static double edgesToFeet(double edges) {
+        return Robot.countsToFeet(edges / 4.0D);
+    }
+
     public static double[][] pathfinderFormatToTalon(Trajectory t) {
         int i = 0;
         double[][] list = new double[t.length()][3];
