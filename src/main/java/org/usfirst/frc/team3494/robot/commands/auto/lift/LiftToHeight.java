@@ -35,6 +35,9 @@ public class LiftToHeight extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.lift.onTarget() || Robot.lift.getHallTop() || Robot.lift.getHallBottom() || Robot.oi.getXbox().getRawButton(9);
+        boolean done = Robot.lift.onTarget();
+        done = done || (Robot.lift.getHallTop() && this.height > Robot.lift.getHeight_Edges());
+        done = done || (Robot.lift.getHallBottom() && this.height < Robot.lift.getHeight_Edges());
+        return done;
     }
 }
