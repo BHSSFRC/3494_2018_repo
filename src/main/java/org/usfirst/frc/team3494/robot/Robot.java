@@ -40,15 +40,17 @@ public class Robot extends IterativeRobot {
     /**
      * Auto chooser on the {@link SmartDashboard}.
      */
-    private SendableChooser<Command> chooser;
+    private SendableChooser<String> chooser;
     /**
-     * Chooser for robot position (left, right, center.)
+     * Chooser for robot selectedAutoCmd (left, right, center.)
      */
     private SendableChooser<String> positionChooser;
     /**
      * Chosen command for auto.
      */
-    private Command autoCmd;
+    private String selectedAutoCmd;
+    private Command autoCommand;
+
     public static PowerDistributionPanel pdp;
     /**
      * The gyro board on the RoboRIO.
@@ -114,18 +116,10 @@ public class Robot extends IterativeRobot {
         CameraServer.getInstance().startAutomaticCapture("Rearview Camera", 1);
 
         chooser = new SendableChooser<>();
-        chooser.addObject("Reflective chaser", new org.usfirst.frc.team3494.robot.commands.auto.tests.ReflectivePursuit(0));
-        chooser.addObject("Cube chaser", new CubePursuit());
-        chooser.addObject("Auto Init test", new AutoInitial());
-        chooser.addObject("Cross baseline", new DistanceDrive(10.0D - (33.0 / 12.0)));
-        chooser.addObject("Simpler fully automatic auto", new QuickDirtyDrive());
-        chooser.addDefault("Fully automated auto", null);
-        SmartDashboard.putData("auto selection", chooser);
-
-        positionChooser = new SendableChooser<>();
-        positionChooser.addObject("left", "L");
-        positionChooser.addDefault("center", "C");
-        positionChooser.addObject("right", "R");
+        chooser.addDefault("AutoLine", "A")
+        chooser.addObject("left Auto", "L");
+        chooser.addObject("center Auto", "C");
+        chooser.addObject("right Auto", "R");
         SmartDashboard.putData("Position chooser", positionChooser);
     }
 
@@ -136,62 +130,34 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-        fieldData = DriverStation.getInstance().getGameSpecificMessage();
-        System.out.println("Hey FTA! Pay attention! Received field data " + fieldData);
-        autoCmd = chooser.getSelected();
-        if (autoCmd != null && !(autoCmd instanceof QuickDirtyDrive)) {
-            autoCmd.start();
-        } else {
-            Command[] cmdList;
-            String switchSide = String.valueOf(fieldData.charAt(0));
-            String startSide = positionChooser.getSelected();
-            if (autoCmd == null) {
-                System.out.println("Defaulting to fully automatic auto");
-                System.out.println(startSide + switchSide);
-                // generate appropriate command
-                String[] autoFiles = Robot.autoFiles.get(startSide + switchSide);
-                if (startSide.equals(switchSide)) {
-                    cmdList = new Command[]{
-                            new AutoInitial(),
-                            new TalonProfileFollower(autoFiles[0], autoFiles[1]),
-                            new RemoveCube()
-                    };
-                } else if (startSide.equals("C")) {
-                    cmdList = new Command[]{
-                            new AutoInitial(),
-                            new TalonProfileFollower(autoFiles[0], autoFiles[1]),
-                            new ReflectivePursuit(0),
-                            new RemoveCube()
-                    };
-                } else {
-                    System.out.println("or just cross base");
-                    cmdList = new Command[]{
-                            new AutoInitial(),
-                            new DistanceDrive(10.0D - (66.0 / 12.0)) // cross base
-                    };
-                }
-                autoCmd = new DynamicAutoCommand(cmdList);
-            } else {
-                if (startSide.equals(switchSide)) {
-                    autoCmd = new DynamicAutoCommand(new Command[]{
-                            new AutoInitial(),
-                            new DistanceDrive(10.0D - (33.0 / 12.0)),
-                            new RemoveCube()
-                    });
-                } else {
-                    autoCmd = new DynamicAutoCommand(new Command[]{
-                            new AutoInitial(),
-                            new DistanceDrive(10.0D - (33.0 / 12.0))
-                    });
-                }
+        fieldData = DriverStation.getInstance().getGameSpecificMessage();// A string that tells you which side you are on.
+        // for example: fieldDate = "RLR". So you own the RIGHT side near switch, LEFT side scale, and RIGHT side far switch
+        System.out.println("Hey FTA! Pay attention! Received field data " + fieldData);// prints out field data
+        selectedAutoCmd = chooser.getSelected();//get auto from chooser
+        selectedAutoCmd.start();
+
+            if( selectedAutoCmd == "A")
+            {
+                // Set autoLine and end early because we don't need to think about anything else
+                autoCommand = new DistanceDrive(RobotMap.AUTOLINE_DISTANCE_FEET);
+
             }
-            autoCmd.start();
-        }
+            if(selectedAutoCmd == "L" && selectedAutoCmd == fieldData.getCharAt(0))
+            {
+                // set left auto command
+
+            }
+            else if(selectedAutoCmd == "R" && selectedAutoCmd == fieldData.getCharAt(0))
+            {
+                // set right auto command
+            }
+            // schedules the command to start. The schedule will run it when it starts in autonomousPeriodic()
+            autoCommand.start();
     }
 
     @Override
     public void autonomousPeriodic() {
-        if (autoCmd != null) {
+        if (autoCommand != null) {
             Scheduler.getInstance().run();
         }
         Robot.putDebugInfo();
@@ -199,13 +165,13 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
-        if (autoCmd != null) {
-            autoCmd.cancel();
+        if (autoCommand != null) {
+            autoCommand.cancel();
         }
         limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
         limelight.setPipeline(1);
-        if (autoCmd != null && autoCmd.isRunning()) {
-            autoCmd.cancel();
+        if (autoCommand != null && autoCommand.isRunning()) {
+            autoCommand.cancel();
         }
         Robot.driveTrain.resetEncoders();
     }
