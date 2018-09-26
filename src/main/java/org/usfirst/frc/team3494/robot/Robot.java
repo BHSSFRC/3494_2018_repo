@@ -121,7 +121,8 @@ public class Robot extends IterativeRobot {
         chooser.addObject("left", "L");
         //chooser.addObject("center", "C");
         chooser.addObject("right", "R");
-        SmartDashboard.putData("Position chooser", positionChooser);
+        SmartDashboard.putData("Chooser", chooser);
+        //SmartDashboard.putData("Chooser", chooser);
     }
 
     @Override
