@@ -12,6 +12,7 @@ import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.ProfileFollower;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.TalonProfileFollower;
+import org.usfirst.frc.team3494.robot.commands.auto.groups.sideAuto;
 import org.usfirst.frc.team3494.robot.commands.auto.rollerclaw.RemoveCube;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
@@ -118,7 +119,7 @@ public class Robot extends IterativeRobot {
         chooser = new SendableChooser<>();
         chooser.addDefault("AutoLine", "A");
         chooser.addObject("left", "L");
-        chooser.addObject("center", "C");
+        //chooser.addObject("center", "C");
         chooser.addObject("right", "R");
         SmartDashboard.putData("Position chooser", positionChooser);
     }
@@ -137,12 +138,14 @@ public class Robot extends IterativeRobot {
             autoCommand= new DistanceDrive(RobotMap.AUTOLINE_DISTANCE_FEET);
         }
 
-        if (fieldData.charAt(0)=="L" && selectedAutoCommand == fieldData.charAt(0)){
+        if (fieldData.charAt(0) == 'L' && selectedAutoCommand == Character.toString(fieldData.charAt(0))){
             //Set the left auto command
+            autoCommand = new sideAuto();
         }
-        else if(selectedAutoCommand == "R" && selectedAutoCommand == fieldData.get(charAt(0)))
+        else if(selectedAutoCommand == "R" && selectedAutoCommand == Character.toString(fieldData.charAt(0)))
         {
             //Set the right auto command
+            autoCommand = new sideAuto();
         }
 
         //Example: fieldData might equal "RLR", meaning that you own the Right side near the switch, Left side of the scale, Right side of the far switch
@@ -170,9 +173,7 @@ public class Robot extends IterativeRobot {
         }
         limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
         limelight.setPipeline(1);
-        if (autoCommand != null && autoCommand.isRunning()) {
-            autoCommand.cancel();
-        }
+
         Robot.driveTrain.resetEncoders();
     }
 

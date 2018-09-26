@@ -69,4 +69,5 @@ public class RobotMap {
     // public static final double COUNTS_PER_FOOT = 256 * ENCODER_TURNS_PER_WHEEL_TURN * (1 / (6 * Math.PI)) * 12;
 
     public static final double AUTOLINE_DISTANCE_FEET = 6.08;
+    public static final double SIDE_AUTO_DISTANCE_FEET = 11.67;
 }
