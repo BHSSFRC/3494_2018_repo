@@ -76,8 +76,8 @@ public class OI {
         rightBase_RightInside.whenPressed(new RetractRamps(Ramps.Side.LEFT));
 
         // secondary controls
-        JoystickButton xbox_a = new JoystickButton(xbox, 1);
-        xbox_a.whenPressed(new LiftToHeight(Lift.revsToCounts(Lift.inchesToRevs(2.0)) * 4.0));
+        // JoystickButton xbox_a = new JoystickButton(xbox, 1);
+        // xbox_a.whenPressed(new LiftToHeight(Lift.revsToCounts(Lift.inchesToRevs(2.0)) * 4.0));
 
         JoystickButton xbox_b = new JoystickButton(xbox, 2);
         xbox_b.whenPressed(new Roll(-0.6));
