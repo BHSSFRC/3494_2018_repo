@@ -70,4 +70,6 @@ public class RobotMap {
 
     public static final double AUTOLINE_DISTANCE_FEET = 6.08;
     public static final double SIDE_AUTO_DISTANCE_FEET = 11.67;
+    public static final double INCHES_PER_EDGE = 0.0031;
+    public static final double EDGES_PER_INCH = 1 / INCHES_PER_EDGE;
 }

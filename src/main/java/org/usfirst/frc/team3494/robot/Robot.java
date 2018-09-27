@@ -12,6 +12,7 @@ import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.ProfileFollower;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.TalonProfileFollower;
+import org.usfirst.frc.team3494.robot.commands.auto.groups.notHotSideAuto;
 import org.usfirst.frc.team3494.robot.commands.auto.groups.sideAuto;
 import org.usfirst.frc.team3494.robot.commands.auto.rollerclaw.RemoveCube;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.CubePursuit;
@@ -134,19 +135,25 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
 
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
+        selectedAutoCommand = chooser.getSelected();
+
         if (selectedAutoCommand == "A"){
             //Set autoline
-            autoCommand= new DistanceDrive(RobotMap.AUTOLINE_DISTANCE_FEET);
+            autoCommand = new DistanceDrive(RobotMap.AUTOLINE_DISTANCE_FEET);
         }
-
-        if (fieldData.charAt(0) == 'L' && selectedAutoCommand == Character.toString(fieldData.charAt(0))){
+        System.out.println("Robot.autonomousInit(): " + fieldData.charAt(0));
+        if (fieldData.charAt(0) == 'L' && selectedAutoCommand == "L"){
             //Set the left auto command
+            System.out.println("Robot.autonomousInit(): attempting...");
             autoCommand = new sideAuto();
         }
-        else if(selectedAutoCommand == "R" && selectedAutoCommand == Character.toString(fieldData.charAt(0)))
+        else if(selectedAutoCommand == "R" && selectedAutoCommand == "R")
         {
             //Set the right auto command
             autoCommand = new sideAuto();
+        }
+        else{
+            autoCommand = new DistanceDrive(RobotMap.AUTOLINE_DISTANCE_FEET);
         }
 
         //Example: fieldData might equal "RLR", meaning that you own the Right side near the switch, Left side of the scale, Right side of the far switch
