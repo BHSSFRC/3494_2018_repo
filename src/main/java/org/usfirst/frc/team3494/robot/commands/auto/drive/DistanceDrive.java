@@ -15,7 +15,7 @@ import org.usfirst.frc.team3494.robot.util.PIDIn;
 public class DistanceDrive extends Command {
 
     private double distance;
-    private boolean fast;
+    private double speed;
     private PIDController pidController;
     private PIDOutput pidOut;
     private PIDIn pidIn;
@@ -39,11 +39,11 @@ public class DistanceDrive extends Command {
     public DistanceDrive(double distance, boolean fast) {
         requires(Robot.driveTrain);
         this.distance = distance * 12 * RobotMap.EDGES_PER_INCH * .84; //the .84 is the multiple needed to accuretely convert Edges to Inches
-        this.fast = fast;
+        this.speed = fast ? 0.5 : 0.25;
 
         gyroOutput = () -> Robot.ahrs.getFusedHeading();
         pidIn = new PIDIn(gyroOutput, PIDSourceType.kDisplacement);
-        pidOut = (double output) -> Robot.driveTrain.TankDrive(0.25 + output, 0.25 - output);
+        pidOut = (double output) -> Robot.driveTrain.TankDrive(speed + output, speed - output);
         //double Kp, double Ki, double Kd, PIDSource source, PIDOutput output
 
         pidController = new PIDController(0.01, 0.0, .1, pidIn, pidOut);
@@ -63,12 +63,6 @@ public class DistanceDrive extends Command {
 
     @Override
     protected void execute() {
-        double speed;
-        if (fast) {
-            speed = 0.5;
-        } else {
-            speed = 0.25;
-        }
         if (distance > 0) {
             // Robot.driveTrain.TankDrive(speed + pidOut.output, speed - pidOut.output); // for now
         }
