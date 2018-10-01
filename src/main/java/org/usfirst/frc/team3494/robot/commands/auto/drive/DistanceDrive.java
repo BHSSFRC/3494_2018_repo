@@ -1,13 +1,13 @@
 package org.usfirst.frc.team3494.robot.commands.auto.drive;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.util.FunctionalDoubleManager;
 import org.usfirst.frc.team3494.robot.util.PIDIn;
-import org.usfirst.frc.team3494.robot.util.PIDOut;
 
 /**
  * Drive the robot a given distance by encoder measurements.
@@ -17,9 +17,10 @@ public class DistanceDrive extends Command {
     private double distance;
     private boolean fast;
     private PIDController pidController;
-    private PIDOut pidOut;
+    private PIDOutput pidOut;
     private PIDIn pidIn;
     private FunctionalDoubleManager gyroOutput;
+
     /**
      * Constructor.
      *
@@ -42,13 +43,13 @@ public class DistanceDrive extends Command {
 
         gyroOutput = () -> Robot.ahrs.getFusedHeading();
         pidIn = new PIDIn(gyroOutput, PIDSourceType.kDisplacement);
-        pidOut = (double output) -> { Robot.driveTrain.TankDrive(0.25 + output, 0.25 - output) }
+        pidOut = (double output) -> Robot.driveTrain.TankDrive(0.25 + output, 0.25 - output);
         //double Kp, double Ki, double Kd, PIDSource source, PIDOutput output
 
         pidController = new PIDController(0.01, 0.0, .1, pidIn, pidOut);
 
         pidController.setAbsoluteTolerance(.5);//3 is in degrees
-        pidController.setInputRange(0,360);
+        pidController.setInputRange(0, 360);
         pidController.setContinuous(true);
 
         pidController.setOutputRange(-.15, .15);
