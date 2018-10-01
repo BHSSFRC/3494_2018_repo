@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Trajectory;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.ProfileFollower;
-import org.usfirst.frc.team3494.robot.commands.auto.groups.sideAuto;
+import org.usfirst.frc.team3494.robot.commands.auto.groups.SideAuto;
 import org.usfirst.frc.team3494.robot.sensors.Limelight;
 import org.usfirst.frc.team3494.robot.subsystems.*;
 
@@ -137,10 +137,10 @@ public class Robot extends IterativeRobot {
         if (fieldData.charAt(0) == 'L' && selectedAutoCommand.equals("L")) {
             //Set the left auto command
             System.out.println("Robot.autonomousInit(): attempting...");
-            autoCommand = new sideAuto();
+            autoCommand = new SideAuto();
         } else if (selectedAutoCommand.equals("R")) {
             //Set the right auto command
-            autoCommand = new sideAuto();
+            autoCommand = new SideAuto();
         } else {
             autoCommand = new DistanceDrive(RobotMap.AUTOLINE_DISTANCE_FEET);
         }
