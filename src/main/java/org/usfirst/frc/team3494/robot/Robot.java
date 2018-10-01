@@ -138,7 +138,7 @@ public class Robot extends IterativeRobot {
             //Set the left auto command
             System.out.println("Robot.autonomousInit(): attempting...");
             autoCommand = new sideAuto();
-        } else if (selectedAutoCommand == "R" && selectedAutoCommand == "R") {
+        } else if (selectedAutoCommand == "R") {
             //Set the right auto command
             autoCommand = new sideAuto();
         } else {
