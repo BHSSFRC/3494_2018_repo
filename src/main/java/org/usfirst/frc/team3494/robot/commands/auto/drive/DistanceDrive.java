@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.RobotMap;
-import org.usfirst.frc.team3494.robot.util.FunctionalDoubleManager;
 import org.usfirst.frc.team3494.robot.util.PIDIn;
 
 /**
@@ -17,8 +16,6 @@ public class DistanceDrive extends Command {
     private double distance;
     private double speed;
     private PIDController pidController;
-    private PIDIn pidIn;
-    private FunctionalDoubleManager gyroOutput;
 
     /**
      * Constructor.
@@ -40,8 +37,7 @@ public class DistanceDrive extends Command {
         this.distance = distance * 12 * RobotMap.EDGES_PER_INCH * .84; //the .84 is the multiple needed to accurately convert Edges to Inches
         this.speed = fast ? 0.5 : 0.25;
 
-        gyroOutput = () -> Robot.ahrs.getFusedHeading();
-        pidIn = new PIDIn(gyroOutput, PIDSourceType.kDisplacement);
+        PIDIn pidIn = new PIDIn(() -> Robot.ahrs.getFusedHeading(), PIDSourceType.kDisplacement);
         PIDOutput pidOut = (double output) -> Robot.driveTrain.TankDrive(speed + output, speed - output);
         //double Kp, double Ki, double Kd, PIDSource source, PIDOutput output
 
