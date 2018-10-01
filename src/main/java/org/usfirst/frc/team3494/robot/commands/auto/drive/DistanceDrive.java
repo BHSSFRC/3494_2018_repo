@@ -42,7 +42,7 @@ public class DistanceDrive extends Command {
 
         gyroOutput = () -> Robot.ahrs.getFusedHeading();
         pidIn = new PIDIn(gyroOutput, PIDSourceType.kDisplacement);
-        pidOut = new PIDOut();
+        pidOut = (double output) -> { Robot.driveTrain.TankDrive(0.25 + output, 0.25 - output) }
         //double Kp, double Ki, double Kd, PIDSource source, PIDOutput output
 
         pidController = new PIDController(0.01, 0.0, .1, pidIn, pidOut);
@@ -69,7 +69,7 @@ public class DistanceDrive extends Command {
             speed = 0.25;
         }
         if (distance > 0) {
-            Robot.driveTrain.TankDrive(speed + pidOut.output, speed - pidOut.output);
+            // Robot.driveTrain.TankDrive(speed + pidOut.output, speed - pidOut.output); // for now
         }
     }
 
