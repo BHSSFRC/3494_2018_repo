@@ -129,16 +129,16 @@ public class Robot extends IterativeRobot {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
         selectedAutoCommand = chooser.getSelected();
 
-        if (selectedAutoCommand == "A") {
+        if (selectedAutoCommand.equals("A")) {
             //Set autoline
             autoCommand = new DistanceDrive(RobotMap.AUTOLINE_DISTANCE_FEET);
         }
         System.out.println("Robot.autonomousInit(): " + fieldData.charAt(0));
-        if (fieldData.charAt(0) == 'L' && selectedAutoCommand == "L") {
+        if (fieldData.charAt(0) == 'L' && selectedAutoCommand.equals("L")) {
             //Set the left auto command
             System.out.println("Robot.autonomousInit(): attempting...");
             autoCommand = new sideAuto();
-        } else if (selectedAutoCommand == "R") {
+        } else if (selectedAutoCommand.equals("R")) {
             //Set the right auto command
             autoCommand = new sideAuto();
         } else {
