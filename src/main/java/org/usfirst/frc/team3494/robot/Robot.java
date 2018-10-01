@@ -7,17 +7,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Trajectory;
-import org.usfirst.frc.team3494.robot.commands.auto.AutoInitial;
-import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.ProfileFollower;
-import org.usfirst.frc.team3494.robot.commands.auto.drive.TalonProfileFollower;
-import org.usfirst.frc.team3494.robot.commands.auto.groups.notHotSideAuto;
 import org.usfirst.frc.team3494.robot.commands.auto.groups.sideAuto;
-import org.usfirst.frc.team3494.robot.commands.auto.rollerclaw.RemoveCube;
-import org.usfirst.frc.team3494.robot.commands.auto.tests.CubePursuit;
-import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
-import org.usfirst.frc.team3494.robot.commands.auto.vision.ReflectivePursuit;
 import org.usfirst.frc.team3494.robot.sensors.Limelight;
 import org.usfirst.frc.team3494.robot.subsystems.*;
 
@@ -137,22 +129,19 @@ public class Robot extends IterativeRobot {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
         selectedAutoCommand = chooser.getSelected();
 
-        if (selectedAutoCommand == "A"){
+        if (selectedAutoCommand == "A") {
             //Set autoline
             autoCommand = new DistanceDrive(RobotMap.AUTOLINE_DISTANCE_FEET);
         }
         System.out.println("Robot.autonomousInit(): " + fieldData.charAt(0));
-        if (fieldData.charAt(0) == 'L' && selectedAutoCommand == "L"){
+        if (fieldData.charAt(0) == 'L' && selectedAutoCommand == "L") {
             //Set the left auto command
             System.out.println("Robot.autonomousInit(): attempting...");
             autoCommand = new sideAuto();
-        }
-        else if(selectedAutoCommand == "R" && selectedAutoCommand == "R")
-        {
+        } else if (selectedAutoCommand == "R" && selectedAutoCommand == "R") {
             //Set the right auto command
             autoCommand = new sideAuto();
-        }
-        else{
+        } else {
             autoCommand = new DistanceDrive(RobotMap.AUTOLINE_DISTANCE_FEET);
         }
 
