@@ -68,6 +68,8 @@ public class Drivetrain extends PIDSubsystem {
         this.driveLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         this.driveLeftMaster.config_kP(0, talon_P, 10);
         this.driveLeftMaster.config_kF(0, 1023 / (RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER * 4.0 * (1.0 / 10.0)), 10);
+        this.driveLeftMaster.configPeakCurrentLimit(40, 10);
+        this.driveLeftMaster.enableCurrentLimit(true);
 
         this.driveLeftMaster.clearMotionProfileTrajectories();
         this.driveLeftMaster.changeMotionControlFramePeriod(25);
@@ -86,6 +88,8 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         this.driveRightMaster.config_kP(0, talon_P, 10);
         this.driveRightMaster.config_kF(0, 1023 / (RobotMap.PATH_MAX_SPEED * RobotMap.COUNTS_PER_METER * 4.0 * (1.0 / 10.0)), 10);
+        this.driveRightMaster.configPeakCurrentLimit(40, 10);
+        this.driveRightMaster.enableCurrentLimit(true);
         this.driveRightMaster.setInverted(true);
         this.driveRightMaster.setSensorPhase(true);
 
