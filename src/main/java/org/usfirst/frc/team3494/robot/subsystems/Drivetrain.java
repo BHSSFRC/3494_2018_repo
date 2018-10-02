@@ -138,10 +138,10 @@ public class Drivetrain extends PIDSubsystem {
 
         SmartDashboard.putNumber("Left speed", Robot.driveTrain.getVelocityLeft());
         SmartDashboard.putNumber("Left speed feet per sec", Robot.edgesToFeet(Robot.driveTrain.getVelocityLeft()) * 10);
-        SmartDashboard.putNumber("Left speed target", Robot.driveTrain.getTargetVelocityLeft());
+        // SmartDashboard.putNumber("Left speed target", Robot.driveTrain.getTargetVelocityLeft());
         SmartDashboard.putNumber("Right speed", Robot.driveTrain.getVelocityRight());
         SmartDashboard.putNumber("Right speed feet per sec", Robot.edgesToFeet(Robot.driveTrain.getVelocityRight()) * 10);
-        SmartDashboard.putNumber("Right speed target", Robot.driveTrain.getTargetVelocityRight());
+        // SmartDashboard.putNumber("Right speed target", Robot.driveTrain.getTargetVelocityRight());
     }
 
     /**
