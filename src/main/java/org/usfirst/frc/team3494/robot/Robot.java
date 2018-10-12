@@ -12,6 +12,7 @@ import org.usfirst.frc.team3494.robot.commands.auto.DynamicAutoCommand;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.DistanceDrive;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.ProfileFollower;
 import org.usfirst.frc.team3494.robot.commands.auto.drive.TalonProfileFollower;
+import org.usfirst.frc.team3494.robot.commands.auto.groups.HotSideAuto;
 import org.usfirst.frc.team3494.robot.commands.auto.rollerclaw.RemoveCube;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.CubePursuit;
 import org.usfirst.frc.team3494.robot.commands.auto.tests.QuickDirtyDrive;
@@ -40,7 +41,7 @@ public class Robot extends IterativeRobot {
     /**
      * Auto chooser on the {@link SmartDashboard}.
      */
-    private SendableChooser<Command> chooser;
+    private SendableChooser<String> chooser;
     /**
      * Chooser for robot position (left, right, center.)
      */
@@ -113,20 +114,18 @@ public class Robot extends IterativeRobot {
         CameraServer.getInstance().startAutomaticCapture("Lift Camera", 0);
         CameraServer.getInstance().startAutomaticCapture("Rearview Camera", 1);
 
-        chooser = new SendableChooser<>();
-        chooser.addObject("Reflective chaser", new org.usfirst.frc.team3494.robot.commands.auto.tests.ReflectivePursuit(0));
-        chooser.addObject("Cube chaser", new CubePursuit());
-        chooser.addObject("Auto Init test", new AutoInitial());
-        chooser.addObject("Cross baseline", new DistanceDrive(10.0D - (33.0 / 12.0)));
-        chooser.addObject("Simpler fully automatic auto", new QuickDirtyDrive());
-        chooser.addDefault("Fully automated auto", null);
+        chooser = new SendableChooser<String>();
+        chooser.addDefault("AutoLine","A");
+        chooser.addObject("Left","L");
+        chooser.addObject("Right","R");
+
         SmartDashboard.putData("auto selection", chooser);
 
-        positionChooser = new SendableChooser<>();
-        positionChooser.addObject("left", "L");
+        //positionChooser = new SendableChooser<>();
+        /*positionChooser.addObject("left", "L");
         positionChooser.addDefault("center", "C");
-        positionChooser.addObject("right", "R");
-        SmartDashboard.putData("Position chooser", positionChooser);
+        positionChooser.addObject("right", "R");*/
+        //SmartDashboard.putData("Position chooser", positionChooser);
     }
 
     @Override
@@ -137,56 +136,16 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         fieldData = DriverStation.getInstance().getGameSpecificMessage();
-        System.out.println("Hey FTA! Pay attention! Received field data " + fieldData);
-        autoCmd = chooser.getSelected();
-        if (autoCmd != null && !(autoCmd instanceof QuickDirtyDrive)) {
-            autoCmd.start();
-        } else {
-            Command[] cmdList;
-            String switchSide = String.valueOf(fieldData.charAt(0));
-            String startSide = positionChooser.getSelected();
-            if (autoCmd == null) {
-                System.out.println("Defaulting to fully automatic auto");
-                System.out.println(startSide + switchSide);
-                // generate appropriate command
-                String[] autoFiles = Robot.autoFiles.get(startSide + switchSide);
-                if (startSide.equals(switchSide)) {
-                    cmdList = new Command[]{
-                            new AutoInitial(),
-                            new TalonProfileFollower(autoFiles[0], autoFiles[1]),
-                            new RemoveCube()
-                    };
-                } else if (startSide.equals("C")) {
-                    cmdList = new Command[]{
-                            new AutoInitial(),
-                            new TalonProfileFollower(autoFiles[0], autoFiles[1]),
-                            new ReflectivePursuit(0),
-                            new RemoveCube()
-                    };
-                } else {
-                    System.out.println("or just cross base");
-                    cmdList = new Command[]{
-                            new AutoInitial(),
-                            new DistanceDrive(10.0D - (66.0 / 12.0)) // cross base
-                    };
-                }
-                autoCmd = new DynamicAutoCommand(cmdList);
-            } else {
-                if (startSide.equals(switchSide)) {
-                    autoCmd = new DynamicAutoCommand(new Command[]{
-                            new AutoInitial(),
-                            new DistanceDrive(10.0D - (33.0 / 12.0)),
-                            new RemoveCube()
-                    });
-                } else {
-                    autoCmd = new DynamicAutoCommand(new Command[]{
-                            new AutoInitial(),
-                            new DistanceDrive(10.0D - (33.0 / 12.0))
-                    });
-                }
-            }
-            autoCmd.start();
+        String selectedAutoCommand = chooser.getSelected();
+        if(selectedAutoCommand == "A"){
+            autoCmd = new DistanceDrive(RobotMap.Field.DISTANCE_TO_AUTOLINE, false);
+        }else if(selectedAutoCommand == "R"){
+            autoCmd = new HotSideAuto();
+        }else if(selectedAutoCommand == "L"){
+            autoCmd = new HotSideAuto();
         }
+        autoCmd.start();
+
     }
 
     @Override
