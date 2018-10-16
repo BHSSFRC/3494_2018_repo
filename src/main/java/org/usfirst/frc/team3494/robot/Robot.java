@@ -139,10 +139,14 @@ public class Robot extends IterativeRobot {
         String selectedAutoCommand = chooser.getSelected();
         if(selectedAutoCommand == "A"){
             autoCmd = new DistanceDrive(RobotMap.Field.DISTANCE_TO_AUTOLINE, false);
-        }else if(selectedAutoCommand == "R"){
+        }else if(selectedAutoCommand == "R" && fieldData.charAt(0)== 'R') {
             autoCmd = new HotSideAuto();
-        }else if(selectedAutoCommand == "L"){
+        }else if(selectedAutoCommand == "L" && fieldData.charAt(0) == 'L'){
             autoCmd = new HotSideAuto();
+        }else if(selectedAutoCommand == "R" && fieldData.charAt(0)!= 'R'){
+            autoCmd = new DistanceDrive(RobotMap.Field.DISTANCE_TO_AUTOLINE, false);
+        }else if(selectedAutoCommand == "L" && fieldData.charAt(0) != 'L'){
+            autoCmd = new DistanceDrive(RobotMap.Field.DISTANCE_TO_AUTOLINE, false);
         }
         autoCmd.start();
 
