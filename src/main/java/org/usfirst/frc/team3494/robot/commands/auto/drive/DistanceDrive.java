@@ -1,7 +1,12 @@
 package org.usfirst.frc.team3494.robot.commands.auto.drive;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.Robot;
+import org.usfirst.frc.team3494.robot.RobotMap;
+import org.usfirst.frc.team3494.robot.util.PIDIn;
 
 /**
  * Drive the robot a given distance by encoder measurements.
@@ -9,7 +14,8 @@ import org.usfirst.frc.team3494.robot.Robot;
 public class DistanceDrive extends Command {
 
     private double distance;
-    private boolean fast;
+    private double speed;
+    private PIDController pidController;
 
     /**
      * Constructor.
@@ -28,33 +34,39 @@ public class DistanceDrive extends Command {
      */
     public DistanceDrive(double distance, boolean fast) {
         requires(Robot.driveTrain);
-        this.distance = Robot.feetToEdges(distance);
-        this.fast = fast;
+        this.distance = distance * 12 * RobotMap.EDGES_PER_INCH * .84; //the .84 is the multiple needed to accurately convert Edges to Inches
+        this.speed = fast ? 0.5 : 0.25;
+
+        PIDIn pidIn = new PIDIn(() -> Robot.ahrs.getFusedHeading(), PIDSourceType.kDisplacement);
+        PIDOutput pidOut = (double output) -> Robot.driveTrain.TankDrive(speed + output, speed - output);
+        //double Kp, double Ki, double Kd, PIDSource source, PIDOutput output
+
+        pidController = new PIDController(0.01, 0.0, .1, pidIn, pidOut);
+
+        pidController.setAbsoluteTolerance(.5);//3 is in degrees
+        pidController.setInputRange(0, 360);
+        pidController.setContinuous(true);
+
+        pidController.setOutputRange(-.15, .15);
     }
 
     @Override
     protected void initialize() {
         Robot.driveTrain.resetEncoders();
+        pidController.enable();
     }
 
     @Override
     protected void execute() {
-        double speed;
-        if (fast) {
-            speed = 0.5;
-        } else {
-            speed = 0.25;
-        }
-        if (distance > 0) {
-            Robot.driveTrain.TankDrive(speed, speed);
-        } else {
-            Robot.driveTrain.TankDrive(-speed, -speed);
-        }
+        // Technically we just no-op here and let the PIDController drive.
+        // We could also have a different lambda in the PIDController that set an instance field,
+        // and drive the robot in here instead.
     }
 
     @Override
     protected void end() {
         Robot.driveTrain.StopDrive();
+        pidController.disable();
     }
 
     @Override
